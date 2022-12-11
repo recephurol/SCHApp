@@ -9,6 +9,7 @@ public class loginForm extends JFrame {
     private JTextField parolaText;
     private JButton girisButton;
     private JPanel loginPanel;
+    private JComboBox comboBox1;
 
     public loginForm(){
         add(loginPanel);
@@ -19,10 +20,12 @@ public class loginForm extends JFrame {
         girisButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 String kullaniciAdi="admin", parola="1234";
                 if (kullaniciAdi== kullaniciAdiText.getText() && parola==parolaText.getText()){
 
                 }
+
             }
         });
     }
