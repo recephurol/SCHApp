@@ -11,6 +11,7 @@ public class loginForm extends JFrame {
     private JTextField kullaniciAdiText;
     private JButton girisButton;
     private JPanel loginPanel;
+    private JComboBox comboBox1;
     private JPasswordField parolaText;
 
     public loginForm(){
@@ -24,6 +25,7 @@ public class loginForm extends JFrame {
         girisButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 DbConnection baglanti = new DbConnection();
                 baglanti.baglan();
 
@@ -33,6 +35,7 @@ public class loginForm extends JFrame {
                     urunListele.setVisible(true);
                     setVisible(false);
                 }
+
             }
         });
     }
