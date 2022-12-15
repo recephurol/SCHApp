@@ -1,6 +1,7 @@
 package login;
 
 import dataAccess.DbConnection;
+import model.Item;
 import urunListeleme.urunListelemeForm;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ public class loginForm extends JFrame {
     private JTextField kullaniciAdiText;
     private JButton girisButton;
     private JPanel loginPanel;
-    private JComboBox comboBox1;
+    private JComboBox kullanici_tipi_cb;
     private JPasswordField parolaText;
 
     public loginForm(){
@@ -21,6 +22,13 @@ public class loginForm extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(750,400);
         setResizable(false);
+//        kullanici_tipi_cb = new JComboBox();
+//        kullanici_tipi_cb.addItem(new Item(1,"Müşteri"));
+//        kullanici_tipi_cb.addItem(new Item(2,"Mağaza"));
+//        kullanici_tipi_cb.setVisible(true);
+//        kullanici_tipi_cb.setLocation(parolaText.getBounds().getLocation());
+//        add(kullanici_tipi_cb);
+
 
         girisButton.addActionListener(new ActionListener() {
             @Override
@@ -39,4 +47,5 @@ public class loginForm extends JFrame {
             }
         });
     }
+
 }
