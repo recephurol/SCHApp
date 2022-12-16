@@ -1,6 +1,7 @@
 package login;
 
 import dataAccess.DbConnection;
+import db.PostgreSQLDbConnection;
 import model.Item;
 import urunListeleme.urunListelemeForm;
 
@@ -34,7 +35,7 @@ public class loginForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                DbConnection baglanti = new DbConnection();
+                PostgreSQLDbConnection baglanti = new PostgreSQLDbConnection();
                 baglanti.baglan();
 
                 String kullaniciAdi="admin", parola="1234";
