@@ -1,42 +1,117 @@
 package urun.urunListeleme;
 
+import db.PostgreSQLDbConnection;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.sql.SQLException;
 
 public class urunListelemeForm extends JFrame{
 
     private JTable table;
     private JPanel panel;
     private JScrollPane scrollPane;
+    private JTextField bulText;
+    private JLabel kategoriLabel;
+    private JLabel markaLabel;
+    private JLabel renkLabel;
+    private JLabel bulLabel;
+    private JComboBox markaCombobox;
+    private JComboBox kategoriCombobox;
+    private JComboBox renkCombobox;
 
     DefaultTableModel tableModel = new DefaultTableModel();
-    Object[] kolonlar = {"Adı","Marka","Kategori","Puan","Fiyat","Mağaza"};
-    Object[] satirlar = {"Çikolatalı Gofret","Eti","Gıda","4","4","Hepsiburada"};
-    public urunListelemeForm(){
+    Object[] kolonlar = {"Adı","Marka","Kategori","Puan","Fiyat"};
+    Object[] satirlar = new Object[5];
 
-        setBounds(100,100,778,472);
+    public urunListelemeForm() throws SQLException {
+        setInitialFormValues();
+
+        getUrunListeleTable();
+        getScrollPane();
+        getPanel();
+
+
+    }
+
+    private void getUrunListeleTable() throws SQLException {
+        PostgreSQLDbConnection db = new PostgreSQLDbConnection();
+        table = new JTable();
+        tableModel.setColumnIdentifiers(kolonlar);
+        db.baglan();
+        var urunListesi = db.urunListele();
+        while(urunListesi.next()){
+            satirlar[0] = urunListesi.getString("urunadi");
+            satirlar[1] = urunListesi.getString("marka");
+            satirlar[2] = urunListesi.getString("kategori");
+            satirlar[3] = urunListesi.getString("renk");
+            satirlar[4] = urunListesi.getString("fiyat")+" TL";
+            tableModel.addRow(satirlar);
+        }
+        table.setAutoCreateRowSorter(true);
+        table.setModel(tableModel);
+        table.getColumnModel().getColumn(0).setPreferredWidth(100);
+        table.getColumnModel().getColumn(1).setPreferredWidth(50);
+        table.getColumnModel().getColumn(2).setPreferredWidth(50);
+        table.getColumnModel().getColumn(3).setPreferredWidth(50);
+        table.getColumnModel().getColumn(4).setMaxWidth(50);
+
+        table.setVisible(true);
+    }
+
+    private void getScrollPane() {
+        scrollPane= new JScrollPane();
+        scrollPane.setBounds(5,100,696,326);
+        scrollPane.setViewportView(table);
+    }
+
+    private void getPanel() {
+        panel=new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        panel.setBorder(new EmptyBorder(5,5,5,5));
+        bulLabel=new JLabel("Bul :");
+        bulLabel.setBounds(5,5,50,20);
+        panel.add(bulLabel);
+
+        bulText = new JTextField();
+        bulText.setBounds(50,5,200,20);
+        panel.add(bulText);
+
+        kategoriLabel = new JLabel("Kategori");
+        kategoriLabel.setBounds(5,35,100,20);
+        panel.add(kategoriLabel);
+
+        markaLabel = new JLabel("Marka");
+        markaLabel.setBounds(200,35,100,20);
+        panel.add(markaLabel);
+
+        renkLabel = new JLabel("Renk");
+        renkLabel.setBounds(400,35,100,20);
+        panel.add(renkLabel);
+
+        kategoriCombobox= new JComboBox();
+        kategoriCombobox.setBounds(5,55,150,20);
+        panel.add(kategoriCombobox);
+
+        markaCombobox= new JComboBox();
+        markaCombobox.setBounds(200,55,150,20);
+        panel.add(markaCombobox);
+
+        renkCombobox= new JComboBox();
+        renkCombobox.setBounds(400,55,150,20);
+        panel.add(renkCombobox);
+
+        panel.add(scrollPane);
+        setContentPane(panel);
+        getContentPane().setLayout(null);
+    }
+
+    private void setInitialFormValues() {
+        setBounds(100,100,720,472);
         setTitle("Ürün Listesi");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(400,200);
-        panel=new JPanel();
-        panel.setBorder(new EmptyBorder(5,5,5,5));
-        setContentPane(panel);
-
-        getContentPane().setLayout(null);
-
-        scrollPane= new JScrollPane();
-        scrollPane.setBounds(33,26,696,326);
-        panel.add(scrollPane);
-
-        table = new JTable();
-        tableModel.setColumnIdentifiers(kolonlar);
-        tableModel.setRowCount(0);
-        tableModel.setColumnCount(0);
-        tableModel.addRow(satirlar);
-        table.setModel(tableModel);
-        table.setVisible(true);
-        scrollPane.setViewportView(table);
     }
 
 }

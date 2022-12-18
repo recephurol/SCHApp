@@ -48,7 +48,14 @@ public class PostgreSQLDbConnection extends DbConnection {
     public ResultSet urunListele() throws SQLException {
         if(conn!=null){
             Statement myStat =conn.createStatement();
-            ResultSet kullanicilar= myStat.executeQuery("select * from kullanici");
+            ResultSet kullanicilar= myStat.executeQuery("select urunAdi,m.adi marka,k.adi kategori,r.adi renk,urun2.fiyat from ( " +
+                    "    select u.adi urunAdi,u.kategori_id,u.marka_id,u.renk_id,min(fiyat) fiyat from urun_fiyat " +
+                    "    inner join urun u on urun_fiyat.urun_id = u.id " +
+                    "    group by u.adi,u.kategori_id,u.marka_id,u.renk_id " +
+                    "    ) as  urun2 " +
+                    "inner join marka m on m.id=urun2.marka_id " +
+                    "inner join renk r on r.id=urun2.renk_id " +
+                    "inner join kategori k on k.id=urun2.kategori_id ");
             return kullanicilar;
         }
         return null;
@@ -59,13 +66,13 @@ public class PostgreSQLDbConnection extends DbConnection {
             baglan();
         }
         Statement myStat =conn.createStatement();
-        String query = "select * from kullanici where kullanici_adi = {0} and sifre= {1};";
-        String.format(query,kullaniciAdi,sifre);
+        String query = "select * from kullanici where kullanici_adi ='"+kullaniciAdi+"' and sifre='"+sifre+"';";
         var kullaniciSayisi= myStat.executeQuery(query);
-        System.out.println(kullaniciSayisi);
-        if(kullaniciSayisi.getString("id")==null){
-            return false;
+        while(kullaniciSayisi.next()){
+            if(kullaniciSayisi.getString("id")!=null){
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 }
