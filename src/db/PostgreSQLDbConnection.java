@@ -15,13 +15,13 @@ public class PostgreSQLDbConnection extends DbConnection {
     }
 
     @Override
-    public void baglan() {
+    public Connection baglan() {
         try {
             conn = DriverManager.getConnection(url,"postgres","postgres");
-            System.out.println("Bağlantı gerçekleşti");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return conn;
     }
 
     @Override
@@ -34,5 +34,38 @@ public class PostgreSQLDbConnection extends DbConnection {
             }
 
         }
+    }
+
+    public ResultSet kullaniciListele() throws SQLException {
+        if(conn!=null){
+            Statement myStat =conn.createStatement();
+            ResultSet kullanicilar= myStat.executeQuery("select * from kullanici");
+            return kullanicilar;
+        }
+        return null;
+    }
+
+    public ResultSet urunListele() throws SQLException {
+        if(conn!=null){
+            Statement myStat =conn.createStatement();
+            ResultSet kullanicilar= myStat.executeQuery("select * from kullanici");
+            return kullanicilar;
+        }
+        return null;
+    }
+
+    public boolean kullaniciKontrol(String kullaniciAdi, String sifre) throws SQLException {
+        if(conn==null){
+            baglan();
+        }
+        Statement myStat =conn.createStatement();
+        String query = "select * from kullanici where kullanici_adi = {0} and sifre= {1};";
+        String.format(query,kullaniciAdi,sifre);
+        var kullaniciSayisi= myStat.executeQuery(query);
+        System.out.println(kullaniciSayisi);
+        if(kullaniciSayisi.getString("id")==null){
+            return false;
+        }
+        return true;
     }
 }

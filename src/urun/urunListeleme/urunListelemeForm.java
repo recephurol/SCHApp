@@ -1,4 +1,4 @@
-package urunListeleme;
+package urun.urunListeleme;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -7,6 +7,7 @@ public class urunListelemeForm extends JFrame{
 
     private JScrollPane scrollPane;
     private JTable table;
+    private JTable table1;
 
     public urunListelemeForm(){
 
