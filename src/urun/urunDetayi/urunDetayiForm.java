@@ -1,4 +1,4 @@
-package urunDetayi;
+package urun.urunDetayi;
 
 public class urunDetayiForm {
 }

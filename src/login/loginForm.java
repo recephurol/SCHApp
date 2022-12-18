@@ -1,13 +1,12 @@
 package login;
 
-import dataAccess.DbConnection;
 import db.PostgreSQLDbConnection;
-import model.Item;
-import urunListeleme.urunListelemeForm;
+import urun.urunListeleme.urunListelemeForm;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class loginForm extends JFrame {
     private JTextField kullaniciAdiText;
@@ -37,9 +36,22 @@ public class loginForm extends JFrame {
 
                 PostgreSQLDbConnection baglanti = new PostgreSQLDbConnection();
                 baglanti.baglan();
-
+                try {
+                    var kullanicilar=baglanti.kullaniciListele();
+                    while (kullanicilar.next()){
+                        System.out.println(kullanicilar.getString("id")+kullanicilar.getString("kullanici_adi") +kullanicilar.getString("sifre"));
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
                 String kullaniciAdi="admin", parola="1234";
-                if (kullaniciAdi.equalsIgnoreCase(kullaniciAdiText.getText() ) && parola.equalsIgnoreCase(parolaText.getText())){
+                boolean sonuc = false;
+                try {
+                    sonuc = baglanti.kullaniciKontrol(kullaniciAdiText.getText(),parolaText.getText());
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                if (sonuc){
                     urunListelemeForm urunListele = new urunListelemeForm();
                     urunListele.setVisible(true);
                     setVisible(false);
