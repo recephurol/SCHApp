@@ -17,7 +17,7 @@ public class PostgreSQLDbConnection extends DbConnection {
     @Override
     public Connection baglan() {
         try {
-            conn = DriverManager.getConnection(url,"postgres","postgres");
+            conn = DriverManager.getConnection(url,"postgres","1234");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,13 +59,15 @@ public class PostgreSQLDbConnection extends DbConnection {
             baglan();
         }
         Statement myStat =conn.createStatement();
-        String query = "select * from kullanici where kullanici_adi = {0} and sifre= {1};";
-        String.format(query,kullaniciAdi,sifre);
+        String query = "select * from kullanici where kullanici_adi = '"+kullaniciAdi+"' and sifre='"+sifre+"';";
+        //String.format(query,kullaniciAdi,sifre);
         var kullaniciSayisi= myStat.executeQuery(query);
         System.out.println(kullaniciSayisi);
-        if(kullaniciSayisi.getString("id")==null){
-            return false;
+        while(kullaniciSayisi.next()){
+            if(kullaniciSayisi.getString("id")!=null){
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 }

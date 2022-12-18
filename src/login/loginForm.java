@@ -1,6 +1,7 @@
 package login;
 
 import db.PostgreSQLDbConnection;
+import urun.urunDetayi.urunDetayiForm;
 import urun.urunListeleme.urunListelemeForm;
 
 import javax.swing.*;
@@ -52,7 +53,7 @@ public class loginForm extends JFrame {
                     ex.printStackTrace();
                 }
                 if (sonuc){
-                    urunListelemeForm urunListele = new urunListelemeForm();
+                    urunDetayiForm urunListele = new urunDetayiForm();
                     urunListele.setVisible(true);
                     setVisible(false);
                 }

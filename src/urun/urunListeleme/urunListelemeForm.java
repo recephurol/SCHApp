@@ -2,12 +2,19 @@ package urun.urunListeleme;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ContainerAdapter;
 
 public class urunListelemeForm extends JFrame{
 
     private JScrollPane scrollPane;
     private JTable table;
+    private JTextField textField1;
     private JTable table1;
+    private JComboBox comboBox1;
+    private JComboBox comboBox2;
+    private JComboBox comboBox3;
+    private JTextField textField2;
+    private JTextField textField3;
 
     public urunListelemeForm(){
 
@@ -43,6 +50,8 @@ public class urunListelemeForm extends JFrame{
         table.setBounds(293,214,264,128);
         add(scrollPane);
         add(table);
+        table1.addContainerListener(new ContainerAdapter() {
+        });
     }
 
 }
