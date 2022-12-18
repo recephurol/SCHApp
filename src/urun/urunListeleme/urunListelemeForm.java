@@ -1,48 +1,42 @@
 package urun.urunListeleme;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class urunListelemeForm extends JFrame{
 
-    private JScrollPane scrollPane;
     private JTable table;
-    private JTable table1;
+    private JPanel panel;
+    private JScrollPane scrollPane;
 
+    DefaultTableModel tableModel = new DefaultTableModel();
+    Object[] kolonlar = {"Adı","Marka","Kategori","Puan","Fiyat","Mağaza"};
+    Object[] satirlar = {"Çikolatalı Gofret","Eti","Gıda","4","4","Hepsiburada"};
     public urunListelemeForm(){
 
-        setSize(750,400);
+        setBounds(100,100,778,472);
         setTitle("Ürün Listesi");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(400,200);
-        setResizable(false);
+        panel=new JPanel();
+        panel.setBorder(new EmptyBorder(5,5,5,5));
+        setContentPane(panel);
 
-        scrollPane = new JScrollPane();
-        scrollPane.setBounds(49,29,271,153);
+        getContentPane().setLayout(null);
+
+        scrollPane= new JScrollPane();
+        scrollPane.setBounds(33,26,696,326);
+        panel.add(scrollPane);
+
         table = new JTable();
-        table.setModel(new DefaultTableModel(
-                new Object[][]{
-                        {null,null,null},
-                        {null,null,null},
-                        {null,null,null},
-                        {null,null,null},
-                        {null,null,null},
-                        {null,null,null},
-                        {null,null,null},
-                        {null,null,null},
-                        {null,null,null},
-                        {null,null,null},
-                        {null,null,null},
-                        {null,null,null},
-                        {null,null,null}
-                },
-                new String[] {
-                        "Adı","Kategori","Mağaza"
-                }
-        ));
-        table.setBounds(293,214,264,128);
-        add(scrollPane);
-        add(table);
+        tableModel.setColumnIdentifiers(kolonlar);
+        tableModel.setRowCount(0);
+        tableModel.setColumnCount(0);
+        tableModel.addRow(satirlar);
+        table.setModel(tableModel);
+        table.setVisible(true);
+        scrollPane.setViewportView(table);
     }
 
 }

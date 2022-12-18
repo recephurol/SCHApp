@@ -34,7 +34,7 @@ public class loginForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                PostgreSQLDbConnection baglanti = new PostgreSQLDbConnection();
+                /*PostgreSQLDbConnection baglanti = new PostgreSQLDbConnection();
                 baglanti.baglan();
                 try {
                     var kullanicilar=baglanti.kullaniciListele();
@@ -45,12 +45,13 @@ public class loginForm extends JFrame {
                     ex.printStackTrace();
                 }
                 String kullaniciAdi="admin", parola="1234";
-                boolean sonuc = false;
-                try {
+                boolean sonuc = true;
+                /*try {
                     sonuc = baglanti.kullaniciKontrol(kullaniciAdiText.getText(),parolaText.getText());
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-                }
+                }*/
+                boolean sonuc = true;
                 if (sonuc){
                     urunListelemeForm urunListele = new urunListelemeForm();
                     urunListele.setVisible(true);
