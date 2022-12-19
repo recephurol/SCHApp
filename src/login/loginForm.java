@@ -32,6 +32,17 @@ public class loginForm extends JFrame {
                 boolean sonuc = true;
                 try {
                     sonuc = baglanti.kullaniciKontrol(kullaniciAdiText.getText(),parolaText.getText());
+
+                    if (sonuc){
+                        urunListelemeForm urunListele = null;
+                        try {
+                            urunListele = new urunListelemeForm();
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                        urunListele.setVisible(true);
+                        setVisible(false);
+                    }
                 {
 
                 }
@@ -39,16 +50,6 @@ public class loginForm extends JFrame {
                     ex.printStackTrace();
                 }
 
-                if (sonuc){
-                    urunListelemeForm urunListele = null;
-                    try {
-                        urunListele = new urunListelemeForm();
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-                    urunListele.setVisible(true);
-                    setVisible(false);
-                }
 
             }
         });
