@@ -77,11 +77,12 @@ public class PostgreSQLDbConnection extends DbConnection {
             Statement myStat = null;
             try {
                 myStat = conn.createStatement();
-                ResultSet kullanicilar= myStat.executeQuery("SELECT urun.adi urun_adi,k.adi katagori_adi,r.adi renk_adi,m.adi marka_adi,urun.aciklama urun_aciklama,y.yorum urun_yorum FROM public.urun\n" +
+                ResultSet kullanicilar= myStat.executeQuery("SELECT urun.adi urun_adi,k.adi katagori_adi,r.adi renk_adi,m.adi marka_adi,urun.aciklama urun_aciklama,y.yorum urun_yorum,mag.adi urun_magza FROM public.urun\n" +
                         "        join kategori k on k.id = urun.kategori_id\n" +
                         "        join marka m on m.id = urun.marka_id\n" +
                         "        join renk r on r.id = urun.renk_id\n"+
-                        "        join yorum y on y.id = urun.yorum_id");
+                        "        join yorum y on y.id = urun.yorum_id\n"+
+                        "        join magaza mag on mag.id = urun.magaza_id");
                 return kullanicilar;
             } catch (SQLException e) {
                 throw new RuntimeException(e);

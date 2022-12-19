@@ -53,7 +53,12 @@ public class loginForm extends JFrame {
                     ex.printStackTrace();
                 }
                 if (sonuc){
-                    urunDetayiForm urunListele = new urunDetayiForm();
+                    urunDetayiForm urunListele = null;
+                    try {
+                        urunListele = new urunDetayiForm();
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     urunListele.setVisible(true);
                     setVisible(false);
                 }

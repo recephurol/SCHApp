@@ -37,7 +37,7 @@ public class urunDetayiForm extends JFrame{
         while (urunDetay.next()){
 
             yorumJTextField.setText(urunDetay.getString("urun_yorum"));
-            magzaJTextField.setText("urunDetay[0]");
+            magzaJTextField.setText(urunDetay.getString("urun_magza"));
             markaJTextField.setText(urunDetay.getString("marka_adi"));
             fiyatJTextField.setText("adsdasdsad");
             katagoriJTextField.setText(urunDetay.getString("katagori_adi"));
