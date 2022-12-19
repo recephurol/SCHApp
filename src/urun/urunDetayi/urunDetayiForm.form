@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="urunDetayi.urunDetayiForm">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="urun.urunDetayi.urunDetayiForm">
   <grid id="27dc6" binding="mainpanel" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="676" height="463"/>
+      <xy x="20" y="20" width="449" height="283"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="527be" binding="sag" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="527be" binding="sag" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -23,6 +23,7 @@
               </grid>
             </constraints>
             <properties>
+              <editable value="false"/>
               <text value=""/>
             </properties>
           </component>
@@ -33,6 +34,7 @@
               </grid>
             </constraints>
             <properties>
+              <editable value="false"/>
               <text value=""/>
             </properties>
           </component>
@@ -43,6 +45,7 @@
               </grid>
             </constraints>
             <properties>
+              <editable value="false"/>
               <text value=""/>
             </properties>
           </component>
@@ -53,6 +56,7 @@
               </grid>
             </constraints>
             <properties>
+              <editable value="false"/>
               <text value=""/>
             </properties>
           </component>
@@ -86,6 +90,25 @@
             </constraints>
             <properties>
               <text value="aciklama"/>
+            </properties>
+          </component>
+          <component id="60c14" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="renk"/>
+            </properties>
+          </component>
+          <component id="18c2f" class="javax.swing.JTextField" binding="renktextField1">
+            <constraints>
+              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <editable value="false"/>
+              <text value=""/>
             </properties>
           </component>
         </children>
@@ -135,6 +158,7 @@
           </grid>
         </constraints>
         <properties>
+          <editable value="false"/>
           <text value=""/>
         </properties>
       </component>
@@ -145,6 +169,7 @@
           </grid>
         </constraints>
         <properties>
+          <editable value="false"/>
           <text value=""/>
         </properties>
       </component>
@@ -155,6 +180,8 @@
           </grid>
         </constraints>
         <properties>
+          <editable value="false"/>
+          <enabled value="true"/>
           <text value=""/>
         </properties>
       </component>

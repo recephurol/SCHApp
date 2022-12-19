@@ -1,6 +1,7 @@
 package login;
 
 import db.PostgreSQLDbConnection;
+import urun.urunDetayi.urunDetayiForm;
 import urun.urunListeleme.urunListelemeForm;
 
 import javax.swing.*;
