@@ -1,6 +1,7 @@
 package urun.urunListeleme;
 
 import db.PostgreSQLDbConnection;
+import urun.urunDetayi.urunDetayiForm;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -42,9 +43,14 @@ public class urunListelemeForm extends JFrame{
                 super.mouseClicked(e);
                   // to detect doble click events
                     JTable target = (JTable)e.getSource();
-                    var row = target.getModel().getValueAt(target.getSelectedRow(),0);// select a row
-                    JOptionPane.showMessageDialog(null, row); // get the value of a row and column.
-
+                    var urunId = target.getModel().getValueAt(target.getSelectedRow(),0);// select a row
+                urunDetayiForm urunDetay = null;
+                try {
+                    urunDetay = new urunDetayiForm(Integer.valueOf(urunId.toString()));
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                urunDetay.setVisible(true);
             }
         });
     }

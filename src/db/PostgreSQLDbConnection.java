@@ -17,7 +17,7 @@ public class PostgreSQLDbConnection extends DbConnection {
     @Override
     public Connection baglan() {
         try {
-            conn = DriverManager.getConnection(url,"postgres","1234");
+            conn = DriverManager.getConnection(url,"postgres","postgres");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,12 +84,12 @@ public class PostgreSQLDbConnection extends DbConnection {
             Statement myStat = null;
             try {
                 myStat = conn.createStatement();
-                ResultSet kullanicilar= myStat.executeQuery("SELECT urun.adi urun_adi,k.adi katagori_adi,r.adi renk_adi,m.adi marka_adi,urun.aciklama urun_aciklama,y.yorum urun_yorum,mag.adi urun_magza FROM public.urun\n" +
-                        "        join kategori k on k.id = urun.kategori_id\n" +
-                        "        join marka m on m.id = urun.marka_id\n" +
-                        "        join renk r on r.id = urun.renk_id\n"+
-                        "        join yorum y on y.id = urun.yorum_id\n"+
-                        "        join magaza mag on mag.id = urun.magaza_id");
+                String query ="select u.adi urunAdi, m.adi marka, k.adi kategori,r.adi renk,u.aciklama  from urun u " +
+                        "inner join kategori k on u.kategori_id = k.id " +
+                        "inner join renk r on r.id=u.renk_id " +
+                        "inner join marka m on m.id=u.marka_id " +
+                        "where u.id="+id;
+                ResultSet kullanicilar= myStat.executeQuery(query);
                 return kullanicilar;
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -97,9 +97,24 @@ public class PostgreSQLDbConnection extends DbConnection {
 
         }
         return null;
+    }
 
+    public ResultSet urunYorumGetir(int urunId){
 
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="select y.yorum,y.ad_soyad adSoyad,y.puan from schapp.public.yorum y " +
+                        "where urun_id="+urunId;
 
+                ResultSet kullanicilar= myStat.executeQuery(query);
+                return kullanicilar;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
 
+        }
+        return null;
     }
 }
