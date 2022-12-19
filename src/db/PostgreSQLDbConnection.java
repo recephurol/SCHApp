@@ -48,10 +48,10 @@ public class PostgreSQLDbConnection extends DbConnection {
     public ResultSet urunListele() throws SQLException {
         if(conn!=null){
             Statement myStat =conn.createStatement();
-            ResultSet kullanicilar= myStat.executeQuery("select urunAdi,m.adi marka,k.adi kategori,r.adi renk,urun2.fiyat from ( " +
-                    "    select u.adi urunAdi,u.kategori_id,u.marka_id,u.renk_id,min(fiyat) fiyat from urun_fiyat " +
+            ResultSet kullanicilar= myStat.executeQuery("select urun2.id, urunAdi,m.adi marka,k.adi kategori,r.adi renk,urun2.fiyat from ( " +
+                    "    select u.id,u.adi urunAdi,u.kategori_id,u.marka_id,u.renk_id,min(fiyat) fiyat from urun_fiyat " +
                     "    inner join urun u on urun_fiyat.urun_id = u.id " +
-                    "    group by u.adi,u.kategori_id,u.marka_id,u.renk_id " +
+                    "    group by u.id,u.adi,u.kategori_id,u.marka_id,u.renk_id " +
                     "    ) as  urun2 " +
                     "inner join marka m on m.id=urun2.marka_id " +
                     "inner join renk r on r.id=urun2.renk_id " +

@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 public class urunListelemeForm extends JFrame{
@@ -23,8 +25,8 @@ public class urunListelemeForm extends JFrame{
     private JComboBox renkCombobox;
 
     DefaultTableModel tableModel = new DefaultTableModel();
-    Object[] kolonlar = {"Adı","Marka","Kategori","Puan","Fiyat"};
-    Object[] satirlar = new Object[5];
+    Object[] kolonlar = {"id","Adı","Marka","Kategori","Renk","Fiyat"};
+    Object[] satirlar = new Object[6];
 
     public urunListelemeForm() throws SQLException {
         setInitialFormValues();
@@ -34,7 +36,19 @@ public class urunListelemeForm extends JFrame{
         getPanel();
 
 
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                  // to detect doble click events
+                    JTable target = (JTable)e.getSource();
+                    var row = target.getModel().getValueAt(target.getSelectedRow(),0);// select a row
+                    JOptionPane.showMessageDialog(null, row); // get the value of a row and column.
+
+            }
+        });
     }
+
 
     private void getUrunListeleTable() throws SQLException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
@@ -43,15 +57,17 @@ public class urunListelemeForm extends JFrame{
         db.baglan();
         var urunListesi = db.urunListele();
         while(urunListesi.next()){
-            satirlar[0] = urunListesi.getString("urunadi");
-            satirlar[1] = urunListesi.getString("marka");
-            satirlar[2] = urunListesi.getString("kategori");
-            satirlar[3] = urunListesi.getString("renk");
-            satirlar[4] = urunListesi.getString("fiyat")+" TL";
+            satirlar[0] = urunListesi.getString("id");
+            satirlar[1] = urunListesi.getString("urunadi");
+            satirlar[2] = urunListesi.getString("marka");
+            satirlar[3] = urunListesi.getString("kategori");
+            satirlar[4] = urunListesi.getString("renk");
+            satirlar[5] = urunListesi.getString("fiyat")+" TL";
             tableModel.addRow(satirlar);
         }
         table.setAutoCreateRowSorter(true);
         table.setModel(tableModel);
+        table.removeColumn(table.getColumnModel().getColumn(0));
         table.getColumnModel().getColumn(0).setPreferredWidth(100);
         table.getColumnModel().getColumn(1).setPreferredWidth(50);
         table.getColumnModel().getColumn(2).setPreferredWidth(50);
