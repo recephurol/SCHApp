@@ -1,12 +1,11 @@
 package urun.urunDetayi;
 
-import urun.fotografGosterme.fotoGoster;
+import db.PostgreSQLDbConnection;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class urunDetayiForm extends JFrame{
@@ -20,31 +19,36 @@ public class urunDetayiForm extends JFrame{
     private JPanel mainpanel;
     private JPanel sag;
     private JPanel resimpanel;
-    private JLabel resimlabel;
+    private JTextField renktextField1;
 
     private BufferedImage image;
 
 
-    public urunDetayiForm(){
+    public urunDetayiForm() throws SQLException {
         add(mainpanel);
         setSize(1000,500);
         setTitle("Urun Detay Ekrani");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        resimpanel=new fotoGoster();
-        add(resimpanel);
+
+        PostgreSQLDbConnection veriTabani=new PostgreSQLDbConnection();
+        veriTabani.baglan();
+        ResultSet urunDetay=veriTabani.urunDetayGetir(1);//******
+        while (urunDetay.next()){
+
+            yorumJTextField.setText(urunDetay.getString("urun_yorum"));
+            magzaJTextField.setText("urunDetay[0]");
+            markaJTextField.setText(urunDetay.getString("marka_adi"));
+            fiyatJTextField.setText("adsdasdsad");
+            katagoriJTextField.setText(urunDetay.getString("katagori_adi"));
+            aciklamaJTextField.setText(urunDetay.getString("urun_aciklama"));
+            urunIsimiJTextField.setText(urunDetay.getString("urun_adi"));
+            renktextField1.setText(urunDetay.getString("renk_adi"));
+        }
 
 
 
 
-        String yorum="aaaaaa";
-        yorumJTextField.setText(yorum);
-        magzaJTextField.setText("bbbbbb");
-        markaJTextField.setText("aadasdsd");
-        fiyatJTextField.setText("adsdasdsad");
-        katagoriJTextField.setText("asdasdasdas");
-        aciklamaJTextField.setText("asdasdsadas");
-        urunIsimiJTextField.setText("asdasdasdasd");
 
 
     }
