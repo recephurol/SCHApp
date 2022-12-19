@@ -144,13 +144,14 @@ INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (1
 INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (2, false, 1, 2, 3.2);
 INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (3, false, 1, 3, 2.9);
 
-INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (1, false, 2, 1, 12000);
-INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (2, false, 2, 2, 12100);
-INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (3, false, 2, 3, 11999);
+
+INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (4, false, 2, 1, 12000);
+INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (5, false, 2, 2, 12100);
+INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (6, false, 2, 3, 11999);
 
 INSERT INTO public.yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (1, false, 1,  'Çok lezzetli tavsiye ederim', 4,'Recep Hürol');
 INSERT INTO public.yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (2, false, 1,  'Bana uymadı beğenmedim', 2, 'Özkan Cırıtcı');
 
-INSERT INTO public.yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (1, false, 2,  'Güzel telefon', 5,'Ahmet Sarıdiken');
-INSERT INTO public.yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (2, false, 2, '128 gb az ama idare eder', 3, 'Özkan Cırıtcı');
+INSERT INTO public.yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (3, false, 2,  'Güzel telefon', 5,'Ahmet Sarıdiken');
+INSERT INTO public.yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (4, false, 2, '128 gb az ama idare eder', 3, 'Özkan Cırıtcı');
 
