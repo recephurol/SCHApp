@@ -34,11 +34,6 @@ public class urunDetayiForm extends JFrame{
         return urunId;
     }
 
-    public urunDetayiForm() throws SQLException {
-
-        getInitialForm(null);
-
-    }
 
     private void getInitialForm(Integer urunId) throws SQLException {
         add(mainpanel);
@@ -62,7 +57,7 @@ public class urunDetayiForm extends JFrame{
             renktextField1.setText(urunDetay.getString("renk"));
         }
 
-        ResultSet urunYorumlari = veriTabani.urunYorumGetir(urunId);
+        ResultSet urunYorumlari = veriTabani.urunYorumListesiGetir(urunId);
         Integer sayac =0;
         yorumPanel = new JPanel();
         while(urunYorumlari.next()){

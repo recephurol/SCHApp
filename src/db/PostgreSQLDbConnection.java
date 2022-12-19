@@ -99,7 +99,7 @@ public class PostgreSQLDbConnection extends DbConnection {
         return null;
     }
 
-    public ResultSet urunYorumGetir(int urunId){
+    public ResultSet urunYorumListesiGetir(int urunId){
 
         if(conn!=null){
             Statement myStat = null;
@@ -108,8 +108,48 @@ public class PostgreSQLDbConnection extends DbConnection {
                 String query ="select y.yorum,y.ad_soyad adSoyad,y.puan from schapp.public.yorum y " +
                         "where urun_id="+urunId;
 
-                ResultSet kullanicilar= myStat.executeQuery(query);
-                return kullanicilar;
+                ResultSet urunYorumListesi= myStat.executeQuery(query);
+                return urunYorumListesi;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return null;
+    }
+
+    public ResultSet urunFiyatListesiGetir(int urunId){
+
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="select uf.id,m.adi magaza,fiyat from urun_fiyat uf " +
+                        "inner join magaza m on uf.magaza_id = m.id " +
+                        "where urun_id= " +urunId+
+                        "order by fiyat asc";
+
+                ResultSet urunFiyatListesi= myStat.executeQuery(query);
+                return urunFiyatListesi;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return null;
+    }
+
+    public ResultSet urunPuaniGetir(int urunId){
+
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="select avg(puan) puan from yorum " +
+                        "where urun_id=" +urunId;
+
+                ResultSet puan= myStat.executeQuery(query);
+                return puan;
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

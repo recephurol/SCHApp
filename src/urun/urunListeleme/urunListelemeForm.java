@@ -1,6 +1,7 @@
 package urun.urunListeleme;
 
 import db.PostgreSQLDbConnection;
+import urun.urunDetayDeneme.urunDetayFormDeneme;
 import urun.urunDetayi.urunDetayiForm;
 
 import javax.swing.*;
@@ -25,7 +26,13 @@ public class urunListelemeForm extends JFrame{
     private JComboBox kategoriCombobox;
     private JComboBox renkCombobox;
 
-    DefaultTableModel tableModel = new DefaultTableModel();
+    DefaultTableModel tableModel = new DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int row, int column)
+        {
+            return false;
+        }
+    };
     Object[] kolonlar = {"id","Adı","Marka","Kategori","Renk","Fiyat"};
     Object[] satirlar = new Object[6];
 
@@ -44,11 +51,11 @@ public class urunListelemeForm extends JFrame{
                   // to detect doble click events
                     JTable target = (JTable)e.getSource();
                     var urunId = target.getModel().getValueAt(target.getSelectedRow(),0);// select a row
-                urunDetayiForm urunDetay = null;
+                urunDetayFormDeneme urunDetay = null;
                 try {
-                    urunDetay = new urunDetayiForm(Integer.valueOf(urunId.toString()));
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+                    urunDetay = new urunDetayFormDeneme(Integer.valueOf(urunId.toString()));
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
                 }
                 urunDetay.setVisible(true);
             }
