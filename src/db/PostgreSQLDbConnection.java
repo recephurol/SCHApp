@@ -17,7 +17,7 @@ public class PostgreSQLDbConnection extends DbConnection {
     @Override
     public Connection baglan() {
         try {
-            conn = DriverManager.getConnection(url,"postgres","1234");
+            conn = DriverManager.getConnection(url,"postgres","postgres");
         } catch (SQLException e) {
             e.printStackTrace();
         }

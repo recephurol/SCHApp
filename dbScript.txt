@@ -64,7 +64,8 @@ create table urun
     marka_id       bigint not null
         constraint fk_urun_marka_id
                 references marka,
-    aciklama varchar(255)
+    aciklama varchar(255),
+    fotograf varchar(255)
 );
 
 create table urun_fiyat
@@ -136,8 +137,8 @@ INSERT INTO magaza (id,deleted,adi) values(2,false,'TRENDYOL');
 INSERT INTO magaza (id,deleted,adi) values(3,false,'N11');
 INSERT INTO magaza (id,deleted,adi) values(4,false,'AMAZON');
 
-INSERT INTO public.urun (id, deleted, adi, kategori_id, renk_id, aciklama, marka_id) VALUES (1, false, 'Çikolatalı Gofret', 3, 3, 'Eti Çikolatalı Gofret 30Gr', 7);
-INSERT INTO public.urun (id, deleted, adi, kategori_id, renk_id, aciklama, marka_id) VALUES (2, false, 'Samsung Galaxy S21 FE', 1, 1, 'Samsung Galaxy S21 FE 128 GB 5G', 1);
+INSERT INTO public.urun (id, deleted, adi, kategori_id, renk_id, aciklama, marka_id,fotograf) VALUES (1, false, 'Çikolatalı Gofret', 3, 3, 'Eti Çikolatalı Gofret 30Gr', 7,'src/images/etiCikolataliGofret.png');
+INSERT INTO public.urun (id, deleted, adi, kategori_id, renk_id, aciklama, marka_id,fotograf) VALUES (2, false, 'Samsung Galaxy S21 FE', 1, 1, 'Samsung Galaxy S21 FE 128 GB 5G', 1,'src/images/samsungs21fe.jpg');
 
 
 INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (1, false, 1, 1, 3);
