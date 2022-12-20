@@ -1,6 +1,7 @@
 package urun.urunDetayDeneme;
 
 import db.PostgreSQLDbConnection;
+import urun.urunListeleme.urunListelemeForm;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -39,7 +40,7 @@ public class urunDetayFormDeneme extends JFrame {
 
 
 
-        fotoPanel = new JPanel(){};
+        fotoPanel = new JPanel();
         fotoPanel.setLayout(null);
         fotoPanel.setBounds(10,40,150,200);
         fotoPanel.setVisible(true);
@@ -58,7 +59,7 @@ public class urunDetayFormDeneme extends JFrame {
         ResultSet urunDetay = db.urunDetayGetir(urunId);
         while(urunDetay.next()){
             BufferedImage img = ImageIO.read(new File(urunDetay.getString("fotograf")));
-            Image scaledImage = img.getScaledInstance(fotoPanel.getWidth(),fotoPanel.getHeight(),BufferedImage.SCALE_DEFAULT);
+            Image scaledImage = img.getScaledInstance(fotoPanel.getWidth()-25,fotoPanel.getHeight()-25,BufferedImage.SCALE_DEFAULT);
             ImageIcon icon = new ImageIcon(scaledImage);
             JLabel imgLabel = new JLabel(icon);
             imgLabel.setVisible(true);
@@ -157,6 +158,18 @@ public class urunDetayFormDeneme extends JFrame {
             yorumPanel.add(ayirici);
             i+=53;
         }
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                try {
+                    urunListelemeForm listeForm = new urunListelemeForm();
+                    listeForm.setVisible(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         mainPanel.add(fotoPanel);
         mainPanel.add(detayPanel);

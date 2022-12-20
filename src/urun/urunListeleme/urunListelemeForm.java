@@ -3,6 +3,7 @@ package urun.urunListeleme;
 import db.PostgreSQLDbConnection;
 import urun.urunDetayDeneme.urunDetayFormDeneme;
 import urun.urunDetayi.urunDetayiForm;
+import urun.urunEkle.urunEkle;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -26,6 +27,15 @@ public class urunListelemeForm extends JFrame{
     private JComboBox markaCombobox;
     private JComboBox kategoriCombobox;
     private JComboBox renkCombobox;
+
+    private JMenuBar menuBar;
+    private JMenu menu;
+    private JMenuItem urunEkleMenuItem;
+    private JMenuItem kategoriEkleMenuItem;
+    private JMenuItem markaEkleMenuItem;
+    private JMenuItem renkEkleMenuItem;
+    private JMenuItem magazaEkleMenuItem;
+
 
     DefaultTableModel tableModel = new DefaultTableModel() {
         @Override
@@ -59,6 +69,7 @@ public class urunListelemeForm extends JFrame{
                     ex.printStackTrace();
                 }
                 urunDetay.setVisible(true);
+                setVisible(false);
             }
         });
     }
@@ -138,10 +149,40 @@ public class urunListelemeForm extends JFrame{
     }
 
     private void setInitialFormValues() {
-        setBounds(100,100,720,472);
+        setBounds(400,400,720,472);
         setTitle("Ürün Listesi");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocation(400,200);
+
+        menuBar = new JMenuBar();
+        menu = new JMenu("İşlemler");
+        urunEkleMenuItem = new JMenuItem("Ürün İşlemleri");
+        urunEkleMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                urunEkle urunEkleForm = null;
+                try {
+                    urunEkleForm = new urunEkle();
+                    urunEkleForm.setVisible(true);
+                    setVisible(false);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        kategoriEkleMenuItem = new JMenuItem("Kategori İşlemleri");
+        markaEkleMenuItem = new JMenuItem("Marka İşlemleri");
+        renkEkleMenuItem = new JMenuItem("Renk İşlemleri");
+        magazaEkleMenuItem = new JMenuItem("Mağaza İŞlemleri");
+
+
+        menu.add(urunEkleMenuItem);
+        menu.add(kategoriEkleMenuItem);
+        menu.add(markaEkleMenuItem);
+        menu.add(renkEkleMenuItem);
+        menu.add(magazaEkleMenuItem);
+
+        menuBar.add(menu);
+        setJMenuBar(menuBar);
     }
 
 }

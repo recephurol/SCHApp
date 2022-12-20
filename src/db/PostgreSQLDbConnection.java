@@ -2,6 +2,7 @@ package db;
 
 
 import dataAccess.DbConnection;
+import model.Urun;
 
 import java.sql.*;
 
@@ -105,7 +106,7 @@ public class PostgreSQLDbConnection extends DbConnection {
             Statement myStat = null;
             try {
                 myStat = conn.createStatement();
-                String query ="select y.yorum,y.ad_soyad adSoyad,y.puan from schapp.public.yorum y " +
+                String query ="select y.yorum,y.ad_soyad adSoyad,y.puan from yorum y " +
                         "where urun_id="+urunId;
 
                 ResultSet urunYorumListesi= myStat.executeQuery(query);
@@ -127,7 +128,7 @@ public class PostgreSQLDbConnection extends DbConnection {
                 String query ="select uf.id,m.adi magaza,fiyat from urun_fiyat uf " +
                         "inner join magaza m on uf.magaza_id = m.id " +
                         "where urun_id= " +urunId+
-                        "order by fiyat asc";
+                        " order by fiyat asc";
 
                 ResultSet urunFiyatListesi= myStat.executeQuery(query);
                 return urunFiyatListesi;
@@ -145,7 +146,7 @@ public class PostgreSQLDbConnection extends DbConnection {
             Statement myStat = null;
             try {
                 myStat = conn.createStatement();
-                String query ="select avg(puan) puan from yorum " +
+                String query ="select avg(puan) puan from public.yorum " +
                         "where urun_id=" +urunId;
 
                 ResultSet puan= myStat.executeQuery(query);
@@ -157,4 +158,84 @@ public class PostgreSQLDbConnection extends DbConnection {
         }
         return null;
     }
+
+    public ResultSet markaGetir(){
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="select id,adi from marka ";
+                ResultSet markalar= myStat.executeQuery(query);
+                return markalar;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return null;
+    }
+    public ResultSet kategoriGetir(){
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="select id,adi from kategori ";
+                ResultSet kategoriler= myStat.executeQuery(query);
+                return kategoriler;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return null;
+    }
+
+    public ResultSet renkGetir(){
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="select id,adi from renk ";
+                ResultSet renkler= myStat.executeQuery(query);
+                return renkler;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return null;
+    }
+    public ResultSet magazaGetir(){
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="select id,adi from magaza ";
+                ResultSet magazalar= myStat.executeQuery(query);
+                return magazalar;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return null;
+    }
+
+    public void urunEkle(Urun urun){
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="INSERT INTO urun (id, deleted, adi, kategori_id, marka_id,renk_id,aciklama) VALUES (3, false, 'Baldo Pirinç', 3, 3, 6,'2.5 Kg Baldo Pirinç');";
+                myStat.executeUpdate(query);
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
+
+
+
 }
