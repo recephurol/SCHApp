@@ -84,7 +84,7 @@ public class PostgreSQLDbConnection extends DbConnection {
             Statement myStat = null;
             try {
                 myStat = conn.createStatement();
-                String query ="select u.adi urunAdi, m.adi marka, k.adi kategori,r.adi renk,u.aciklama  from urun u " +
+                String query ="select u.adi urunAdi, m.adi marka, k.adi kategori,r.adi renk,u.aciklama,u.fotograf  from urun u " +
                         "inner join kategori k on u.kategori_id = k.id " +
                         "inner join renk r on r.id=u.renk_id " +
                         "inner join marka m on m.id=u.marka_id " +

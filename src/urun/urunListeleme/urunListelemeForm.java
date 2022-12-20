@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class urunListelemeForm extends JFrame{
@@ -54,7 +55,7 @@ public class urunListelemeForm extends JFrame{
                 urunDetayFormDeneme urunDetay = null;
                 try {
                     urunDetay = new urunDetayFormDeneme(Integer.valueOf(urunId.toString()));
-                } catch (SQLException ex) {
+                } catch (SQLException | IOException ex) {
                     ex.printStackTrace();
                 }
                 urunDetay.setVisible(true);

@@ -2,9 +2,13 @@ package urun.urunDetayDeneme;
 
 import db.PostgreSQLDbConnection;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -22,7 +26,7 @@ public class urunDetayFormDeneme extends JFrame {
     private JLabel aciklamaLabel;
 
 
-    public urunDetayFormDeneme(Integer urunId) throws SQLException {
+    public urunDetayFormDeneme(Integer urunId) throws SQLException, IOException {
 
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
@@ -33,10 +37,14 @@ public class urunDetayFormDeneme extends JFrame {
         mainPanel.setBounds(25,25,745,745);
         mainPanel.setVisible(true);
 
-        fotoPanel = new JPanel();
+
+
+        fotoPanel = new JPanel(){};
         fotoPanel.setLayout(null);
         fotoPanel.setBounds(10,40,150,200);
         fotoPanel.setVisible(true);
+
+
         Border borderFoto = BorderFactory.createTitledBorder("Fotoğraf");
         fotoPanel.setBorder(borderFoto);
 
@@ -49,6 +57,14 @@ public class urunDetayFormDeneme extends JFrame {
 
         ResultSet urunDetay = db.urunDetayGetir(urunId);
         while(urunDetay.next()){
+            BufferedImage img = ImageIO.read(new File(urunDetay.getString("fotograf")));
+            Image scaledImage = img.getScaledInstance(fotoPanel.getWidth(),fotoPanel.getHeight(),BufferedImage.SCALE_DEFAULT);
+            ImageIcon icon = new ImageIcon(scaledImage);
+            JLabel imgLabel = new JLabel(icon);
+            imgLabel.setVisible(true);
+            imgLabel.setBounds(0,0,150,200);
+            fotoPanel.add(imgLabel);
+
             urunAdiLabel = new JLabel(urunDetay.getString("urunAdi"));
             urunAdiLabel.setFont(new Font(null,1,18));
             urunAdiLabel.setBounds(5,10,400,30);
@@ -69,8 +85,8 @@ public class urunDetayFormDeneme extends JFrame {
             renkLabel.setFont(new Font(null,0,16));
             renkLabel.setVisible(true);
 
-            aciklamaLabel = new JLabel("Açıklama:  "+urunDetay.getString("aciklama"));
-            aciklamaLabel.setBounds(5,150,400,30);
+            aciklamaLabel = new JLabel("<html>Açıklama:  "+urunDetay.getString("aciklama")+"</html>");
+            aciklamaLabel.setBounds(5,150,400,50);
             aciklamaLabel.setFont(new Font(null,0,16));
             aciklamaLabel.setVisible(true);
 
