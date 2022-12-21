@@ -2,11 +2,14 @@ package urun.urunDetayDeneme;
 
 import db.PostgreSQLDbConnection;
 import urun.urunListeleme.urunListelemeForm;
+import urun.yorum.yorumEkle;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,8 +29,15 @@ public class urunDetayFormDeneme extends JFrame {
     private JLabel renkLabel;
     private JLabel aciklamaLabel;
 
+    private JButton yorumYapButon;
+
+    private Integer urunId;
+
+    private JScrollPane yorumScroll;
+    private JScrollPane fiyatScroll;
 
     public urunDetayFormDeneme(Integer urunId) throws SQLException, IOException {
+        urunId=urunId;
 
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
@@ -58,13 +68,16 @@ public class urunDetayFormDeneme extends JFrame {
 
         ResultSet urunDetay = db.urunDetayGetir(urunId);
         while(urunDetay.next()){
-            BufferedImage img = ImageIO.read(new File(urunDetay.getString("fotograf")));
-            Image scaledImage = img.getScaledInstance(fotoPanel.getWidth()-25,fotoPanel.getHeight()-25,BufferedImage.SCALE_DEFAULT);
-            ImageIcon icon = new ImageIcon(scaledImage);
-            JLabel imgLabel = new JLabel(icon);
-            imgLabel.setVisible(true);
-            imgLabel.setBounds(0,0,150,200);
-            fotoPanel.add(imgLabel);
+            String fotoUrl = urunDetay.getString("fotograf");
+            if(fotoUrl!=null && fotoUrl!=""){
+                BufferedImage img = ImageIO.read(new File(fotoUrl));
+                Image scaledImage = img.getScaledInstance(fotoPanel.getWidth()-25,fotoPanel.getHeight()-25,BufferedImage.SCALE_DEFAULT);
+                ImageIcon icon = new ImageIcon(scaledImage);
+                JLabel imgLabel = new JLabel(icon);
+                imgLabel.setVisible(true);
+                imgLabel.setBounds(0,0,150,200);
+                fotoPanel.add(imgLabel);
+            }
 
             urunAdiLabel = new JLabel(urunDetay.getString("urunAdi"));
             urunAdiLabel.setFont(new Font(null,1,18));
@@ -101,61 +114,88 @@ public class urunDetayFormDeneme extends JFrame {
 
 
 
-        fiyatPanel = new JPanel(new BorderLayout ());
+        fiyatPanel = new JPanel();
         fiyatPanel.setLayout(null);
-        fiyatPanel.setBounds(10,260,645,200);
+        fiyatPanel.setBounds(10,250,645,200);
         fiyatPanel.setVisible(true);
         Border borderFiyat = BorderFactory.createTitledBorder("Mağaza Fiyat Bilgisi");
 
         fiyatPanel.setBorder(borderFiyat);
 
+        fiyatScroll = new JScrollPane(fiyatPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        fiyatScroll.setBounds(10,250,645,200);
+        fiyatScroll.setPreferredSize(new Dimension(645, 200));
+        mainPanel.add(fiyatScroll);
+
         ResultSet urunFiyat= db.urunFiyatListesiGetir(urunId);
 
-        Integer j=0;
+        int j=0;
         while(urunFiyat.next()){
             JLabel magazaFiyat = new JLabel(urunFiyat.getString("magaza") + "            Fiyat : "+urunFiyat.getString("fiyat")+" TL");
             magazaFiyat.setBounds(15,25+j,500,20);
-            magazaFiyat.setFont(new Font(null,1,14));
+            magazaFiyat.setFont(new Font(null,Font.BOLD,14));
             magazaFiyat.setVisible(true);
 
             SatinAlButton satinAl = new SatinAlButton(Integer.valueOf(urunFiyat.getString("id")),"Satın Al");
             satinAl.setBounds(400,25+j,100,20);
 
-            fiyatPanel.add(magazaFiyat,BorderLayout.LINE_START);
-            fiyatPanel.add(satinAl,BorderLayout.LINE_END);
+            fiyatPanel.add(magazaFiyat);
+            fiyatPanel.add(satinAl);
+            fiyatScroll.setViewportView(fiyatPanel);
             j+=30;
         }
 
 
-        yorumPanel = new JPanel(new SpringLayout ());
-        yorumPanel.setLayout(null);
-        yorumPanel.setBounds(10,480,645,200);
+        yorumPanel = new JPanel();
+        yorumPanel.setLayout(new BoxLayout(yorumPanel,BoxLayout.Y_AXIS));
+        yorumPanel.setBounds(10,485,645,200);
         yorumPanel.setVisible(true);
         Border borderYorum = BorderFactory.createTitledBorder("Ürün Yorumları");
         yorumPanel.setBorder(borderYorum);
 
+
+        yorumScroll = new JScrollPane(yorumPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        yorumScroll.setBounds(10,485,645,200);
+        yorumScroll.setPreferredSize(new Dimension(645, 200));
+        mainPanel.add(yorumScroll);
+
+        yorumYapButon= new JButton("Yorum Yap");
+        yorumYapButon.setBounds(545,460,100,20);
+        yorumYapButon.setVisible(true);
+        final Integer urunIdFinal = urunId;
+        yorumYapButon.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                yorumEkle yorumEkle = new yorumEkle(urunIdFinal);
+                yorumEkle.setVisible(true);
+                setVisible(false);
+            }
+        });
+        add(yorumYapButon);
+
         ResultSet urunYorum= db.urunYorumListesiGetir(urunId);
 
-        Integer i=0;
+        int i=0;
         while(urunYorum.next()){
             JLabel adSoyad = new JLabel(urunYorum.getString("adSoyad") + "     Puan : "+urunYorum.getString("puan"));
-            adSoyad.setBounds(15,15+i,700,20);
-            adSoyad.setFont(new Font(null,1,14));
+            adSoyad.setBounds(15,15+i,450,20);
+            adSoyad.setFont(new Font(null,Font.BOLD,14));
             adSoyad.setVisible(true);
 
             JLabel yorum = new JLabel(urunYorum.getString("yorum"));
-            yorum.setBounds(15,40+i,700,20);
-            yorum.setFont(new Font(null,0,12));
+            yorum.setBounds(15,40+i,450,20);
+            yorum.setFont(new Font(null,Font.PLAIN,12));
             yorum.setVisible(true);
 
             JLabel ayirici = new JLabel("----------------------------------------------------------------------------------------------------------------");
-            ayirici.setBounds(15,50+i,700,20);
-            ayirici.setFont(new Font(null,0,12));
+            ayirici.setBounds(15,50+i,450,20);
+            ayirici.setFont(new Font(null,Font.PLAIN,12));
             ayirici.setVisible(true);
 
             yorumPanel.add(adSoyad);
             yorumPanel.add(yorum);
             yorumPanel.add(ayirici);
+            yorumScroll.setViewportView(yorumPanel);
             i+=53;
         }
 
@@ -174,7 +214,7 @@ public class urunDetayFormDeneme extends JFrame {
         mainPanel.add(fotoPanel);
         mainPanel.add(detayPanel);
         mainPanel.add(fiyatPanel);
-        mainPanel.add(yorumPanel);
+        mainPanel.add(yorumYapButon);
         setContentPane(mainPanel);
     }
 

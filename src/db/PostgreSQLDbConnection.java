@@ -3,7 +3,10 @@ package db;
 
 import dataAccess.DbConnection;
 import model.Urun;
+import model.Yorum;
+import urun.urunDetayDeneme.urunDetayFormDeneme;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 
 public class PostgreSQLDbConnection extends DbConnection {
@@ -221,16 +224,61 @@ public class PostgreSQLDbConnection extends DbConnection {
         return null;
     }
 
-    public void urunEkle(Urun urun){
+    public void urunEkle(Urun urun) throws SQLException {
         if(conn!=null){
-            Statement myStat = null;
             try {
-                myStat = conn.createStatement();
-                String query ="INSERT INTO urun (id, deleted, adi, kategori_id, marka_id,renk_id,aciklama) VALUES (3, false, 'Baldo Pirinç', 3, 3, 6,'2.5 Kg Baldo Pirinç');";
-                myStat.executeUpdate(query);
-                conn.close();
+                String insertUrunQuery ="INSERT INTO urun (deleted, adi, kategori_id, marka_id,renk_id,aciklama) VALUES ( ?, ?, ?, ?, ?,?);";
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery,Statement.RETURN_GENERATED_KEYS);
+                insertQuery.setBoolean(1,false);
+                insertQuery.setString(2,urun.get_adi());
+                insertQuery.setInt(3,urun.get_kategoriId());
+                insertQuery.setInt(4, urun.get_markaId());
+                insertQuery.setInt(5,urun.get_renkId());
+                insertQuery.setString(6,urun.get_aciklama());
+                int count = insertQuery.executeUpdate();
+
+                ResultSet urunId = insertQuery.getGeneratedKeys();
+                String insertUrunFiyatQuery ="INSERT INTO urun_fiyat (deleted, urun_id, magaza_id,fiyat) VALUES ( ?, ?, ?, ?);";
+
+                while(urunId.next()){
+                    PreparedStatement insertFiyatQuery = conn.prepareStatement(insertUrunFiyatQuery);
+                    insertFiyatQuery.setBoolean(1,false);
+                    insertFiyatQuery.setInt(2,urunId.getInt("id"));
+                    insertFiyatQuery.setInt(3,urun.get_magazaId());
+                    insertFiyatQuery.setDouble(4,urun.get_fiyat());
+                    insertFiyatQuery.executeUpdate();
+                }
+
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                conn.rollback();
+            }
+            finally {
+                conn.close();
+            }
+
+        }
+    }
+
+    public void yorumEkle(Yorum yorum) throws SQLException {
+        if(conn!=null){
+            try {
+                String insertUrunQuery ="INSERT INTO yorum (deleted, urun_id, yorum, puan,ad_soyad) VALUES ( ?, ?, ?, ?, ?);";
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery,Statement.RETURN_GENERATED_KEYS);
+                insertQuery.setBoolean(1,false);
+                insertQuery.setInt(2,yorum.getUrunId());
+                insertQuery.setString(3,yorum.getYorum());
+                insertQuery.setDouble(4, yorum.getPuan());
+                insertQuery.setString(5,yorum.getAdSoyad());
+                insertQuery.executeUpdate();
+
+
+            } catch (SQLException e) {
+                conn.rollback();
+            }
+            finally {
+                conn.close();
             }
 
         }

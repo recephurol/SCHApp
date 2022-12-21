@@ -43,10 +43,9 @@ public class loginForm extends JFrame {
                         }
                         urunListele.setVisible(true);
                         setVisible(false);
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Kullanıcı adı veya parola yanlış");
                     }
-                {
-
-                }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }

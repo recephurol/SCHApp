@@ -11,4 +11,5 @@ public abstract class DbConnection {
     public abstract Connection baglan();
 
     public abstract void baglantiyiKapat() throws SQLException;
+
 }

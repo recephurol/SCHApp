@@ -3,6 +3,7 @@ package urun.urunEkle;
 import db.PostgreSQLDbConnection;
 import model.Item;
 import model.Urun;
+import urun.urunListeleme.urunListelemeForm;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -36,6 +37,9 @@ public class urunEkle extends JFrame {
     private JPanel fotoPanel;
     private JButton fotografSec;
     private JButton kaydetButon;
+    private JButton iptalButon;
+    private Image urunFoto;
+    private String fotoFileName;
 
     private Font baslik = new Font(null,1,14);
 
@@ -60,7 +64,30 @@ public class urunEkle extends JFrame {
         getFiyat();
 
         getKaydetButon();
+        getIptalButon();
         getFotografSecButon();
+    }
+
+    private void getIptalButon() {
+        iptalButon = new JButton("İptal");
+        iptalButon.setBounds(220,370,100,20);
+        iptalButon.setVisible(true);
+        iptalButon.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PostgreSQLDbConnection db = new PostgreSQLDbConnection();
+                db.baglan();
+                try {
+                    urunListelemeForm liste = new urunListelemeForm();
+                    liste.setVisible(true);
+                    setVisible(false);
+                } catch (Exception ex){
+
+                }
+
+            }
+        });
+        add(iptalButon);
     }
 
     private void getFotografSecButon() {
@@ -75,11 +102,11 @@ public class urunEkle extends JFrame {
                 JFileChooser dosyaSec = new JFileChooser();
                 dosyaSec.showOpenDialog(null);
                 File f = dosyaSec.getSelectedFile();
-                String filename = f.getAbsolutePath();
+                fotoFileName = f.getAbsolutePath();
                 try {
                     BufferedImage img = ImageIO.read(f);
-                    Image scaledImage = img.getScaledInstance(fotoPanel.getWidth()-25,fotoPanel.getHeight()-25,BufferedImage.SCALE_DEFAULT);
-                    ImageIcon icon = new ImageIcon(scaledImage);
+                    urunFoto = img.getScaledInstance(fotoPanel.getWidth()-25,fotoPanel.getHeight()-25,BufferedImage.SCALE_DEFAULT);
+                    ImageIcon icon = new ImageIcon(urunFoto);
                     JLabel imgLabel = new JLabel(icon);
                     imgLabel.setBounds(0,0,120,250);
                     imgLabel.setVisible(true);
@@ -96,15 +123,30 @@ public class urunEkle extends JFrame {
 
     private void getKaydetButon() {
         kaydetButon = new JButton("Kaydet");
-        kaydetButon.setBounds(120,370,100,20);
+        kaydetButon.setBounds(100,370,100,20);
         kaydetButon.setVisible(true);
         kaydetButon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 PostgreSQLDbConnection db = new PostgreSQLDbConnection();
                 db.baglan();
+                Item kategori= (Item)kategoriCombobox.getSelectedItem();
+                Item marka= (Item)markaCombobox.getSelectedItem();
+                Item renk= (Item)renkCombobox.getSelectedItem();
+                Item magaza= (Item)magazaCombobox.getSelectedItem();
                 try {
-                    db.urunEkle(new Urun());
+                    db.urunEkle(
+                            new Urun(
+                                    Double.parseDouble(fiyatText.getText()),
+                                    urunAdiText.getText(),
+                                    aciklamaText.getText(),
+                                    kategori.getId(),
+                                    marka.getId(),
+                                    renk.getId(),
+                                    magaza.getId(),
+                                    fotoFileName==null ? "" : "src/images/"+fotoFileName
+                                    )
+                    );
                 } catch (Exception ex){
 
                 }
