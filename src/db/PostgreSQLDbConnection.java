@@ -9,6 +9,8 @@ import urun.urunDetayDeneme.urunDetayFormDeneme;
 import javax.xml.transform.Result;
 import java.sql.*;
 
+import static java.sql.Types.NULL;
+
 public class PostgreSQLDbConnection extends DbConnection {
 
     private final String url = "jdbc:postgresql://localhost:5432/schapp";
@@ -49,17 +51,46 @@ public class PostgreSQLDbConnection extends DbConnection {
         return null;
     }
 
-    public ResultSet urunListele() throws SQLException {
+    public ResultSet urunListele(String bulText,Integer kategoriId,Integer markaId,Integer renkId) throws SQLException {
         if(conn!=null){
-            Statement myStat =conn.createStatement();
-            ResultSet kullanicilar= myStat.executeQuery("select urun2.id, urunAdi,m.adi marka,k.adi kategori,r.adi renk,urun2.fiyat from ( " +
+            bulText= bulText == null ? "" : bulText;
+            String query = "select urun2.id, urunAdi,m.adi marka,k.adi kategori,r.adi renk,urun2.fiyat from (" +
                     "    select u.id,u.adi urunAdi,u.kategori_id,u.marka_id,u.renk_id,min(fiyat) fiyat from urun_fiyat " +
-                    "    inner join urun u on urun_fiyat.urun_id = u.id " +
-                    "    group by u.id,u.adi,u.kategori_id,u.marka_id,u.renk_id " +
-                    "    ) as  urun2 " +
-                    "inner join marka m on m.id=urun2.marka_id " +
-                    "inner join renk r on r.id=urun2.renk_id " +
-                    "inner join kategori k on k.id=urun2.kategori_id ");
+                    "        inner join urun u on urun_fiyat.urun_id=u.id " +
+                    "    group by u.id,u.adi,u.kategori_id,u.marka_id,u.renk_id                         ) as  urun2 " +
+                    "    inner join marka m on m.id=urun2.marka_id" +
+                    "    inner join renk r on r.id=urun2.renk_id" +
+                    "    inner join kategori k on k.id=urun2.kategori_id " +
+                    " where ((urunAdi like '%"+bulText+"%') or  (m.adi like '%"+bulText+"%') or " +
+                    "       (k.adi like '%"+bulText+"%') or  (r.adi like '%"+bulText+"%')) and " +
+                    "                            (urun2.kategori_id= ?  or ? is NULL) and " +
+                    "                            (urun2.marka_id= ?  or ? is NULL) and " +
+                    "                            (urun2.renk_Id= ? or ? is NULL) ";
+
+            PreparedStatement myStat =conn.prepareStatement(query);
+            if (kategoriId == null) {
+                myStat.setNull(1, NULL);
+                myStat.setNull(2,NULL);
+            } else {
+                myStat.setInt(1, kategoriId);
+                myStat.setInt(2,kategoriId);
+            }
+            if (markaId == null) {
+                myStat.setNull(3, NULL);
+                myStat.setNull(4,NULL);
+            } else {
+                myStat.setInt(3,markaId);
+                myStat.setInt(4,markaId);
+            }
+            if (renkId == null) {
+                myStat.setNull(5, NULL);
+                myStat.setNull(6,NULL);
+            } else {
+                myStat.setInt(5,renkId);
+                myStat.setInt(6,renkId);
+            }
+
+            ResultSet kullanicilar= myStat.executeQuery();
             return kullanicilar;
         }
         return null;

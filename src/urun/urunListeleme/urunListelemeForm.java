@@ -1,23 +1,30 @@
 package urun.urunListeleme;
 
 import db.PostgreSQLDbConnection;
+import model.Item;
 import urun.urunDetayDeneme.urunDetayFormDeneme;
 import urun.urunDetayi.urunDetayiForm;
 import urun.urunEkle.urunEkle;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class urunListelemeForm extends JFrame{
 
     private JTable table;
-    private JPanel panel;
+    private JPanel mainPanel;
+    private JPanel panelFiltre;
+    private JPanel panelUrunListesi;
     private JScrollPane scrollPane;
     private JTextField bulText;
     private JLabel kategoriLabel;
@@ -36,6 +43,8 @@ public class urunListelemeForm extends JFrame{
     private JMenuItem renkEkleMenuItem;
     private JMenuItem magazaEkleMenuItem;
 
+    private JButton filtreleButon;
+
 
     DefaultTableModel tableModel = new DefaultTableModel() {
         @Override
@@ -49,38 +58,41 @@ public class urunListelemeForm extends JFrame{
 
     public urunListelemeForm() throws SQLException {
         setInitialFormValues();
+    }
 
-        getUrunListeleTable();
-        getScrollPane();
-        getPanel();
+    private void setInitialFormValues() throws SQLException {
+        setBounds(500,200,730,600);
+        setTitle("Ürün Listesi");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        getMainPanel();
+        getMenu();
+    }
 
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                  // to detect doble click events
-                    JTable target = (JTable)e.getSource();
-                    var urunId = target.getModel().getValueAt(target.getSelectedRow(),0);// select a row
-                urunDetayFormDeneme urunDetay = null;
-                try {
-                    urunDetay = new urunDetayFormDeneme(Integer.valueOf(urunId.toString()));
-                } catch (SQLException | IOException ex) {
-                    ex.printStackTrace();
-                }
-                urunDetay.setVisible(true);
-                setVisible(false);
-            }
-        });
+    private void getMainPanel() throws SQLException {
+        mainPanel = new JPanel();
+        mainPanel.setLayout(null);
+        mainPanel.setBounds(0,0,700,500);
+        mainPanel.setVisible(true);
+
+        getPanelFilter();
+        getPanelUrunList();
+
+        setContentPane(mainPanel);
+        getContentPane().setLayout(null);
     }
 
 
     private void getUrunListeleTable() throws SQLException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         table = new JTable();
+        table.setBounds(5,5,690,295);
         tableModel.setColumnIdentifiers(kolonlar);
         db.baglan();
-        var urunListesi = db.urunListele();
+        Item kategori = (Item)kategoriCombobox.getSelectedItem();
+        Item marka = (Item)markaCombobox.getSelectedItem();
+        Item renk = (Item)renkCombobox.getSelectedItem();
+        var urunListesi = db.urunListele(bulText.getText(), kategori.getId(),marka.getId(),renk.getId());
         while(urunListesi.next()){
             satirlar[0] = urunListesi.getString("id");
             satirlar[1] = urunListesi.getString("urunadi");
@@ -100,59 +112,106 @@ public class urunListelemeForm extends JFrame{
         table.getColumnModel().getColumn(4).setMaxWidth(50);
 
         table.setVisible(true);
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                JTable target = (JTable)e.getSource();
+                var urunId = target.getModel().getValueAt(target.getSelectedRow(),0);
+                urunDetayFormDeneme urunDetay = null;
+                try {
+                    urunDetay = new urunDetayFormDeneme(Integer.valueOf(urunId.toString()));
+                } catch (SQLException | IOException ex) {
+                    ex.printStackTrace();
+                }
+                urunDetay.setVisible(true);
+                setVisible(false);
+            }
+        });
     }
 
     private void getScrollPane() {
         scrollPane= new JScrollPane();
-        scrollPane.setBounds(5,100,696,326);
+        scrollPane.setBounds(5,130,700,300);
         scrollPane.setViewportView(table);
     }
 
-    private void getPanel() {
-        panel=new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        panel.setBorder(new EmptyBorder(5,5,5,5));
+    private void getPanelFilter() throws SQLException {
+        panelFiltre=new JPanel();
+        panelFiltre.setLayout(null);
+        panelFiltre.setBounds(5,5,700,100);
+        Border borderFiltreleme = BorderFactory.createTitledBorder("Filtreleme");
+        panelFiltre.setBorder(borderFiltreleme);
+        getFilterComponents();
+        mainPanel.add(panelFiltre);
+    }
+
+    private void getFilterComponents() throws SQLException {
+        PostgreSQLDbConnection db = new PostgreSQLDbConnection();
+        db.baglan();
+        ResultSet kategoriler = db.kategoriGetir();
+        ResultSet renkler = db.renkGetir();
+        ResultSet markalar = db.markaGetir();
+
         bulLabel=new JLabel("Bul :");
-        bulLabel.setBounds(5,5,50,20);
-        panel.add(bulLabel);
+        bulLabel.setBounds(15,15,50,20);
+        panelFiltre.add(bulLabel);
 
         bulText = new JTextField();
-        bulText.setBounds(50,5,200,20);
-        panel.add(bulText);
+        bulText.setBounds(50,15,200,20);
+        panelFiltre.add(bulText);
 
         kategoriLabel = new JLabel("Kategori");
-        kategoriLabel.setBounds(5,35,100,20);
-        panel.add(kategoriLabel);
+        kategoriLabel.setBounds(15,35,100,20);
+        panelFiltre.add(kategoriLabel);
 
         markaLabel = new JLabel("Marka");
         markaLabel.setBounds(200,35,100,20);
-        panel.add(markaLabel);
+        panelFiltre.add(markaLabel);
 
         renkLabel = new JLabel("Renk");
         renkLabel.setBounds(400,35,100,20);
-        panel.add(renkLabel);
+        panelFiltre.add(renkLabel);
 
         kategoriCombobox= new JComboBox();
-        kategoriCombobox.setBounds(5,55,150,20);
-        panel.add(kategoriCombobox);
-
+        kategoriCombobox.setBounds(15,55,150,20);
+        kategoriCombobox.addItem(new Item(null,""));
+        while(kategoriler.next()){
+            kategoriCombobox.addItem(new Item(kategoriler.getInt("id"),kategoriler.getString("adi")));
+        }
+        panelFiltre.add(kategoriCombobox);
         markaCombobox= new JComboBox();
         markaCombobox.setBounds(200,55,150,20);
-        panel.add(markaCombobox);
+        markaCombobox.addItem(new Item(null,""));
+        while(markalar.next()){
+            markaCombobox.addItem(new Item(markalar.getInt("id"),markalar.getString("adi")));
+        }
+        panelFiltre.add(markaCombobox);
 
         renkCombobox= new JComboBox();
         renkCombobox.setBounds(400,55,150,20);
-        panel.add(renkCombobox);
+        renkCombobox.addItem(new Item(null,""));
+        while(renkler.next()){
+            renkCombobox.addItem(new Item(renkler.getInt("id"),renkler.getString("adi")));
+        }
+        panelFiltre.add(renkCombobox);
 
-        panel.add(scrollPane);
-        setContentPane(panel);
-        getContentPane().setLayout(null);
+        filtreleButon = new JButton("Filtrele");
+        filtreleButon.setBounds(570,55,100,20);
+        filtreleButon.setVisible(true);
+        filtreleButon.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        panelFiltre.add(filtreleButon);
+
+        db.baglantiyiKapat();
     }
 
-    private void setInitialFormValues() {
-        setBounds(400,400,720,472);
-        setTitle("Ürün Listesi");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+    private void getMenu() {
         menuBar = new JMenuBar();
         menu = new JMenu("İşlemler");
         urunEkleMenuItem = new JMenuItem("Ürün İşlemleri");
@@ -169,6 +228,7 @@ public class urunListelemeForm extends JFrame{
                 }
             }
         });
+
         kategoriEkleMenuItem = new JMenuItem("Kategori İşlemleri");
         markaEkleMenuItem = new JMenuItem("Marka İşlemleri");
         renkEkleMenuItem = new JMenuItem("Renk İşlemleri");
@@ -183,6 +243,12 @@ public class urunListelemeForm extends JFrame{
 
         menuBar.add(menu);
         setJMenuBar(menuBar);
+    }
+
+    private void getPanelUrunList() throws SQLException {
+        getUrunListeleTable();
+        getScrollPane();
+        mainPanel.add(scrollPane);
     }
 
 }
