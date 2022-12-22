@@ -6,6 +6,7 @@ import model.Urun;
 import model.Yorum;
 import urun.urunDetayDeneme.urunDetayFormDeneme;
 
+import javax.swing.plaf.nimbus.State;
 import javax.xml.transform.Result;
 import java.sql.*;
 
@@ -63,34 +64,35 @@ public class PostgreSQLDbConnection extends DbConnection {
                     "    inner join kategori k on k.id=urun2.kategori_id " +
                     " where ((urunAdi like '%"+bulText+"%') or  (m.adi like '%"+bulText+"%') or " +
                     "       (k.adi like '%"+bulText+"%') or  (r.adi like '%"+bulText+"%')) and " +
-                    "                            (urun2.kategori_id= ?  or ? is NULL) and " +
-                    "                            (urun2.marka_id= ?  or ? is NULL) and " +
-                    "                            (urun2.renk_Id= ? or ? is NULL) ";
+                    "                            (urun2.kategori_id= %d  or %d is NULL) and " +
+                    "                            (urun2.marka_id= %d  or %d is NULL) and " +
+                    "                            (urun2.renk_Id= %d or %d is NULL) ";
 
-            PreparedStatement myStat =conn.prepareStatement(query);
-            if (kategoriId == null) {
-                myStat.setNull(1, NULL);
-                myStat.setNull(2,NULL);
-            } else {
-                myStat.setInt(1, kategoriId);
-                myStat.setInt(2,kategoriId);
-            }
-            if (markaId == null) {
-                myStat.setNull(3, NULL);
-                myStat.setNull(4,NULL);
-            } else {
-                myStat.setInt(3,markaId);
-                myStat.setInt(4,markaId);
-            }
-            if (renkId == null) {
-                myStat.setNull(5, NULL);
-                myStat.setNull(6,NULL);
-            } else {
-                myStat.setInt(5,renkId);
-                myStat.setInt(6,renkId);
-            }
+            String filteredQuery = String.format(query,kategoriId,kategoriId,markaId,markaId,renkId,renkId);
+            Statement myStat =conn.createStatement();
+//            if (kategoriId == null) {
+//                myStat.setNull(1, NULL);
+//                myStat.setNull(2,NULL);
+//            } else {
+//                myStat.setInt(1, kategoriId);
+//                myStat.setInt(2,kategoriId);
+//            }
+//            if (markaId == null) {
+//                myStat.setNull(3, NULL);
+//                myStat.setNull(4,NULL);
+//            } else {
+//                myStat.setInt(3,markaId);
+//                myStat.setInt(4,markaId);
+//            }
+//            if (renkId == null) {
+//                myStat.setNull(5, NULL);
+//                myStat.setNull(6,NULL);
+//            } else {
+//                myStat.setInt(5,renkId);
+//                myStat.setInt(6,renkId);
+//            }
 
-            ResultSet kullanicilar= myStat.executeQuery();
+            ResultSet kullanicilar= myStat.executeQuery(filteredQuery);
             return kullanicilar;
         }
         return null;

@@ -202,6 +202,30 @@ public class urunListelemeForm extends JFrame{
         filtreleButon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                PostgreSQLDbConnection db = new PostgreSQLDbConnection();
+                tableModel.setColumnIdentifiers(kolonlar);
+                tableModel.setRowCount(0);
+                db.baglan();
+                try {
+                    Item kategori = (Item)kategoriCombobox.getSelectedItem();
+                    Item marka = (Item)markaCombobox.getSelectedItem();
+                    Item renk = (Item)renkCombobox.getSelectedItem();
+                    var urunListesi = db.urunListele(bulText.getText(), kategori.getId(),marka.getId(),renk.getId());
+
+                    while(urunListesi.next()){
+                        satirlar[0] = urunListesi.getString("id");
+                        satirlar[1] = urunListesi.getString("urunadi");
+                        satirlar[2] = urunListesi.getString("marka");
+                        satirlar[3] = urunListesi.getString("kategori");
+                        satirlar[4] = urunListesi.getString("renk");
+                        satirlar[5] = urunListesi.getString("fiyat")+" TL";
+                        tableModel.addRow(satirlar);
+                    }
+                    table.setAutoCreateRowSorter(true);
+                    table.setModel(tableModel);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
 
             }
         });
