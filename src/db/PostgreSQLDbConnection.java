@@ -54,7 +54,7 @@ public class PostgreSQLDbConnection extends DbConnection {
 
     public ResultSet urunListele(String bulText,Integer kategoriId,Integer markaId,Integer renkId) throws SQLException {
         if(conn!=null){
-            bulText= bulText == null ? "" : bulText;
+            bulText= bulText == null ? "'%%'" : "'%"+bulText+"%'";
             String query = "select urun2.id, urunAdi,m.adi marka,k.adi kategori,r.adi renk,urun2.fiyat from (" +
                     "    select u.id,u.adi urunAdi,u.kategori_id,u.marka_id,u.renk_id,min(fiyat) fiyat from urun_fiyat " +
                     "        inner join urun u on urun_fiyat.urun_id=u.id " +
@@ -62,13 +62,13 @@ public class PostgreSQLDbConnection extends DbConnection {
                     "    inner join marka m on m.id=urun2.marka_id" +
                     "    inner join renk r on r.id=urun2.renk_id" +
                     "    inner join kategori k on k.id=urun2.kategori_id " +
-                    " where ((urunAdi like '%"+bulText+"%') or  (m.adi like '%"+bulText+"%') or " +
-                    "       (k.adi like '%"+bulText+"%') or  (r.adi like '%"+bulText+"%')) and " +
+                    " where ((urunAdi like %s) or  (m.adi like %s) or " +
+                    "       (k.adi like %s) or  (r.adi like %s)) and " +
                     "                            (urun2.kategori_id= %d  or %d is NULL) and " +
                     "                            (urun2.marka_id= %d  or %d is NULL) and " +
                     "                            (urun2.renk_Id= %d or %d is NULL) ";
 
-            String filteredQuery = String.format(query,kategoriId,kategoriId,markaId,markaId,renkId,renkId);
+            String filteredQuery = String.format(query,bulText,bulText,bulText,bulText,kategoriId,kategoriId,markaId,markaId,renkId,renkId);
             Statement myStat =conn.createStatement();
 //            if (kategoriId == null) {
 //                myStat.setNull(1, NULL);

@@ -9,6 +9,8 @@ import urun.urunEkle.urunEkle;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,7 +26,6 @@ public class urunListelemeForm extends JFrame{
     private JTable table;
     private JPanel mainPanel;
     private JPanel panelFiltre;
-    private JPanel panelUrunListesi;
     private JScrollPane scrollPane;
     private JTextField bulText;
     private JLabel kategoriLabel;
@@ -159,6 +160,22 @@ public class urunListelemeForm extends JFrame{
 
         bulText = new JTextField();
         bulText.setBounds(50,15,200,20);
+        bulText.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                urunListeYenile();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                urunListeYenile();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                urunListeYenile();
+            }
+        });
         panelFiltre.add(bulText);
 
         kategoriLabel = new JLabel("Kategori");
@@ -202,37 +219,41 @@ public class urunListelemeForm extends JFrame{
         filtreleButon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PostgreSQLDbConnection db = new PostgreSQLDbConnection();
-                tableModel.setColumnIdentifiers(kolonlar);
-                tableModel.setRowCount(0);
-                db.baglan();
-                try {
-                    Item kategori = (Item)kategoriCombobox.getSelectedItem();
-                    Item marka = (Item)markaCombobox.getSelectedItem();
-                    Item renk = (Item)renkCombobox.getSelectedItem();
-                    var urunListesi = db.urunListele(bulText.getText(), kategori.getId(),marka.getId(),renk.getId());
 
-                    while(urunListesi.next()){
-                        satirlar[0] = urunListesi.getString("id");
-                        satirlar[1] = urunListesi.getString("urunadi");
-                        satirlar[2] = urunListesi.getString("marka");
-                        satirlar[3] = urunListesi.getString("kategori");
-                        satirlar[4] = urunListesi.getString("renk");
-                        satirlar[5] = urunListesi.getString("fiyat")+" TL";
-                        tableModel.addRow(satirlar);
-                    }
-                    table.setAutoCreateRowSorter(true);
-                    table.setModel(tableModel);
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-
+                urunListeYenile();
             }
         });
 
         panelFiltre.add(filtreleButon);
 
         db.baglantiyiKapat();
+    }
+
+    private void urunListeYenile() {
+        PostgreSQLDbConnection db = new PostgreSQLDbConnection();
+        tableModel.setColumnIdentifiers(kolonlar);
+        tableModel.setRowCount(0);
+        db.baglan();
+        try {
+            Item kategori = (Item)kategoriCombobox.getSelectedItem();
+            Item marka = (Item)markaCombobox.getSelectedItem();
+            Item renk = (Item)renkCombobox.getSelectedItem();
+            var urunListesi = db.urunListele(bulText.getText(), kategori.getId(),marka.getId(),renk.getId());
+
+            while(urunListesi.next()){
+                satirlar[0] = urunListesi.getString("id");
+                satirlar[1] = urunListesi.getString("urunadi");
+                satirlar[2] = urunListesi.getString("marka");
+                satirlar[3] = urunListesi.getString("kategori");
+                satirlar[4] = urunListesi.getString("renk");
+                satirlar[5] = urunListesi.getString("fiyat")+" TL";
+                tableModel.addRow(satirlar);
+            }
+            table.setAutoCreateRowSorter(true);
+            table.setModel(tableModel);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void getMenu() {
