@@ -6,6 +6,7 @@ package urun.kullanici;
         import model.Item;
         import model.Kullanici;
         import model.Urun;
+        import urun.urunListeleme.urunListelemeForm;
 
         import javax.swing.*;
         import javax.swing.border.Border;
@@ -30,7 +31,9 @@ public class kullaniciEkle extends JFrame {
     private JButton kaydetButon;
 
     public kullaniciEkle() throws SQLException {
+
         kullaniciEkle();
+
     }
 
     private void kullaniciEkle() throws SQLException {
@@ -43,6 +46,19 @@ public class kullaniciEkle extends JFrame {
         getKullaniciSifre();
         getKullaniciTipi();
         getKaydetButon();
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                try {
+                    urunListelemeForm listeForm = new urunListelemeForm();
+                    listeForm.setVisible(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
 
@@ -138,6 +154,7 @@ public class kullaniciEkle extends JFrame {
             }
         });
         kullaniciBilgileriPanel.add(kaydetButon);
+
     }
 
 }
