@@ -255,7 +255,7 @@ public class PostgreSQLDbConnection extends DbConnection {
 
                         urunId = insertQuery.getGeneratedKeys();
                     } else {
-                        ResultSet urunFiyatVarMi = urunFiyatGetir(result.getInt("id"),urun.get_magazaId());
+                        ResultSet urunFiyatVarMi = urunFiyatGetir(result.getInt("urunId"),urun.get_magazaId());
                         if(urunFiyatVarMi==null){
                             while(urunId.next()){
                                 urunFiyatEkle(urunId.getInt("id"),urun.get_magazaId(),urun.get_fiyat(),urun.get_stok());
@@ -339,7 +339,7 @@ public class PostgreSQLDbConnection extends DbConnection {
         return null;
     }
 
-    private ResultSet urunFiyatGetir(Integer urunId, Integer magazaId ){
+    private ResultSet urunFiyatGetir(int urunId, int magazaId ){
         if(conn!=null){
             Statement myStat = null;
             try {
