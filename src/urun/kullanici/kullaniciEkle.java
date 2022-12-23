@@ -147,6 +147,7 @@ public class kullaniciEkle extends JFrame {
                                     tip
                             )
                     );
+
                 } catch (Exception ex) {
 
                 }
