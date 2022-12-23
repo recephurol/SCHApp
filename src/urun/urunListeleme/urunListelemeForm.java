@@ -2,6 +2,7 @@ package urun.urunListeleme;
 
 import db.PostgreSQLDbConnection;
 import model.Item;
+import urun.kullanici.kullaniciEkle;
 import urun.urunDetayDeneme.urunDetayFormDeneme;
 import urun.urunDetayi.urunDetayiForm;
 import urun.urunEkle.urunEkle;
@@ -43,6 +44,8 @@ public class urunListelemeForm extends JFrame{
     private JMenuItem markaEkleMenuItem;
     private JMenuItem renkEkleMenuItem;
     private JMenuItem magazaEkleMenuItem;
+
+    private JMenuItem kullaniciEkleMenuItem;
 
     private JButton filtreleButon;
 
@@ -273,6 +276,20 @@ public class urunListelemeForm extends JFrame{
                 }
             }
         });
+        kullaniciEkleMenuItem = new JMenuItem("Kullanici İŞlemleri");
+        kullaniciEkleMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kullaniciEkle kullaniciEkleForm = null;
+                try {
+                    kullaniciEkleForm = new kullaniciEkle();
+                    kullaniciEkleForm.setVisible(true);
+                    setVisible(false);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         kategoriEkleMenuItem = new JMenuItem("Kategori İşlemleri");
         markaEkleMenuItem = new JMenuItem("Marka İşlemleri");
@@ -280,11 +297,14 @@ public class urunListelemeForm extends JFrame{
         magazaEkleMenuItem = new JMenuItem("Mağaza İŞlemleri");
 
 
+
+
         menu.add(urunEkleMenuItem);
         menu.add(kategoriEkleMenuItem);
         menu.add(markaEkleMenuItem);
         menu.add(renkEkleMenuItem);
         menu.add(magazaEkleMenuItem);
+        menu.add(kullaniciEkleMenuItem);
 
         menuBar.add(menu);
         setJMenuBar(menuBar);

@@ -2,7 +2,9 @@ package enums;
 
 public enum EnumKullaniciTipi {
     MUSTERI("Müşteri"),
-    MAZAGA("Mağaza");
+    MAZAGA("Mağaza"),
+
+    ADMIN("Admin");
 
     private final String dsc;
 

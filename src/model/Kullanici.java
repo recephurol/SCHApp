@@ -11,6 +11,13 @@ public class Kullanici {
     public Kullanici(){
 
     }
+
+    public Kullanici(String kullaniciAdi,String sifre,EnumKullaniciTipi kullaniciTipi){
+        this.kullaniciAdi=kullaniciAdi;
+        this.sifre=sifre;
+        this.kullaniciTipi=kullaniciTipi;
+
+    }
     public int getId(){
         return id;
     }

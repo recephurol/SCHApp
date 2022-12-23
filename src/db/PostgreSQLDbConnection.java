@@ -2,6 +2,7 @@ package db;
 
 
 import dataAccess.DbConnection;
+import model.Kullanici;
 import model.Urun;
 import model.Yorum;
 import urun.urunDetayDeneme.urunDetayFormDeneme;
@@ -24,7 +25,7 @@ public class PostgreSQLDbConnection extends DbConnection {
     @Override
     public Connection baglan() {
         try {
-            conn = DriverManager.getConnection(url,"postgres","postgres");
+            conn = DriverManager.getConnection(url,"postgres","1234");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -290,6 +291,25 @@ public class PostgreSQLDbConnection extends DbConnection {
                 insertQuery.setString(3,yorum.getYorum());
                 insertQuery.setDouble(4, yorum.getPuan());
                 insertQuery.setString(5,yorum.getAdSoyad());
+                insertQuery.executeUpdate();
+
+
+            } catch (SQLException e) {
+            }
+
+        }
+    }
+
+    public void kullaniciEkle(Kullanici kullanici) throws SQLException {
+        if(conn!=null){
+            try {
+                String insertUrunQuery ="INSERT INTO kullanici (deleted, kullanici_adi, sifre,kullanici_tipi) VALUES ( ?, ?, ?,?);";
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
+                insertQuery.setBoolean(1,false);
+                insertQuery.setString(2,kullanici.getKullaniciAdi());
+                insertQuery.setString(3,kullanici.getSifre());
+                insertQuery.setString(4,kullanici.getKullaniciTipi().getValue());
                 insertQuery.executeUpdate();
 
 
