@@ -250,6 +250,7 @@ public class urunListelemeForm extends JFrame{
                 tableModel.addRow(satirlar);
             }
             table.setAutoCreateRowSorter(true);
+            table.removeColumn(table.getColumnModel().getColumn(0));
             table.setModel(tableModel);
         } catch (SQLException ex) {
             ex.printStackTrace();

@@ -34,7 +34,6 @@ public class urunDetayFormDeneme extends JFrame {
     private Integer urunId;
 
     private JScrollPane yorumScroll;
-    private JScrollPane fiyatScroll;
 
     public urunDetayFormDeneme(Integer urunId) throws SQLException, IOException {
         urunId=urunId;
@@ -119,19 +118,15 @@ public class urunDetayFormDeneme extends JFrame {
         fiyatPanel.setBounds(10,250,645,200);
         fiyatPanel.setVisible(true);
         Border borderFiyat = BorderFactory.createTitledBorder("Mağaza Fiyat Bilgisi");
-
         fiyatPanel.setBorder(borderFiyat);
 
-        fiyatScroll = new JScrollPane(fiyatPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        fiyatScroll.setBounds(10,250,645,200);
-        fiyatScroll.setPreferredSize(new Dimension(645, 200));
-        mainPanel.add(fiyatScroll);
+
 
         ResultSet urunFiyat= db.urunFiyatListesiGetir(urunId);
 
         int j=0;
         while(urunFiyat.next()){
-            JLabel magazaFiyat = new JLabel(urunFiyat.getString("magaza") + "            Fiyat : "+urunFiyat.getString("fiyat")+" TL");
+            JLabel magazaFiyat = new JLabel(urunFiyat.getString("magaza") + "    Stok: "+urunFiyat.getInt("stok")+"        Fiyat : "+urunFiyat.getString("fiyat")+" TL");
             magazaFiyat.setBounds(15,25+j,500,20);
             magazaFiyat.setFont(new Font(null,Font.BOLD,14));
             magazaFiyat.setVisible(true);
@@ -141,7 +136,6 @@ public class urunDetayFormDeneme extends JFrame {
 
             fiyatPanel.add(magazaFiyat);
             fiyatPanel.add(satinAl);
-            fiyatScroll.setViewportView(fiyatPanel);
             j+=30;
         }
 

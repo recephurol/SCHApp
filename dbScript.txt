@@ -80,7 +80,8 @@ create table urun_fiyat
     magaza_id       int not null
         constraint fk_urun_fiyat_magaza_id
             references magaza,
-    fiyat double precision
+    fiyat double precision,
+    stok int
 );
 
 
@@ -141,14 +142,14 @@ INSERT INTO urun (id, deleted, adi, kategori_id, renk_id, aciklama, marka_id,fot
 INSERT INTO urun (id, deleted, adi, kategori_id, renk_id, aciklama, marka_id,fotograf) VALUES (2, false, 'Samsung Galaxy S21 FE', 1, 1, 'Samsung Galaxy S21 FE 128 GB 5G', 1,'src/images/samsungs21fe.jpg');
 
 
-INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (1, false, 1, 1, 3);
-INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (2, false, 1, 2, 3.2);
-INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (3, false, 1, 3, 2.9);
+INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat,stok) VALUES (1, false, 1, 1, 3,1);
+INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat,stok) VALUES (2, false, 1, 2, 3.2,2);
+INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat,stok) VALUES (3, false, 1, 3, 2.9,3);
 
 
-INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (4, false, 2, 1, 12000);
-INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (5, false, 2, 2, 12100);
-INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (6, false, 2, 3, 11999);
+INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat,stok) VALUES (4, false, 2, 1, 12000,2);
+INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat,stok) VALUES (5, false, 2, 2, 12100,5);
+INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat,stok) VALUES (6, false, 2, 3, 11999,2);
 
 INSERT INTO yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (1, false, 1,  'Çok lezzetli tavsiye ederim', 4,'Recep Hürol');
 INSERT INTO yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (2, false, 1,  'Bana uymadı beğenmedim', 2, 'Özkan Cırıtcı');

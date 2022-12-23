@@ -6,11 +6,8 @@ import model.Urun;
 import model.Yorum;
 import urun.urunDetayDeneme.urunDetayFormDeneme;
 
-import javax.swing.plaf.nimbus.State;
-import javax.xml.transform.Result;
 import java.sql.*;
 
-import static java.sql.Types.NULL;
 
 public class PostgreSQLDbConnection extends DbConnection {
 
@@ -70,27 +67,6 @@ public class PostgreSQLDbConnection extends DbConnection {
 
             String filteredQuery = String.format(query,bulText.toUpperCase(),bulText.toUpperCase(),bulText.toUpperCase(),bulText.toUpperCase(),kategoriId,kategoriId,markaId,markaId,renkId,renkId);
             Statement myStat =conn.createStatement();
-//            if (kategoriId == null) {
-//                myStat.setNull(1, NULL);
-//                myStat.setNull(2,NULL);
-//            } else {
-//                myStat.setInt(1, kategoriId);
-//                myStat.setInt(2,kategoriId);
-//            }
-//            if (markaId == null) {
-//                myStat.setNull(3, NULL);
-//                myStat.setNull(4,NULL);
-//            } else {
-//                myStat.setInt(3,markaId);
-//                myStat.setInt(4,markaId);
-//            }
-//            if (renkId == null) {
-//                myStat.setNull(5, NULL);
-//                myStat.setNull(6,NULL);
-//            } else {
-//                myStat.setInt(5,renkId);
-//                myStat.setInt(6,renkId);
-//            }
 
             ResultSet kullanicilar= myStat.executeQuery(filteredQuery);
             return kullanicilar;
@@ -161,9 +137,9 @@ public class PostgreSQLDbConnection extends DbConnection {
             Statement myStat = null;
             try {
                 myStat = conn.createStatement();
-                String query ="select uf.id,m.adi magaza,fiyat from urun_fiyat uf " +
-                        "inner join magaza m on uf.magaza_id = m.id " +
-                        "where urun_id= " +urunId+
+                String query ="select uf.id,m.adi magaza,fiyat,stok from urun_fiyat uf " +
+                        " inner join magaza m on uf.magaza_id = m.id " +
+                        " where urun_id= " +urunId+
                         " order by fiyat asc";
 
                 ResultSet urunFiyatListesi= myStat.executeQuery(query);
@@ -284,7 +260,7 @@ public class PostgreSQLDbConnection extends DbConnection {
             try {
                 String insertUrunQuery ="INSERT INTO yorum (deleted, urun_id, yorum, puan,ad_soyad) VALUES ( ?, ?, ?, ?, ?);";
 
-                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery,Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
                 insertQuery.setBoolean(1,false);
                 insertQuery.setInt(2,yorum.getUrunId());
                 insertQuery.setString(3,yorum.getYorum());
