@@ -3,17 +3,18 @@ package urun.urunListeleme;
 import db.PostgreSQLDbConnection;
 import model.Item;
 import urun.kullanici.kullaniciEkle;
+import model.magazaEkle;
+import model.markaEkle;
+import urun.kategoriEkle.kategoriEkle;
+import urun.renkEkleme.renkEkle;
 import urun.urunDetayDeneme.urunDetayFormDeneme;
-import urun.urunDetayi.urunDetayiForm;
 import urun.urunEkle.urunEkle;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -292,10 +293,54 @@ public class urunListelemeForm extends JFrame{
         });
 
         kategoriEkleMenuItem = new JMenuItem("Kategori İşlemleri");
-        markaEkleMenuItem = new JMenuItem("Marka İşlemleri");
-        renkEkleMenuItem = new JMenuItem("Renk İşlemleri");
-        magazaEkleMenuItem = new JMenuItem("Mağaza İŞlemleri");
+        kategoriEkleMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+                kategoriEkle kategoriEkle= new kategoriEkle();
+                kategoriEkle.setVisible(true);
+                setVisible(false);
+
+            }
+        });
+
+
+
+
+
+        markaEkleMenuItem = new JMenuItem("Marka İşlemleri");
+        markaEkleMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                markaEkle markaEkle= new markaEkle();
+                markaEkle.setVisible(true);
+                setVisible(false);
+
+            }
+        });
+        renkEkleMenuItem = new JMenuItem("Renk İşlemleri");
+        renkEkleMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                renkEkle renkEkle= new renkEkle();
+                renkEkle.setVisible(true);
+                setVisible(false);
+
+            }
+        });
+        magazaEkleMenuItem = new JMenuItem("Mağaza İŞlemleri");
+        magazaEkleMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                magazaEkle magazaEkle= new magazaEkle();
+                magazaEkle.setVisible(true);
+                setVisible(false);
+
+            }
+        });
 
 
 
