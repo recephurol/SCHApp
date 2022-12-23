@@ -8,6 +8,7 @@ import urun.urunListeleme.urunListelemeForm;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.security.spec.ECGenParameterSpec;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 
 public class urunEkle extends JFrame {
 
@@ -30,7 +32,7 @@ public class urunEkle extends JFrame {
     private JLabel aciklamaLabel;
     private JTextArea aciklamaText;
     private JLabel fiyatLabel;
-    private  JTextField fiyatText;
+    private JFormattedTextField fiyatText;
     private JLabel magazaLabel;
     private JComboBox magazaCombobox;
     private JPanel urunBilgileriPanel;
@@ -40,6 +42,9 @@ public class urunEkle extends JFrame {
     private JButton iptalButon;
     private Image urunFoto;
     private String fotoFileName;
+    private JFormattedTextField stokText;
+    private JLabel stokLabel;
+
 
     private Font baslik = new Font(null,1,14);
 
@@ -63,9 +68,35 @@ public class urunEkle extends JFrame {
         getAciklama();
         getFiyat();
 
+        getStok();
+
         getKaydetButon();
         getIptalButon();
         getFotografSecButon();
+    }
+
+    private void getStok() {
+        stokLabel = new JLabel("Stok: ");
+        stokLabel.setBounds(10,160,100,20);
+        stokLabel.setFont(new Font(null,1,14));
+        stokLabel.setVisible(true);
+
+        NumberFormat format = NumberFormat.getInstance();
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setMinimum(1);
+        formatter.setMaximum(Integer.MAX_VALUE);
+        formatter.setAllowsInvalid(false);
+        // If you want the value to be committed on each keystroke instead of focus lost
+        formatter.setCommitsOnValidEdit(false);
+
+        stokText = new JFormattedTextField(formatter);
+        stokText.setText("1");
+        stokText.setBounds(110,160,200,20);
+        stokText.setVisible(true);
+
+        urunBilgileriPanel.add(stokLabel);
+        urunBilgileriPanel.add(stokText);
     }
 
     private void getIptalButon() {
@@ -134,6 +165,7 @@ public class urunEkle extends JFrame {
                 Item marka= (Item)markaCombobox.getSelectedItem();
                 Item renk= (Item)renkCombobox.getSelectedItem();
                 Item magaza= (Item)magazaCombobox.getSelectedItem();
+
                 try {
                     db.urunEkle(
                             new Urun(
@@ -144,6 +176,7 @@ public class urunEkle extends JFrame {
                                     marka.getId(),
                                     renk.getId(),
                                     magaza.getId(),
+                                    Integer.parseInt(stokText.getText()),
                                     fotoFileName==null ? "" : "src/images/"+fotoFileName
                                     )
                     );
@@ -181,7 +214,7 @@ public class urunEkle extends JFrame {
         fiyatLabel.setFont(new Font(null,1,14));
         fiyatLabel.setVisible(true);
 
-        fiyatText = new JTextField();
+        fiyatText = new JFormattedTextField();
         fiyatText.setBounds(110,35,200,20);
         fiyatText.setVisible(true);
         urunBilgileriPanel.add(fiyatLabel);
@@ -191,12 +224,12 @@ public class urunEkle extends JFrame {
 
     private void getAciklama() {
         aciklamaLabel = new JLabel("Açıklama: ");
-        aciklamaLabel.setBounds(10,160,100,20);
+        aciklamaLabel.setBounds(10,185,100,20);
         aciklamaLabel.setFont(baslik);
         aciklamaLabel.setVisible(true);
 
         aciklamaText = new JTextArea();
-        aciklamaText.setBounds(110,160,200,80);
+        aciklamaText.setBounds(110,185,200,80);
         aciklamaText.setFont(new Font(null,0,14));
         aciklamaText.setVisible(true);
         urunBilgileriPanel.add(aciklamaLabel);

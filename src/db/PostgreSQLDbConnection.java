@@ -248,7 +248,26 @@ public class PostgreSQLDbConnection extends DbConnection {
                 int count = insertQuery.executeUpdate();
 
                 ResultSet urunId = insertQuery.getGeneratedKeys();
-                urunFiyatEkle(urunId,urun.get_magazaId(),urun.get_fiyat());
+                urunFiyatEkle(urunId,urun.get_magazaId(),urun.get_fiyat(),urun.get_stok());
+            } catch (SQLException e) {
+            }
+
+        }
+    }
+
+    public void urunFiyatEkle(ResultSet urunId,Integer magazaId, Double fiyat, Integer stok ) throws SQLException {
+        if(conn!=null){
+            try {
+
+                String insertUrunFiyatQuery ="INSERT INTO urun_fiyat (deleted, urun_id, magaza_id,fiyat,stok) VALUES ( ?, ?, ?, ?, ?);";
+                PreparedStatement insertFiyatQuery = conn.prepareStatement(insertUrunFiyatQuery, Statement.RETURN_GENERATED_KEYS);
+                insertFiyatQuery.setBoolean(1,false);
+                insertFiyatQuery.setInt(2,urunId.getInt(0));
+                insertFiyatQuery.setInt(3,magazaId);
+                insertFiyatQuery.setDouble(4,fiyat);
+                insertFiyatQuery.setInt(5,stok);
+                var count = insertFiyatQuery.executeUpdate();
+                ResultSet result = insertFiyatQuery.getGeneratedKeys();
             } catch (SQLException e) {
             }
 
@@ -274,28 +293,6 @@ public class PostgreSQLDbConnection extends DbConnection {
 
         }
     }
-
-    public void urunFiyatEkle(ResultSet urunId,Integer magazaId, Double fiyat ) throws SQLException {
-        if(conn!=null){
-            try {
-                String insertUrunFiyatQuery ="INSERT INTO urun_fiyat (deleted, urun_id, magaza_id,fiyat) VALUES ( ?, ?, ?, ?);";
-
-                while(urunId.next()){
-                    PreparedStatement insertFiyatQuery = conn.prepareStatement(insertUrunFiyatQuery, Statement.RETURN_GENERATED_KEYS);
-                    insertFiyatQuery.setBoolean(1,false);
-                    insertFiyatQuery.setInt(2,urunId.getInt("id"));
-                    insertFiyatQuery.setInt(3,magazaId);
-                    insertFiyatQuery.setDouble(4,fiyat);
-                    var count = insertFiyatQuery.executeUpdate();
-
-                    ResultSet result = insertFiyatQuery.getGeneratedKeys();
-                }
-            } catch (SQLException e) {
-            }
-
-        }
-    }
-
 
 
 }

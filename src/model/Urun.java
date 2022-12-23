@@ -10,9 +10,10 @@ public class Urun {
     private Integer _renkId;
     private Integer _magazaId;
     private String _fotograf;
+    private Integer _stok;
 
 
-    public Urun(Double fiyat, String adi, String aciklama, Integer kategoriId, Integer markaId, Integer renkId, Integer magazaId, String fotograf){
+    public Urun(Double fiyat, String adi, String aciklama, Integer kategoriId, Integer markaId, Integer renkId, Integer magazaId,Integer stok, String fotograf){
         _fiyat = fiyat;
         _adi = adi;
         _aciklama=aciklama;
@@ -20,11 +21,20 @@ public class Urun {
         _markaId = markaId;
         _renkId=renkId;
         _magazaId = magazaId;
+        _stok = stok;
         _fotograf = fotograf;
     }
 
     public Urun(){
 
+    }
+
+    public Integer get_stok() {
+        return _stok;
+    }
+
+    public void set_stok(Integer _stok) {
+        this._stok = _stok;
     }
 
     public Double get_fiyat() {
