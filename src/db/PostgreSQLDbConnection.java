@@ -2,16 +2,9 @@ package db;
 
 
 import dataAccess.DbConnection;
-import model.Kategori;
-import model.Urun;
-import model.Yorum;
-import urun.urunDetayDeneme.urunDetayFormDeneme;
+import model.*;
 
-import javax.swing.plaf.nimbus.State;
-import javax.xml.transform.Result;
 import java.sql.*;
-
-import static java.sql.Types.NULL;
 
 public class PostgreSQLDbConnection extends DbConnection {
 
@@ -331,6 +324,57 @@ public class PostgreSQLDbConnection extends DbConnection {
                 PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
                 insertQuery.setBoolean(1,false);
                 insertQuery.setString(2,kategori.getAdi());
+                insertQuery.executeUpdate();
+
+
+            } catch (SQLException e) {
+            }
+
+        }
+    }
+    public void renkEkleme(Renk renk) {
+        if(conn!=null){
+            try {
+                String insertUrunQuery ="INSERT INTO renk (deleted, adi) VALUES ( ?, ?);";
+
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
+                insertQuery.setBoolean(1,false);
+                insertQuery.setString(2,renk.getAdi());
+                insertQuery.executeUpdate();
+
+
+            } catch (SQLException e) {
+            }
+
+        }
+    }
+    public void markaEkle(Marka marka) {
+        if(conn!=null){
+            try {
+                String insertUrunQuery ="INSERT INTO marka (deleted, adi) VALUES ( ?, ?);";
+
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
+                insertQuery.setBoolean(1,false);
+                insertQuery.setString(2,marka.getAdi());
+                insertQuery.executeUpdate();
+
+
+            } catch (SQLException e) {
+            }
+
+        }
+    }
+    public void magazaEkle(Magaza magaza) {
+        if(conn!=null){
+            try {
+                String insertUrunQuery ="INSERT INTO magaza (deleted, adi) VALUES ( ?, ?);";
+
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
+                insertQuery.setBoolean(1,false);
+                insertQuery.setString(2,magaza.getAdi());
                 insertQuery.executeUpdate();
 
 

@@ -1,9 +1,10 @@
-package urun.urunListeleme;
+package urun.kategoriEkle;
 
 import db.PostgreSQLDbConnection;
 import model.Kategori;
 import model.Yorum;
 import urun.urunDetayDeneme.urunDetayFormDeneme;
+import urun.urunListeleme.urunListelemeForm;
 
 import javax.swing.*;
 import java.awt.*;
