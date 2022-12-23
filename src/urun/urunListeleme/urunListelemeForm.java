@@ -275,6 +275,21 @@ public class urunListelemeForm extends JFrame{
         });
 
         kategoriEkleMenuItem = new JMenuItem("Kategori İşlemleri");
+        kategoriEkleMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                kategoriEkle kategoriEkle= new kategoriEkle();
+                kategoriEkle.setVisible(true);
+                setVisible(false);
+
+            }
+        });
+
+
+
+
+
         markaEkleMenuItem = new JMenuItem("Marka İşlemleri");
         renkEkleMenuItem = new JMenuItem("Renk İşlemleri");
         magazaEkleMenuItem = new JMenuItem("Mağaza İŞlemleri");

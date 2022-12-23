@@ -2,6 +2,7 @@ package db;
 
 
 import dataAccess.DbConnection;
+import model.Kategori;
 import model.Urun;
 import model.Yorum;
 import urun.urunDetayDeneme.urunDetayFormDeneme;
@@ -14,7 +15,7 @@ import static java.sql.Types.NULL;
 
 public class PostgreSQLDbConnection extends DbConnection {
 
-    private final String url = "jdbc:postgresql://localhost:5432/schapp";
+    private final String url = "jdbc:postgresql://localhost:5432/schappneww";
 
     private Connection conn = null;
     public PostgreSQLDbConnection(){
@@ -24,7 +25,7 @@ public class PostgreSQLDbConnection extends DbConnection {
     @Override
     public Connection baglan() {
         try {
-            conn = DriverManager.getConnection(url,"postgres","postgres");
+            conn = DriverManager.getConnection(url,"postgres","1234");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -321,5 +322,21 @@ public class PostgreSQLDbConnection extends DbConnection {
     }
 
 
+    public void kategoriEkle(Kategori kategori) {
+        if(conn!=null){
+            try {
+                String insertUrunQuery ="INSERT INTO kategori (deleted, adi) VALUES ( ?, ?);";
 
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
+                insertQuery.setBoolean(1,false);
+                insertQuery.setString(2,kategori.getAdi());
+                insertQuery.executeUpdate();
+
+
+            } catch (SQLException e) {
+            }
+
+        }
+    }
 }
