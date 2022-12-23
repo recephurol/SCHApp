@@ -62,13 +62,13 @@ public class PostgreSQLDbConnection extends DbConnection {
                     "    inner join marka m on m.id=urun2.marka_id" +
                     "    inner join renk r on r.id=urun2.renk_id" +
                     "    inner join kategori k on k.id=urun2.kategori_id " +
-                    " where ((urunAdi like %s) or  (m.adi like %s) or " +
-                    "       (k.adi like %s) or  (r.adi like %s)) and " +
+                    " where ((UPPER(urunAdi) like %s) or  (UPPER(m.adi) like %s) or " +
+                    "       (UPPER(k.adi) like %s) or  (UPPER(r.adi) like %s)) and " +
                     "                            (urun2.kategori_id= %d  or %d is NULL) and " +
                     "                            (urun2.marka_id= %d  or %d is NULL) and " +
                     "                            (urun2.renk_Id= %d or %d is NULL) ";
 
-            String filteredQuery = String.format(query,bulText,bulText,bulText,bulText,kategoriId,kategoriId,markaId,markaId,renkId,renkId);
+            String filteredQuery = String.format(query,bulText.toUpperCase(),bulText.toUpperCase(),bulText.toUpperCase(),bulText.toUpperCase(),kategoriId,kategoriId,markaId,markaId,renkId,renkId);
             Statement myStat =conn.createStatement();
 //            if (kategoriId == null) {
 //                myStat.setNull(1, NULL);
