@@ -73,6 +73,18 @@ public class urunEkle extends JFrame {
         getKaydetButon();
         getIptalButon();
         getFotografSecButon();
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                try {
+                    urunListelemeForm listeForm = new urunListelemeForm();
+                    listeForm.setVisible(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     private void getStok() {
@@ -180,6 +192,12 @@ public class urunEkle extends JFrame {
                                     fotoFileName==null ? "" : "src/images/"+fotoFileName
                                     )
                     );
+                    JOptionPane.showMessageDialog(null,"Urun basarili bir sekilde eklendi");
+                    urunAdiText.setText(" ");
+                    aciklamaText.setText(" ");
+                    fiyatText.setText(" ");
+
+
                 } catch (Exception ex){
 
                 }

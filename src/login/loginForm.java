@@ -50,7 +50,6 @@ public class loginForm extends JFrame {
                     ex.printStackTrace();
                 }
 
-
             }
         });
     }

@@ -2,6 +2,8 @@ package db;
 
 
 import dataAccess.DbConnection;
+import model.*;
+import model.Kullanici;
 import model.Urun;
 import model.Yorum;
 import urun.urunDetayDeneme.urunDetayFormDeneme;
@@ -21,7 +23,7 @@ public class PostgreSQLDbConnection extends DbConnection {
     @Override
     public Connection baglan() {
         try {
-            conn = DriverManager.getConnection(url,"postgres","postgres");
+            conn = DriverManager.getConnection(url,"postgres","1234");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -357,5 +359,72 @@ public class PostgreSQLDbConnection extends DbConnection {
         return null;
     }
 
+    public void kategoriEkle(Kategori kategori) {
+        if(conn!=null){
+            try {
+                String insertUrunQuery ="INSERT INTO kategori (deleted, adi) VALUES ( ?, ?);";
 
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
+                insertQuery.setBoolean(1,false);
+                insertQuery.setString(2,kategori.getAdi());
+                insertQuery.executeUpdate();
+
+
+            } catch (SQLException e) {
+            }
+
+        }
+    }
+    public void renkEkleme(Renk renk) {
+        if(conn!=null){
+            try {
+                String insertUrunQuery ="INSERT INTO renk (deleted, adi) VALUES ( ?, ?);";
+
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
+                insertQuery.setBoolean(1,false);
+                insertQuery.setString(2,renk.getAdi());
+                insertQuery.executeUpdate();
+
+
+            } catch (SQLException e) {
+            }
+
+        }
+    }
+    public void markaEkle(Marka marka) {
+        if(conn!=null){
+            try {
+                String insertUrunQuery ="INSERT INTO marka (deleted, adi) VALUES ( ?, ?);";
+
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
+                insertQuery.setBoolean(1,false);
+                insertQuery.setString(2,marka.getAdi());
+                insertQuery.executeUpdate();
+
+
+            } catch (SQLException e) {
+            }
+
+        }
+    }
+    public void magazaEkle(Magaza magaza) {
+        if(conn!=null){
+            try {
+                String insertUrunQuery ="INSERT INTO magaza (deleted, adi) VALUES ( ?, ?);";
+
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
+                insertQuery.setBoolean(1,false);
+                insertQuery.setString(2,magaza.getAdi());
+                insertQuery.executeUpdate();
+
+
+            } catch (SQLException e) {
+            }
+
+        }
+    }
 }
