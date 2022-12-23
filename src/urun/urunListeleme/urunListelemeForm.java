@@ -69,6 +69,7 @@ public class urunListelemeForm extends JFrame{
         setBounds(500,200,730,600);
         setTitle("Ürün Listesi");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
 
         getMainPanel();
         getMenu();
@@ -110,11 +111,7 @@ public class urunListelemeForm extends JFrame{
         table.setAutoCreateRowSorter(true);
         table.setModel(tableModel);
         table.removeColumn(table.getColumnModel().getColumn(0));
-        table.getColumnModel().getColumn(0).setPreferredWidth(100);
-        table.getColumnModel().getColumn(1).setPreferredWidth(50);
-        table.getColumnModel().getColumn(2).setPreferredWidth(50);
-        table.getColumnModel().getColumn(3).setPreferredWidth(50);
-        table.getColumnModel().getColumn(4).setMaxWidth(50);
+
 
         table.setVisible(true);
         table.addMouseListener(new MouseAdapter() {
