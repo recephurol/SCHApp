@@ -43,7 +43,7 @@ public class urunDetayFormDeneme extends JFrame {
 
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
-        setBounds(400,200,690,750);
+        setBounds(500,200,690,750);
 
         mainPanel = new JPanel();
         mainPanel.setLayout(null);
@@ -110,19 +110,50 @@ public class urunDetayFormDeneme extends JFrame {
 
 
             ResultSet urunPuani= db.urunPuaniGetir(urunId);
-            urunPuani.next();
-            ortalamaPuanLabel = new JLabel("Puan :  " + new DecimalFormat("##.##").format(urunPuani.getDouble("avg")));
+            if(urunPuani.next()){
+                ortalamaPuanLabel = new JLabel("Puan :  " + new DecimalFormat("##.##").format(urunPuani.getDouble("avg")));
 
-            ortalamaPuanLabel.setBounds(300,10,400,30);
-            ortalamaPuanLabel.setFont(new Font(null,0,16));
-            ortalamaPuanLabel.setVisible(true);
+                ortalamaPuanLabel.setBounds(300,10,150,30);
+                ortalamaPuanLabel.setFont(new Font(null,0,16));
+                ortalamaPuanLabel.setVisible(true);
+                Double ortPuan = urunPuani.getDouble("avg");
+                String yildizUrl ="";
+                if(ortPuan<1.5){
+                    yildizUrl = "src/images/bir.png";
+                }else if(ortPuan<2.0){
+                    yildizUrl = "src/images/birbucuk.png";
+                }else if(ortPuan<2.5){
+                    yildizUrl = "src/images/ikiyildiz.png";
+                }else if(ortPuan<3.0){
+                    yildizUrl = "src/images/ikibucukyildiz.png";
+                }else if(ortPuan<3.5){
+                    yildizUrl = "src/images/ucyildiz.png";
+                }else if(ortPuan<4.0){
+                    yildizUrl = "src/images/ucbucukyildiz.png";
+                }else if(ortPuan<4.5){
+                    yildizUrl = "src/images/dortyildiz.png";
+                }else if(ortPuan<5.0){
+                    yildizUrl = "src/images/dortbucuk.png";
+                } else {
+                    yildizUrl = "src/images/besyildiz.png";
+                }
+
+            BufferedImage img = ImageIO.read(new File(yildizUrl));
+            ImageIcon icon = new ImageIcon(img);
+            JLabel imgLabel = new JLabel(icon);
+            imgLabel.setVisible(true);
+            imgLabel.setBounds(250,30,162,30);
+            detayPanel.add(imgLabel);
+            detayPanel.add(ortalamaPuanLabel);
+            }
+
 
             detayPanel.add(urunAdiLabel);
             detayPanel.add(markaLabel);
             detayPanel.add(kategoriLabel);
             detayPanel.add(renkLabel);
             detayPanel.add(aciklamaLabel);
-            detayPanel.add(ortalamaPuanLabel);
+
         }
 
 
@@ -187,7 +218,8 @@ public class urunDetayFormDeneme extends JFrame {
 
         int i=0;
         while(urunYorum.next()){
-            JLabel adSoyad = new JLabel(urunYorum.getString("adSoyad") + "     Puan : "+urunYorum.getString("puan"));
+            Integer puan = urunYorum.getInt("puan");
+            JLabel adSoyad = new JLabel(urunYorum.getString("adSoyad"));
             adSoyad.setBounds(15,15+i,450,20);
             adSoyad.setFont(new Font(null,Font.BOLD,14));
             adSoyad.setVisible(true);
@@ -196,6 +228,27 @@ public class urunDetayFormDeneme extends JFrame {
             yorum.setBounds(15,40+i,450,20);
             yorum.setFont(new Font(null,Font.PLAIN,12));
             yorum.setVisible(true);
+
+            String yildizUrl ="";
+            if(puan<2){
+                yildizUrl = "src/images/bir.png";
+            }else if(puan<3){
+                yildizUrl = "src/images/ikiyildiz.png";
+            }else if(puan<4){
+                yildizUrl = "src/images/ucyildiz.png";
+            }else if(puan<5){
+                yildizUrl = "src/images/dortyildiz.png";
+            } else {
+                yildizUrl = "src/images/besyildiz.png";
+            }
+
+            BufferedImage img = ImageIO.read(new File(yildizUrl));
+            ImageIcon icon = new ImageIcon(img);
+            JLabel imgLabel = new JLabel(icon);
+            imgLabel.setText("   Puan : "+puan);
+            imgLabel.setVisible(true);
+            imgLabel.setBounds(475,15+i,162,20);
+            yorumPanel.add(imgLabel);
 
             JLabel ayirici = new JLabel("----------------------------------------------------------------------------------------------------------------");
             ayirici.setBounds(15,50+i,450,20);

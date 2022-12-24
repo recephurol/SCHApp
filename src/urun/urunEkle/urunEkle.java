@@ -54,7 +54,7 @@ public class urunEkle extends JFrame {
 
     private void initializeUrunEkle() throws SQLException {
         setTitle("Ürün Ekleme İşlemleri");
-        setBounds(400,400,600,600);
+        setBounds(500,200,600,600);
         setLayout(null);
 
         getUrunBilgileriPanel();
@@ -199,7 +199,7 @@ public class urunEkle extends JFrame {
 
 
                 } catch (Exception ex){
-
+                    JOptionPane.showMessageDialog(null, "Bu ürün için aynı satıcı fiyatı vardır.");
                 }
 
             }
@@ -232,7 +232,17 @@ public class urunEkle extends JFrame {
         fiyatLabel.setFont(new Font(null,1,14));
         fiyatLabel.setVisible(true);
 
-        fiyatText = new JFormattedTextField();
+        NumberFormat format = NumberFormat.getInstance();
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setMinimum(1);
+        formatter.setMaximum(Integer.MAX_VALUE);
+        formatter.setAllowsInvalid(false);
+        // If you want the value to be committed on each keystroke instead of focus lost
+        formatter.setCommitsOnValidEdit(false);
+
+        fiyatText = new JFormattedTextField(formatter);
+        fiyatText.setText("1");
         fiyatText.setBounds(110,35,200,20);
         fiyatText.setVisible(true);
         urunBilgileriPanel.add(fiyatLabel);

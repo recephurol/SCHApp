@@ -23,7 +23,7 @@ public class PostgreSQLDbConnection extends DbConnection {
     @Override
     public Connection baglan() {
         try {
-            conn = DriverManager.getConnection(url,"postgres","1234");
+            conn = DriverManager.getConnection(url,"postgres","postgres");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -256,29 +256,30 @@ public class PostgreSQLDbConnection extends DbConnection {
         if(conn!=null){
             try {
                 ResultSet urunId=null;
-                ResultSet result = urunGetir(urun.get_adi(),urun.get_kategoriId(),urun.get_markaId(),urun.get_renkId(),urun.get_magazaId());
-                while(result.next()){
+                ResultSet result = urunGetir(urun.get_adi(),urun.get_kategoriId(),urun.get_markaId(),urun.get_renkId());
+                if(!result.next()){
+                    while(result.next()) {
+                        String insertUrunQuery = "INSERT INTO urun (deleted, adi, kategori_id, marka_id,renk_id,aciklama) VALUES ( ?, ?, ?, ?, ?,?);";
 
-                    if(result==null){
-
-                        String insertUrunQuery ="INSERT INTO urun (deleted, adi, kategori_id, marka_id,renk_id,aciklama) VALUES ( ?, ?, ?, ?, ?,?);";
-
-                        PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery,Statement.RETURN_GENERATED_KEYS);
-                        insertQuery.setBoolean(1,false);
-                        insertQuery.setString(2,urun.get_adi());
-                        insertQuery.setInt(3,urun.get_kategoriId());
+                        PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery, Statement.RETURN_GENERATED_KEYS);
+                        insertQuery.setBoolean(1, false);
+                        insertQuery.setString(2, urun.get_adi());
+                        insertQuery.setInt(3, urun.get_kategoriId());
                         insertQuery.setInt(4, urun.get_markaId());
-                        insertQuery.setInt(5,urun.get_renkId());
-                        insertQuery.setString(6,urun.get_aciklama());
+                        insertQuery.setInt(5, urun.get_renkId());
+                        insertQuery.setString(6, urun.get_aciklama());
                         int count = insertQuery.executeUpdate();
 
                         urunId = insertQuery.getGeneratedKeys();
+                    }
                     } else {
                         ResultSet urunFiyatVarMi = urunFiyatGetir(result.getInt("urunId"),urun.get_magazaId());
-                        if(urunFiyatVarMi==null){
+                        if(urunFiyatVarMi.next()){
                             while(urunId.next()){
                                 urunFiyatEkle(urunId.getInt("id"),urun.get_magazaId(),urun.get_fiyat(),urun.get_stok());
                             }
+                        }else{
+                             throw new SQLException();
                         }
                     }
                     if(urunId!=null){
@@ -286,10 +287,6 @@ public class PostgreSQLDbConnection extends DbConnection {
                             urunFiyatEkle(urunId.getInt("id"),urun.get_magazaId(),urun.get_fiyat(),urun.get_stok());
                         }
                     }
-                }
-
-
-
             } catch (SQLException e) {
             }
 
@@ -335,18 +332,16 @@ public class PostgreSQLDbConnection extends DbConnection {
         }
     }
 
-    private ResultSet urunGetir(String urunAdi,Integer kategoriId, Integer markaId, Integer renkId, Integer magazaId ){
+    private ResultSet urunGetir(String urunAdi,Integer kategoriId, Integer markaId, Integer renkId){
         if(conn!=null){
             Statement myStat = null;
             try {
                 myStat = conn.createStatement();
                 String query ="select urun.id urunId,urun.adi urunAdi from urun " +
-                        " inner join urun_fiyat uf on urun.id = uf.urun_id " +
                         " where urun.adi= '"+urunAdi+"' and " +
                         "      urun.kategori_id= "+kategoriId+" and " +
                         "      urun.marka_id= "+markaId+" and " +
-                        "      urun.renk_id= "+renkId+" and " +
-                        "      magaza_id= "+magazaId;
+                        "      urun.renk_id= "+renkId;
 
                 ResultSet urunFiyatListesi= myStat.executeQuery(query);
                 return urunFiyatListesi;
