@@ -133,6 +133,24 @@ public class PostgreSQLDbConnection extends DbConnection {
         return null;
     }
 
+    public ResultSet urunPuangetir(int urunId){
+
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="select y.puan from yorum y " +
+                        "where urun_id="+urunId;
+
+                ResultSet urunPuan= myStat.executeQuery(query);
+                return urunPuan;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return null;
+    }
     public ResultSet urunFiyatListesiGetir(int urunId){
 
         if(conn!=null){
@@ -160,8 +178,7 @@ public class PostgreSQLDbConnection extends DbConnection {
             Statement myStat = null;
             try {
                 myStat = conn.createStatement();
-                String query ="select avg(puan) puan from public.yorum " +
-                        "where urun_id=" +urunId;
+                String query ="select urun_id ,avg(puan)  from public.yorum"+ " where urun_id =" +urunId+" group by urun_id" ;
 
                 ResultSet puan= myStat.executeQuery(query);
                 return puan;

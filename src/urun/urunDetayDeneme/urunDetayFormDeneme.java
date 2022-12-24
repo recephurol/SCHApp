@@ -29,6 +29,8 @@ public class urunDetayFormDeneme extends JFrame {
     private JLabel renkLabel;
     private JLabel aciklamaLabel;
 
+    private JLabel ortalamaPuanLabel;
+
     private JButton yorumYapButon;
 
     private Integer urunId;
@@ -83,6 +85,8 @@ public class urunDetayFormDeneme extends JFrame {
             urunAdiLabel.setBounds(5,10,400,30);
             urunAdiLabel.setVisible(true);
 
+
+
             markaLabel = new JLabel("Marka:  "+urunDetay.getString("marka"));
             markaLabel.setBounds(5,45,400,30);
             markaLabel.setFont(new Font(null,0,16));
@@ -103,12 +107,22 @@ public class urunDetayFormDeneme extends JFrame {
             aciklamaLabel.setFont(new Font(null,0,16));
             aciklamaLabel.setVisible(true);
 
+
+            ResultSet urunPuani= db.urunPuaniGetir(urunId);
+            urunPuani.next();
+            ortalamaPuanLabel = new JLabel("Puan :  " +urunPuani.getDouble("avg"));
+            ortalamaPuanLabel.setBounds(300,10,400,30);
+            ortalamaPuanLabel.setFont(new Font(null,0,16));
+            ortalamaPuanLabel.setVisible(true);
+
             detayPanel.add(urunAdiLabel);
             detayPanel.add(markaLabel);
             detayPanel.add(kategoriLabel);
             detayPanel.add(renkLabel);
             detayPanel.add(aciklamaLabel);
+            detayPanel.add(ortalamaPuanLabel);
         }
+
 
 
 
@@ -209,6 +223,7 @@ public class urunDetayFormDeneme extends JFrame {
         mainPanel.add(detayPanel);
         mainPanel.add(fiyatPanel);
         mainPanel.add(yorumYapButon);
+
         setContentPane(mainPanel);
     }
 
