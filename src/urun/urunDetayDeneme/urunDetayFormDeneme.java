@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 
 public class urunDetayFormDeneme extends JFrame {
     private JPanel mainPanel;
@@ -110,7 +111,8 @@ public class urunDetayFormDeneme extends JFrame {
 
             ResultSet urunPuani= db.urunPuaniGetir(urunId);
             urunPuani.next();
-            ortalamaPuanLabel = new JLabel("Puan :  " +urunPuani.getDouble("avg"));
+            ortalamaPuanLabel = new JLabel("Puan :  " + new DecimalFormat("##.##").format(urunPuani.getDouble("avg")));
+
             ortalamaPuanLabel.setBounds(300,10,400,30);
             ortalamaPuanLabel.setFont(new Font(null,0,16));
             ortalamaPuanLabel.setVisible(true);
