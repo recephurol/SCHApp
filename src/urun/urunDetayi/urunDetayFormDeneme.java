@@ -1,4 +1,4 @@
-package urun.urunDetayDeneme;
+package urun.urunDetayi;
 
 import db.PostgreSQLDbConnection;
 import urun.urunListeleme.urunListelemeForm;
@@ -44,19 +44,17 @@ public class urunDetayFormDeneme extends JFrame {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
         setBounds(500,200,690,750);
+        setResizable(false);
 
         mainPanel = new JPanel();
         mainPanel.setLayout(null);
         mainPanel.setBounds(25,25,745,745);
         mainPanel.setVisible(true);
 
-
-
         fotoPanel = new JPanel();
         fotoPanel.setLayout(null);
         fotoPanel.setBounds(10,40,150,200);
         fotoPanel.setVisible(true);
-
 
         Border borderFoto = BorderFactory.createTitledBorder("Fotoğraf");
         fotoPanel.setBorder(borderFoto);
@@ -70,6 +68,7 @@ public class urunDetayFormDeneme extends JFrame {
 
         ResultSet urunDetay = db.urunDetayGetir(urunId);
         while(urunDetay.next()){
+            setTitle(urunDetay.getString("urunAdi")+ " Ürün Detayı");
             String fotoUrl = urunDetay.getString("fotograf");
             if(fotoUrl!=null && fotoUrl!=""){
                 BufferedImage img = ImageIO.read(new File(fotoUrl));
@@ -85,8 +84,6 @@ public class urunDetayFormDeneme extends JFrame {
             urunAdiLabel.setFont(new Font(null,1,18));
             urunAdiLabel.setBounds(5,10,400,30);
             urunAdiLabel.setVisible(true);
-
-
 
             markaLabel = new JLabel("Marka:  "+urunDetay.getString("marka"));
             markaLabel.setBounds(5,45,400,30);
@@ -107,7 +104,6 @@ public class urunDetayFormDeneme extends JFrame {
             aciklamaLabel.setBounds(5,150,400,50);
             aciklamaLabel.setFont(new Font(null,0,16));
             aciklamaLabel.setVisible(true);
-
 
             ResultSet urunPuani= db.urunPuaniGetir(urunId);
             if(urunPuani.next()){
@@ -155,10 +151,6 @@ public class urunDetayFormDeneme extends JFrame {
             detayPanel.add(aciklamaLabel);
 
         }
-
-
-
-
 
         fiyatPanel = new JPanel();
         fiyatPanel.setLayout(null);

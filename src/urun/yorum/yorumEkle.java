@@ -1,9 +1,8 @@
 package urun.yorum;
 
 import db.PostgreSQLDbConnection;
-import model.Item;
 import model.Yorum;
-import urun.urunDetayDeneme.urunDetayFormDeneme;
+import urun.urunDetayi.urunDetayFormDeneme;
 
 import javax.swing.*;
 import java.awt.*;

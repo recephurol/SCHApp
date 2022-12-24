@@ -6,7 +6,6 @@ import model.*;
 import model.Kullanici;
 import model.Urun;
 import model.Yorum;
-import urun.urunDetayDeneme.urunDetayFormDeneme;
 
 import java.sql.*;
 

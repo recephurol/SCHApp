@@ -7,7 +7,7 @@ import model.magazaEkle;
 import model.markaEkle;
 import urun.kategoriEkle.kategoriEkle;
 import urun.renkEkleme.renkEkle;
-import urun.urunDetayDeneme.urunDetayFormDeneme;
+import urun.urunDetayi.urunDetayFormDeneme;
 import urun.urunEkle.urunEkle;
 
 import javax.swing.*;

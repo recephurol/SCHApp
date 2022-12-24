@@ -1,4 +1,4 @@
-package urun.urunDetayDeneme;
+package urun.urunDetayi;
 
 import javax.swing.*;
 

@@ -2,15 +2,11 @@ package urun.kategoriEkle;
 
 import db.PostgreSQLDbConnection;
 import model.Kategori;
-import model.Yorum;
-import urun.urunDetayDeneme.urunDetayFormDeneme;
 import urun.urunListeleme.urunListelemeForm;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class kategoriEkle extends JFrame {
