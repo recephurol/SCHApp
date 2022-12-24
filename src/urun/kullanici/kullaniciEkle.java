@@ -147,6 +147,10 @@ public class kullaniciEkle extends JFrame {
                                     tip
                             )
                     );
+                    JOptionPane.showMessageDialog(null,"Kullanici basarili bir sekilde eklendi");
+                    kullaniciAdiText.setText(" ");
+                    sifreText.setText(" ");
+
 
                 } catch (Exception ex) {
 
