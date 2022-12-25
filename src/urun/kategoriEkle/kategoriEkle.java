@@ -57,10 +57,23 @@ public class kategoriEkle extends JFrame {
 
 
                     JOptionPane.showMessageDialog(null, "kategori başarıyla eklendi");
+
                     urunlistele.setVisible(true);
                     setVisible(false);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
+                }
+            }
+        });
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                try {
+                    urunListelemeForm listeForm = new urunListelemeForm();
+                    listeForm.setVisible(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         });
