@@ -280,7 +280,7 @@ public class PostgreSQLDbConnection extends DbConnection {
                 ResultSet urunId=null;
                 ResultSet result = urunGetir(urun.get_adi(),urun.get_kategoriId(),urun.get_markaId(),urun.get_renkId());
                 if(!result.next()){
-                        String insertUrunQuery = "INSERT INTO urun (deleted, adi, kategori_id, marka_id,renk_id,aciklama) VALUES ( ?, ?, ?, ?, ?,?);";
+                        String insertUrunQuery = "INSERT INTO urun (deleted, adi, kategori_id, marka_id,renk_id,aciklama,fotograf) VALUES ( ?, ?, ?, ?, ?,?,?);";
 
                         PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery, Statement.RETURN_GENERATED_KEYS);
                         insertQuery.setBoolean(1, false);
@@ -289,6 +289,7 @@ public class PostgreSQLDbConnection extends DbConnection {
                         insertQuery.setInt(4, urun.get_markaId());
                         insertQuery.setInt(5, urun.get_renkId());
                         insertQuery.setString(6, urun.get_aciklama());
+                        insertQuery.setString(7, urun.get_fotograf());
                         int count = insertQuery.executeUpdate();
 
                         urunId = insertQuery.getGeneratedKeys();

@@ -1,5 +1,6 @@
 package urun.urunEkle;
 
+import araclar.FileExtension;
 import db.PostgreSQLDbConnection;
 import model.Item;
 import model.Urun;
@@ -13,7 +14,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.security.spec.ECGenParameterSpec;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -145,12 +150,33 @@ public class urunEkle extends JFrame {
                 JFileChooser dosyaSec = new JFileChooser();
                 dosyaSec.showOpenDialog(null);
                 File f = dosyaSec.getSelectedFile();
-                fotoFileName = f.getAbsolutePath();
+                String url="src/images/";
+
+
+                String fotoPath = f.getAbsolutePath();
+                File directory = new File(url);
+                if(!directory.exists()){
+                    directory.mkdirs();
+                }
+                File sourceFile = null;
+                File destinationFile = null;
+                String uzanti = FileExtension.getFileExtension(f);
+                fotoFileName = f.getName();
+
+                sourceFile = new File(fotoPath);
+                destinationFile = new File(url+fotoFileName);
                 try {
-                    BufferedImage img = ImageIO.read(f);
+                    Files.copy(sourceFile.toPath(),destinationFile.toPath());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    BufferedImage img = ImageIO.read(destinationFile);
                     urunFoto = img.getScaledInstance(fotoPanel.getWidth()-25,fotoPanel.getHeight()-25,BufferedImage.SCALE_DEFAULT);
                     ImageIcon icon = new ImageIcon(urunFoto);
+
                     JLabel imgLabel = new JLabel(icon);
+
                     imgLabel.setBounds(0,0,120,250);
                     imgLabel.setVisible(true);
                     fotoPanel.add(imgLabel);
@@ -177,8 +203,8 @@ public class urunEkle extends JFrame {
                 Item marka= (Item)markaCombobox.getSelectedItem();
                 Item renk= (Item)renkCombobox.getSelectedItem();
                 Item magaza= (Item)magazaCombobox.getSelectedItem();
-
                 try {
+
                     db.urunEkle(
                             new Urun(
                                     null,

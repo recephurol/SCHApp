@@ -71,13 +71,17 @@ public class urunDetayFormDeneme extends JFrame {
             setTitle(urunDetay.getString("urunAdi")+ " Ürün Detayı");
             String fotoUrl = urunDetay.getString("fotograf");
             if(fotoUrl!=null && fotoUrl!=""){
-                BufferedImage img = ImageIO.read(new File(fotoUrl));
-                Image scaledImage = img.getScaledInstance(fotoPanel.getWidth()-25,fotoPanel.getHeight()-25,BufferedImage.SCALE_DEFAULT);
-                ImageIcon icon = new ImageIcon(scaledImage);
-                JLabel imgLabel = new JLabel(icon);
-                imgLabel.setVisible(true);
-                imgLabel.setBounds(0,0,150,200);
-                fotoPanel.add(imgLabel);
+                try{
+                    BufferedImage img = ImageIO.read(new File(fotoUrl));
+                    Image scaledImage = img.getScaledInstance(fotoPanel.getWidth()-25,fotoPanel.getHeight()-25,BufferedImage.SCALE_DEFAULT);
+                    ImageIcon icon = new ImageIcon(scaledImage);
+                    JLabel imgLabel = new JLabel(icon);
+                    imgLabel.setVisible(true);
+                    imgLabel.setBounds(0,0,150,200);
+                    fotoPanel.add(imgLabel);
+                }catch (Exception e){
+
+                }
             }
 
             urunAdiLabel = new JLabel(urunDetay.getString("urunAdi"));

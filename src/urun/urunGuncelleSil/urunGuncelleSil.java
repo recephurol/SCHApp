@@ -1,10 +1,12 @@
 package urun.urunGuncelleSil;
 
+import araclar.FileExtension;
 import db.PostgreSQLDbConnection;
 import model.Item;
 import model.Urun;
 import urun.urunListeleme.urunListelemeForm;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
@@ -13,6 +15,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -42,9 +48,12 @@ public class urunGuncelleSil extends JFrame {
     private JButton kaydetButon;
     private JButton silButon;
     private JButton iptalButon;
+    private JButton fotografSec;
+    private Image urunFoto;
 
     private Integer urunId;
     private Integer urunFiyatId;
+    private String fotoFileName;
 
 
     DefaultTableModel tableModel = new DefaultTableModel() {
@@ -84,7 +93,60 @@ public class urunGuncelleSil extends JFrame {
         getAciklama();
         getButtons();
         kapatButonu();
+        getFotografSecButon();
         mainPanel.add(urunBilgisiPanel);
+    }
+
+    private void getFotografSecButon() {
+        fotografSec = new JButton("Fotoğraf Seç");
+        fotografSec.setBounds(420,370,100,20);
+        fotografSec.setVisible(true);
+
+
+        fotografSec.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser dosyaSec = new JFileChooser();
+                dosyaSec.showOpenDialog(null);
+                File f = dosyaSec.getSelectedFile();
+                String url="src/images/";
+
+
+                String fotoPath = f.getAbsolutePath();
+                File directory = new File(url);
+                if(!directory.exists()){
+                    directory.mkdirs();
+                }
+                File sourceFile = null;
+                File destinationFile = null;
+                String uzanti = FileExtension.getFileExtension(f);
+                fotoFileName = f.getName();
+
+                sourceFile = new File(fotoPath);
+                destinationFile = new File(url+fotoFileName);
+                try {
+                    Files.copy(sourceFile.toPath(),destinationFile.toPath());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    BufferedImage img = ImageIO.read(destinationFile);
+//                  urunFoto = img.getScaledInstance(fotoPanel.getWidth()-25,fotoPanel.getHeight()-25,BufferedImage.SCALE_DEFAULT);
+                    ImageIcon icon = new ImageIcon(img);
+
+                    JLabel imgLabel = new JLabel(icon);
+
+                    imgLabel.setBounds(0,0,120,250);
+                    imgLabel.setVisible(true);
+                    urunBilgisiPanel.add(imgLabel);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+
+        add(fotografSec);
     }
 
     public void kapatButonu(){
