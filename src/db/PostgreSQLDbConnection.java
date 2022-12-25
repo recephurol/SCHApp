@@ -7,6 +7,7 @@ import model.Kullanici;
 import model.Urun;
 import model.Yorum;
 
+import javax.swing.*;
 import java.sql.*;
 
 
@@ -22,7 +23,7 @@ public class PostgreSQLDbConnection extends DbConnection {
     @Override
     public Connection baglan() {
         try {
-            conn = DriverManager.getConnection(url,"postgres","1234");
+            conn = DriverManager.getConnection(url,"postgres","postgres");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -257,7 +258,6 @@ public class PostgreSQLDbConnection extends DbConnection {
                 ResultSet urunId=null;
                 ResultSet result = urunGetir(urun.get_adi(),urun.get_kategoriId(),urun.get_markaId(),urun.get_renkId());
                 if(!result.next()){
-                    while(result.next()) {
                         String insertUrunQuery = "INSERT INTO urun (deleted, adi, kategori_id, marka_id,renk_id,aciklama) VALUES ( ?, ?, ?, ?, ?,?);";
 
                         PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery, Statement.RETURN_GENERATED_KEYS);
@@ -270,23 +270,24 @@ public class PostgreSQLDbConnection extends DbConnection {
                         int count = insertQuery.executeUpdate();
 
                         urunId = insertQuery.getGeneratedKeys();
-                    }
-                    } else {
-                        ResultSet urunFiyatVarMi = urunFiyatGetir(result.getInt("urunId"),urun.get_magazaId());
-                        if(urunFiyatVarMi.next()){
-                            while(urunId.next()){
-                                urunFiyatEkle(urunId.getInt("id"),urun.get_magazaId(),urun.get_fiyat(),urun.get_stok());
-                            }
-                        }else{
-                             throw new SQLException();
-                        }
-                    }
-                    if(urunId!=null){
+
                         while(urunId.next()){
                             urunFiyatEkle(urunId.getInt("id"),urun.get_magazaId(),urun.get_fiyat(),urun.get_stok());
                         }
+
+                    } else {
+                        ResultSet urunFiyatVarMi = urunFiyatGetir(result.getInt("urunId"),urun.get_magazaId());
+
+                        if(!urunFiyatVarMi.next()){
+                            urunFiyatEkle(result.getInt("urunId"),urun.get_magazaId(),urun.get_fiyat(),urun.get_stok());
+
+                            JOptionPane.showMessageDialog(null,"Urun basarili bir sekilde eklendi");
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Ürünün bu magazada kaydı vardır.");
+                        }
                     }
             } catch (SQLException e) {
+                e.printStackTrace();
             }
 
         }
@@ -297,14 +298,13 @@ public class PostgreSQLDbConnection extends DbConnection {
             try {
 
                 String insertUrunFiyatQuery ="INSERT INTO urun_fiyat (deleted, urun_id, magaza_id,fiyat,stok) VALUES ( ?, ?, ?, ?, ?);";
-                PreparedStatement insertFiyatQuery = conn.prepareStatement(insertUrunFiyatQuery, Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement insertFiyatQuery = conn.prepareStatement(insertUrunFiyatQuery);
                 insertFiyatQuery.setBoolean(1,false);
                 insertFiyatQuery.setInt(2,urunId);
                 insertFiyatQuery.setInt(3,magazaId);
                 insertFiyatQuery.setDouble(4,fiyat);
                 insertFiyatQuery.setInt(5,stok);
-                var count = insertFiyatQuery.executeUpdate();
-                ResultSet result = insertFiyatQuery.getGeneratedKeys();
+                insertFiyatQuery.executeUpdate();
             } catch (SQLException e) {
             }
 
@@ -450,8 +450,21 @@ public class PostgreSQLDbConnection extends DbConnection {
                 insertQuery.setString(3,kullanici.getSifre());
                 insertQuery.setString(4,kullanici.getKullaniciTipi().getValue());
                 insertQuery.executeUpdate();
+            } catch (SQLException e) {
+            }
 
+        }
+    }
 
+    public void urunFiyatGuncelle(Integer urunFiyatId, Double fiyat) throws SQLException {
+        if(conn!=null){
+            try {
+                String insertUrunQuery ="UPDATE urun_fiyat SET fiyat= ? where id= ? ";
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
+                insertQuery.setDouble(1,fiyat);
+                insertQuery.setInt(2,urunFiyatId);
+                insertQuery.executeUpdate();
             } catch (SQLException e) {
             }
 

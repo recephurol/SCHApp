@@ -192,14 +192,13 @@ public class urunEkle extends JFrame {
                                     fotoFileName==null ? "" : "src/images/"+fotoFileName
                                     )
                     );
-                    JOptionPane.showMessageDialog(null,"Urun basarili bir sekilde eklendi");
-                    urunAdiText.setText(" ");
-                    aciklamaText.setText(" ");
-                    fiyatText.setText(" ");
+                    urunAdiText.setText("");
+                    aciklamaText.setText("");
+                    fiyatText.setText("1");
 
 
                 } catch (Exception ex){
-                    JOptionPane.showMessageDialog(null, "Bu ürün için aynı satıcı fiyatı vardır.");
+                    ex.printStackTrace();
                 }
 
             }
