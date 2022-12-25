@@ -86,7 +86,7 @@ public class urunDetayFormDeneme extends JFrame {
 
             urunAdiLabel = new JLabel(urunDetay.getString("urunAdi"));
             urunAdiLabel.setFont(new Font(null,1,18));
-            urunAdiLabel.setBounds(5,10,400,30);
+            urunAdiLabel.setBounds(5,10,300,30);
             urunAdiLabel.setVisible(true);
 
             markaLabel = new JLabel("Marka:  "+urunDetay.getString("marka"));
@@ -113,7 +113,7 @@ public class urunDetayFormDeneme extends JFrame {
             if(urunPuani.next()){
                 ortalamaPuanLabel = new JLabel("Puan :  " + new DecimalFormat("##.##").format(urunPuani.getDouble("avg")));
 
-                ortalamaPuanLabel.setBounds(300,10,150,30);
+                ortalamaPuanLabel.setBounds(320,10,150,30);
                 ortalamaPuanLabel.setFont(new Font(null,0,16));
                 ortalamaPuanLabel.setVisible(true);
                 Double ortPuan = urunPuani.getDouble("avg");
@@ -142,7 +142,7 @@ public class urunDetayFormDeneme extends JFrame {
             ImageIcon icon = new ImageIcon(img);
             JLabel imgLabel = new JLabel(icon);
             imgLabel.setVisible(true);
-            imgLabel.setBounds(250,30,162,30);
+            imgLabel.setBounds(270,30,162,30);
             detayPanel.add(imgLabel);
             detayPanel.add(ortalamaPuanLabel);
             }
@@ -174,11 +174,24 @@ public class urunDetayFormDeneme extends JFrame {
             magazaFiyat.setFont(new Font(null,Font.BOLD,14));
             magazaFiyat.setVisible(true);
 
-            SatinAlButton satinAl = new SatinAlButton(Integer.valueOf(urunFiyat.getString("id")),"Satın Al");
+            SatinAlButton satinAl = new SatinAlButton("satın al");
+            satinAl.setUrunFiyatId(urunFiyat.getInt("id"));
+
             satinAl.setBounds(400,25+j,100,20);
+            satinAl.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        satinAl.stokDus();
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
 
             fiyatPanel.add(magazaFiyat);
             fiyatPanel.add(satinAl);
+
             j+=30;
         }
 

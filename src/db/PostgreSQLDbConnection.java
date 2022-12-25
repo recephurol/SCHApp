@@ -23,7 +23,7 @@ public class PostgreSQLDbConnection extends DbConnection {
     @Override
     public Connection baglan() {
         try {
-            conn = DriverManager.getConnection(url,"postgres","postgres");
+            conn = DriverManager.getConnection(url,"postgres","1234");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -523,6 +523,25 @@ public class PostgreSQLDbConnection extends DbConnection {
         if(conn!=null){
             try {
                 String insertUrunQuery ="UPDATE urun_fiyat SET deleted=true where id= ? ";
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
+                insertQuery.setInt(1,urunFiyatId);
+                insertQuery.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                return false;
+            }
+
+        }
+        return false;
+    }
+
+
+    public boolean stokDus(Integer urunFiyatId){
+
+        if(conn!=null){
+            try {
+                String insertUrunQuery ="UPDATE urun_fiyat SET stok=stok-1 where id= ? ";
 
                 PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
                 insertQuery.setInt(1,urunFiyatId);
