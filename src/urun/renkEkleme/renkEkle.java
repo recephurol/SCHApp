@@ -30,20 +30,20 @@ public class renkEkle extends JFrame {
 
     private void initializeRenkEklemeForm() {
         setTitle("renk ekeleme işlemleri");
-        setBounds(600,400,350,300);
+        setBounds(600,400,350,130);
         setLayout(null);
         setVisible(true);
-        renkEklemeLabel=new JLabel("renk");
+        renkEklemeLabel=new JLabel("Renk");
         renkEklemeLabel.setBounds(15,15,100,20);
         renkEklemeLabel.setVisible(true);
         renkEklemetex = new JTextField();
-        renkEklemetex.setBounds(115,15,100,20);
+        renkEklemetex.setBounds(115,15,180,20);
         renkEklemetex.setVisible(true);
 
 
 
         renkEkleme = new JButton("Kaydet");
-        renkEkleme.setBounds(120,160,100,20);
+        renkEkleme.setBounds(125,60,100,20);
         renkEkleme .setVisible(true);
         renkEkleme .addActionListener(new ActionListener() {
             @Override

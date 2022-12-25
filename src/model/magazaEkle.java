@@ -32,19 +32,19 @@ import java.sql.SQLException;
 
         private void initializemagazaEkleForm() {
             setTitle("magaza ekleme işlemleri");
-            setBounds(600,400,350,300);
+            setBounds(600,400,350,130);
             setLayout(null);
             setVisible(true);
-            magazaEkleLabel=new JLabel("magaza");
+            magazaEkleLabel=new JLabel("Magaza");
             magazaEkleLabel.setBounds(15,15,100,20);
             magazaEkleLabel.setVisible(true);
             magazaEkletex = new JTextField();
-            magazaEkletex.setBounds(115,15,100,20);
+            magazaEkletex.setBounds(115,15,180,20);
             magazaEkletex.setVisible(true);
 
 
             JButton magazaEkle = new JButton("Kaydet");
-            magazaEkle.setBounds(120,160,100,20);
+            magazaEkle.setBounds(125,60,100,20);
             magazaEkle .setVisible(true);
             magazaEkle .addActionListener(new ActionListener() {
                 @Override
@@ -63,6 +63,18 @@ import java.sql.SQLException;
                         setVisible(false);
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
+                    }
+                }
+            });
+
+            this.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                    try {
+                        urunListelemeForm listeForm = new urunListelemeForm();
+                        listeForm.setVisible(true);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
                 }
             });

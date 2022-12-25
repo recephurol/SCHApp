@@ -29,20 +29,20 @@ public class kategoriEkle extends JFrame {
 
     private void initializeKategoriEkleForm() {
         setTitle("kategori ekleme işlemleri");
-        setBounds(600,400,350,300);
+        setBounds(600,400,350,130);
         setLayout(null);
         setVisible(true);
-        kategoriLabel=new JLabel("kategori");
+        kategoriLabel=new JLabel("Kategori");
         kategoriLabel.setBounds(15,15,100,20);
         kategoriLabel.setVisible(true);
         kategoritex = new JTextField();
-        kategoritex.setBounds(115,15,100,20);
+        kategoritex.setBounds(115,15,180,20);
         kategoritex.setVisible(true);
 
 
 
         kategoriEkle = new JButton("Kaydet");
-        kategoriEkle.setBounds(120,160,100,20);
+        kategoriEkle.setBounds(120,60,100,20);
         kategoriEkle.setVisible(true);
         kategoriEkle.addActionListener(new ActionListener() {
             @Override

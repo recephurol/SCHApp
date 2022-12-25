@@ -29,19 +29,19 @@ public class markaEkle extends JFrame {
 
     private void initializemarkaEkleForm() {
         setTitle("marka ekleme işlemleri");
-        setBounds(600,400,350,300);
+        setBounds(600,400,350,130);
         setLayout(null);
         setVisible(true);
-        markaEkleLabel=new JLabel("renk");
+        markaEkleLabel=new JLabel("Marka");
         markaEkleLabel.setBounds(15,15,100,20);
         markaEkleLabel.setVisible(true);
         markaEkletex = new JTextField();
-        markaEkletex.setBounds(115,15,100,20);
+        markaEkletex.setBounds(115,15,180,20);
         markaEkletex.setVisible(true);
 
 
         JButton markaEkle = new JButton("Kaydet");
-        markaEkle.setBounds(120,160,100,20);
+        markaEkle.setBounds(120,60,100,20);
         markaEkle .setVisible(true);
         markaEkle .addActionListener(new ActionListener() {
             @Override
@@ -60,6 +60,18 @@ public class markaEkle extends JFrame {
                     setVisible(false);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
+                }
+            }
+        });
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                try {
+                    urunListelemeForm listeForm = new urunListelemeForm();
+                    listeForm.setVisible(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         });
