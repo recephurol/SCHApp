@@ -103,57 +103,262 @@ INSERT INTO kullanici (id,deleted,kullanici_adi,sifre,kullanici_tipi) values(1,f
 INSERT INTO kullanici (id,deleted,kullanici_adi,sifre,kullanici_tipi) values(2,false,'musteri','1234','MUSTERI');
 INSERT INTO kullanici (id,deleted,kullanici_adi,sifre,kullanici_tipi) values(3,false,'magaza','1234','MAGAZA');
 
-INSERT INTO kategori (id,deleted,adi) values(1,false,'ELEKTRONİK');
-INSERT INTO kategori (id,deleted,adi) values(2,false,'KİTAP');
-INSERT INTO kategori (id,deleted,adi) values(3,false,'GIDA');
-INSERT INTO kategori (id,deleted,adi) values(4,false,'GİYİM');
-INSERT INTO kategori (id,deleted,adi) values(5,false,'SPOR-OUTDOOR');
-INSERT INTO kategori (id,deleted,adi) values(6,false,'YAPI MARKET');
-INSERT INTO kategori (id,deleted,adi) values(7,false,'BEBEK-OYUNCAK');
+insert into kategori (id, deleted, adi)
+values  (1, false, 'ELEKTRONİK'),
+        (2, false, 'KİTAP'),
+        (3, false, 'BEBEK-OYUNCAK'),
+        (4, false, 'GIDA'),
+        (6, false, 'GİYİM'),
+        (7, false, 'SPOR-OUTDOOR'),
+        (8, false, 'YAPI MARKET'),
+        (9, false, 'EV EŞYALARI'),
+        (10, false, 'BEYAZ EŞYA'),
+        (11, false, 'ÇOCUK'),
+        (12, false, 'EĞLENCE'),
+        (13, false, 'TEMİZLİK'),
+        (14, false, 'KARIŞIK');
 
 
-INSERT INTO renk (id,deleted,adi) values(1,false,'SİYAH');
-INSERT INTO renk (id,deleted,adi) values(2,false,'BEYAZ');
-INSERT INTO renk (id,deleted,adi) values(3,false,'KIRMIZI');
-INSERT INTO renk (id,deleted,adi) values(4,false,'SARI');
-INSERT INTO renk (id,deleted,adi) values(5,false,'MAVİ');
-INSERT INTO renk (id,deleted,adi) values(6,false,'YEŞİL');
-INSERT INTO renk (id,deleted,adi) values(7,false,'TURUNCU');
-INSERT INTO renk (id,deleted,adi) values(8,false,'MOR');
+insert into renk (id, deleted, adi)
+values  (1, false, 'BEYAZ'),
+        (2, false, 'YEŞİL'),
+        (3, false, 'SİYAH'),
+        (4, false, 'KAHVERENGİ'),
+        (5, false, 'MAVİ'),
+        (6, false, 'TURKUAZ'),
+        (7, false, 'KIRMIZI'),
+        (8, false, 'MOR'),
+        (9, false, 'GRİ'),
+        (10, false, 'KARIŞIK'),
+        (11, false, 'TURUNCU'),
+        (12, false, 'SARI');
 
-INSERT INTO marka (id,deleted,adi) values(1,false,'SAMSUNG');
-INSERT INTO marka (id,deleted,adi) values(2,false,'APPLE');
-INSERT INTO marka (id,deleted,adi) values(3,false,'INTEL');
-INSERT INTO marka (id,deleted,adi) values(4,false,'AMD');
-INSERT INTO marka (id,deleted,adi) values(5,false,'XIAOMI');
-INSERT INTO marka (id,deleted,adi) values(6,false,'DECATHLON');
-INSERT INTO marka (id,deleted,adi) values(7,false,'ETİ');
-INSERT INTO marka (id,deleted,adi) values(8,false,'CHICCO');
-INSERT INTO marka (id,deleted,adi) values(9,false,'LEVIS');
-INSERT INTO marka (id,deleted,adi) values(10,false,'D&R');
-INSERT INTO marka (id,deleted,adi) values(11,false,'EINHELL');
+insert into marka (id, deleted, adi)
+values  (2, false, 'ROBOROCK'),
+        (3, false, 'PHİLİPS'),
+        (4, false, 'MARKASIZ'),
+        (5, false, 'TOBLERONE'),
+        (6, false, 'GODİVA'),
+        (7, false, 'FAMİLİA'),
+        (8, false, 'ŞEHZADE'),
+        (9, false, 'DARDANEL'),
+        (10, false, 'YUDUM'),
+        (11, false, 'SÜTAŞ'),
+        (12, false, 'ÇAYKUR'),
+        (13, false, 'FAİRY'),
+        (14, false, 'PERWOLL'),
+        (15, false, 'CUİSİNART'),
+        (16, false, 'FAKİR'),
+        (17, false, 'MİNAR MERRY'),
+        (18, false, 'SKECHERS'),
+        (19, false, 'MAMAS'),
+        (20, false, 'PREGO'),
+        (21, false, 'VE-GE'),
+        (22, false, 'ROLLPLAY'),
+        (23, false, 'KRON'),
+        (24, false, 'ADİDAS'),
+        (25, false, 'BEAR GRYLLS'),
+        (26, false, 'YAPARLAR'),
+        (27, false, 'ARÇELİK'),
+        (28, false, 'TRİXİE'),
+        (29, false, 'ARZUM'),
+        (30, false, 'TEFAL'),
+        (31, false, 'BELLA'),
+        (32, false, 'SÖKE'),
+        (33, false, 'ÖNCÜ'),
+        (34, false, 'İÇİM'),
+        (35, false, 'ÜLKER'),
+        (36, false, 'NUTELLA'),
+        (37, false, 'KOSKA'),
+        (38, false, 'BEYORGANİK'),
+        (39, false, 'SONY '),
+        (40, false, 'NİNTENDO'),
+        (41, false, 'BAYMAK'),
+        (42, false, 'MİCROSOFT'),
+        (43, false, 'BOSCH'),
+        (44, false, 'KÖYSEPETİ'),
+        (45, false, 'PRİNGLES'),
+        (46, false, 'ÇOTANAK'),
+        (47, false, 'YUMOŞ'),
+        (48, false, 'UĞUR'),
+        (49, false, 'BEYSÜS'),
+        (50, false, 'POWERWAY'),
+        (51, false, 'APPLE'),
+        (52, false, 'ACER'),
+        (1, false, 'APPLE'),
+        (53, false, 'SAMSUNG');
 
-INSERT INTO magaza (id,deleted,adi) values(1,false,'HEPSİBURADA');
-INSERT INTO magaza (id,deleted,adi) values(2,false,'TRENDYOL');
-INSERT INTO magaza (id,deleted,adi) values(3,false,'N11');
-INSERT INTO magaza (id,deleted,adi) values(4,false,'AMAZON');
+insert into magaza (id, deleted, adi)
+values  (1, false, 'N11'),
+        (2, false, 'PASAJ'),
+        (3, false, 'TEKNOSA'),
+        (4, false, 'TRENDYOL'),
+        (5, false, 'HEPSİBURADA'),
+        (6, false, 'ÇİÇEKSEPETİEXTRA'),
+        (7, false, 'AMAZON'),
+        (8, false, 'MİGROS SANAL MARKET'),
+        (9, false, 'BİZİM TOPTAN MARKET'),
+        (10, false, 'İSTEGELSİN'),
+        (11, false, 'PTTAVM'),
+        (12, false, 'PAZARAMA'),
+        (13, false, 'CARREFOURSA'),
+        (14, false, 'HAKMAR'),
+        (15, false, 'AVANSAS'),
+        (16, false, 'VİVENSE'),
+        (17, false, 'SPORTİVE'),
+        (18, false, 'D&R'),
+        (19, false, 'İDEFİX'),
+        (20, false, 'KIRTASİYE DÜNYASI'),
+        (21, false, 'HERMARKAM'),
+        (22, false, 'MARKAMAMA'),
+        (23, false, 'ARÇELİK'),
+        (24, false, 'A-101'),
+        (25, false, 'GRATİS'),
+        (26, false, 'BUEVİN'),
+        (27, false, 'TEKNOTOYS'),
+        (28, false, 'TOPTANREYON'),
+        (29, false, 'TAKSİT MARKET'),
+        (30, false, 'VATAN'),
+        (31, false, 'TURKUAZ'),
+        (32, false, 'REVNA'),
+        (33, false, 'RİZE YÖRESEL ÜRÜNLER '),
+        (34, false, 'ROSSMANN'),
+        (35, false, 'EVBAZAR'),
+        (36, false, 'SARI');
 
-INSERT INTO urun (id, deleted, adi, kategori_id, renk_id, aciklama, marka_id,fotograf) VALUES (1, false, 'Çikolatalı Gofret', 3, 3, 'Eti Çikolatalı Gofret 30Gr', 7,'src/images/etiCikolataliGofret.png');
-INSERT INTO urun (id, deleted, adi, kategori_id, renk_id, aciklama, marka_id,fotograf) VALUES (2, false, 'Samsung Galaxy S21 FE', 1, 1, 'Samsung Galaxy S21 FE 128 GB 5G', 1,'src/images/samsungs21fe.jpg');
+insert into urun (id, deleted, adi, kategori_id, renk_id, marka_id, aciklama, fotograf)
+values  (1, false, 'Roborock S7 Beyaz Akıllı Robot Süpürge', 1, 1, 2, 'Roborock S7 Beyaz Akıllı Robot Süpürge', null),
+        (2, false, ' Philips XB9145/07 Marathon Ultimate 650 W A+ Enerji Tüketimi Alerji H13 Filtreli Toz Torbasız Elektrikli Süpürge ', 1, 3, 3, '
+Philips XB9145/07 Marathon Ultimate 650 W A+ Enerji Tüketimi Alerji H13 Filtreli Toz Torbasız Elektrikli Süpürge
+', null),
+        (3, false, '120 cm Yılbaşı Çam Ağacı', 8, 2, 4, '120 cm Yılbaşı Çam Ağacı', null),
+        (4, false, 'Toblerone Sütlü 100 gr Çikolata', 4, 11, 5, 'Toblerone Sütlü 100 gr Çikolata', null),
+        (6, false, 'Familia 32li Tuvalet Kağıdı', 13, 1, 7, 'Familia 32li Tuvalet Kağıdı', null),
+        (7, false, 'Şehzade 32li Tuvalet Kağıdı', 13, 1, 8, 'Şehzade 32''li Tuvalet Kağıdı', null),
+        (8, false, 'Dardanel 2x140 gr Zeytinyağlı Ton Balığı', 4, 2, 9, 'Dardanel 2x140 gr Zeytinyağlı Ton Balığı', null),
+        (9, false, 'Yudum 5 lt Teneke Ayçiçek Yağı', 4, 5, 10, 'Yudum 5 lt Teneke Ayçiçek Yağı', null),
+        (10, false, 'Sütaş 600 gr Kaşar Peyniri', 4, 11, 11, 'Sütaş 600 gr Kaşar Peyniri', null),
+        (11, false, 'Çaykur Tiryaki 1 kg Çay', 4, 7, 12, 'Çaykur Tiryaki 1 kg Çay', null),
+        (12, false, 'Çaykur Rize Turist 1 kg Siyah Çay', 4, 12, 12, 'Çaykur Rize Turist 1 kg Siyah Çay', null),
+        (13, false, 'Fairy Platinum Plus Hepsi Bir Arada 75 Adet Bulaşık Makinesi Tableti', 13, 2, 13, 'Fairy Platinum Plus Hepsi Bir Arada 75 Adet Bulaşık Makinesi Tableti', null),
+        (14, false, 'Perwoll Siyah & Doku Yenilenen 3D 3 lt 50 Yıkama Sıvı Çamaşır Deterjanı', 13, 3, 14, 'Perwoll Siyah & Doku Yenilenen 3D 3 lt 50 Yıkama Sıvı Çamaşır Deterjanı', null),
+        (15, false, 'Cuisinart CPT160E - 2 Hazneli Ekmek Kizartma Makinesi, 900W, 6 Fonksiyon, Paslanmaz Çelik', 1, 9, 15, 'Cuisinart CPT160E - 2 Hazneli Ekmek Kizartma Makinesi, 900W, 6 Fonksiyon, Paslanmaz Çelik', null),
+        (16, false, 'Fakir Veyron Turbo XL Premium Elektrikli Süpürge', 1, 4, 16, 'Fakir Veyron Turbo XL Premium Elektrikli Süpürge', null),
+        (17, false, 'Minar Merry Beyaz Modern Raflı Dolaplı Çalışma Masası', 1, 1, 17, 'Minar Merry Beyaz Modern Raflı Dolaplı Çalışma Masası', null),
+        (18, false, 'Skechers Flex Advantage 4.0 Gri Erkek Spor Ayakkabı', 6, 9, 18, 'Skechers Flex Advantage 4.0 Gri Erkek Spor Ayakkabı', null),
+        (19, false, 'Mamas Papas Ocarro Bebek Arabası siyah', 11, 3, 19, 'Mamas Papas Ocarro Bebek Arabası siyah', null),
+        (20, false, 'Prego 8023 Bej 70x10 Miami Oyun Parkı Beşik', 11, 4, 20, 'Prego 8023 Bej 70x10 Miami Oyun Parkı Beşik', null),
+        (5, false, 'Godiva Bitter Kare Çikolata Paketi', 4, 4, 6, 'Godiva Bitter Kare Çikolata Paketi', null),
+        (21, false, 'Activision Call Of Duty Modern Warfare Xbox One Oyunu', 12, 1, 4, 'Activision Call Of Duty Modern Warfare Xbox One Oyunu', null),
+        (22, false, 'Depo Opel Vectra B Far Sol', 8, 1, 21, 'Depo Opel Vectra B Far Sol', null),
+        (23, false, 'Yaparlar Yks 80 El Arabası Rulmanlı Şişme Lastik', 8, 2, 26, 'Yaparlar Yks 80 El Arabası Rulmanlı Şişme Lastik', null),
+        (24, false, 'Bella No:6 Plastik-El Yapımı Erkek Tarak', 9, 2, 31, 'Bella No:6 Plastik-El Yapımı Erkek Tarak', null),
+        (25, false, 'Söke 5 kg Geleneksel Un', 4, 11, 32, 'Söke 5 kg Geleneksel Un', null),
+        (26, false, 'Öncü 4300 gr Domates Salçası', 4, 7, 33, 'Öncü 4300 gr Domates Salçası', null),
+        (27, false, 'Yumoş Extra Lilyum 1440 ml Konsantre Yumuşatıcı', 13, 5, 47, 'Yumoş Extra Lilyum 1440 ml Konsantre Yumuşatıcı', null),
+        (28, false, 'Beysüs 6 cm 6 lı Gold Cici Top Yılbaşı Çam Ağacı Süsü', 12, 12, 49, 'Beysüs 6 cm 6 lı Gold Cici Top Yılbaşı Çam Ağacı Süsü', null),
+        (29, false, 'Apple Macbook Air MGN63TU-A M1 8GB Ram 256GB macOS 13 inç Uzay Grisi Laptop - Notebook', 1, 9, 51, 'Apple Macbook Air MGN63TU-A M1 8GB Ram 256GB macOS 13 inç Uzay Grisi Laptop - Notebook', null),
+        (30, false, 'Acer NH.QAREY.001 Nitro 5 AN517-41 AMD Ryzen 7 5800H 16 GB Ram 512 GB SSD RTX3060 Freedos 17.3" Taşınabilir Bilgisayar', 1, 3, 52, 'Acer NH.QAREY.001 Nitro 5 AN517-41 AMD Ryzen 7 5800H 16 GB Ram 512 GB SSD RTX3060 Freedos 17.3" Taşınabilir Bilgisayar', 'src/images/WhatsApp Image 2022-12-26 at 01.29.20.jpeg'),
+        (31, false, '', 1, 3, 52, '', 'src/images/WhatsApp Image 2022-12-26 at 01.29.20.jpeg'),
+        (32, false, 'acer notebook', 1, 3, 52, 'acer notebook', 'src/images/WhatsApp Image 2022-12-26 at 01.29.20.jpeg');
 
+insert into urun_fiyat (id, deleted, urun_id, magaza_id, fiyat, stok)
+values  (1, false, 1, 1, 13.199, 35),
+        (2, false, 1, 2, 13.299, 35),
+        (3, false, 1, 3, 13.999, 11),
+        (4, false, 2, 4, 6.289, 11),
+        (5, false, 2, 5, 6.899, 4),
+        (6, false, 2, 1, 7.899, 50),
+        (7, false, 3, 7, 140, 300),
+        (8, false, 3, 1, 188, 200),
+        (9, false, 3, 6, 210, 200),
+        (10, false, 4, 7, 25, 200),
+        (11, false, 4, 9, 20, 20),
+        (12, false, 5, 6, 135, 20),
+        (14, false, 6, 4, 163, 34),
+        (15, false, 6, 10, 144, 44),
+        (16, false, 6, 6, 116, 89),
+        (17, false, 7, 11, 110, 89),
+        (18, false, 7, 12, 115, 67),
+        (19, false, 7, 6, 116, 698),
+        (20, false, 8, 7, 60, 45),
+        (21, false, 8, 1, 74, 66),
+        (22, false, 8, 6, 88, 66),
+        (23, false, 9, 7, 179, 66),
+        (24, false, 9, 13, 170, 44),
+        (25, false, 9, 1, 258, 55),
+        (26, false, 10, 11, 119, 99),
+        (27, false, 10, 1, 125, 33),
+        (28, false, 10, 6, 195, 33),
+        (29, false, 11, 4, 84, 27),
+        (30, false, 11, 7, 95, 273),
+        (31, false, 11, 10, 69, 223),
+        (32, false, 12, 7, 109, 45),
+        (33, false, 12, 10, 69, 69),
+        (34, false, 12, 9, 70, 70),
+        (35, false, 13, 6, 233, 654),
+        (36, false, 13, 1, 282, 11),
+        (37, false, 14, 14, 79, 975),
+        (38, false, 14, 10, 86, 97),
+        (39, false, 14, 15, 98, 971),
+        (40, false, 15, 4, 1.3, 9),
+        (41, false, 15, 7, 1.001, 333),
+        (42, false, 16, 4, 2.459, 245),
+        (43, false, 16, 12, 2.459, 24),
+        (44, false, 16, 5, 2.472, 124),
+        (45, false, 17, 12, 1.979, 474),
+        (46, false, 17, 16, 2.69, 111),
+        (47, false, 18, 7, 1.072, 632),
+        (48, false, 18, 17, 1.161, 63),
+        (49, false, 19, 12, 16.999, 22),
+        (50, false, 19, 1, 22.222, 123),
+        (51, false, 20, 1, 2.299, 999),
+        (53, false, 20, 7, 2.589, 34),
+        (52, false, 20, 4, 10, 99),
+        (13, false, 5, 12, 140, 25),
+        (54, false, 21, 5, 529, 25),
+        (55, false, 21, 1, 550, 25),
+        (56, false, 22, 1, 570, 2),
+        (57, false, 22, 6, 1.05, 1),
+        (58, false, 23, 1, 1.06, 50),
+        (59, false, 23, 5, 1.1, 50),
+        (60, false, 24, 11, 6, 50),
+        (61, false, 24, 12, 26, 45),
+        (62, false, 25, 8, 58, 45),
+        (63, false, 25, 7, 89, 45),
+        (64, false, 25, 12, 90, 45),
+        (65, false, 26, 11, 249, 100),
+        (66, false, 26, 6, 271, 150),
+        (67, false, 27, 15, 55, 150),
+        (68, false, 27, 34, 56, 10),
+        (69, false, 27, 6, 60, 20),
+        (70, false, 28, 4, 74, 40),
+        (71, false, 28, 6, 99, 56),
+        (72, false, 28, 7, 158, 500),
+        (74, false, 29, 2, 19.999, 20),
+        (75, false, 29, 30, 20.999, 20),
+        (76, false, 30, 11, 24.5, 5),
+        (77, false, 31, 11, 1, 5),
+        (78, false, 32, 2, 22.222, 5),
+        (73, false, 29, 1, 18.979, 57);
 
-INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat,stok) VALUES (1, false, 1, 1, 3,1);
-INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat,stok) VALUES (2, false, 1, 2, 3.2,2);
-INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat,stok) VALUES (3, false, 1, 3, 2.9,3);
-
-
-INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat,stok) VALUES (4, false, 2, 1, 12000,2);
-INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat,stok) VALUES (5, false, 2, 2, 12100,5);
-INSERT INTO urun_fiyat (id, deleted, urun_id, magaza_id, fiyat,stok) VALUES (6, false, 2, 3, 11999,2);
-
-INSERT INTO yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (1, false, 1,  'Çok lezzetli tavsiye ederim', 4,'Recep Hürol');
-INSERT INTO yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (2, false, 1,  'Bana uymadı beğenmedim', 2, 'Özkan Cırıtcı');
-
-INSERT INTO yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (3, false, 2,  'Güzel telefon', 5,'Ahmet Sarıdiken');
-INSERT INTO yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (4, false, 2, '128 gb az ama idare eder', 3, 'Özkan Cırıtcı');
+insert into yorum (id, deleted, urun_id, yorum, puan, ad_soyad)
+values  (1, false, 29, 'gayet iyi ', 5, 'fatsali52'),
+        (2, false, 29, 'berbat bir ürün bu para etmez', 2, 'recep hürol'),
+        (3, false, 16, 'fasfakir', 4, 'GaRGaMeL#'),
+        (4, false, 16, 'çekiş gücü az', 5, 'ahmet sarıdiken'),
+        (5, false, 15, 'beğenmedim', 1, 'özkan'),
+        (6, false, 15, 'beğendim	', 5, 'ahmetS'),
+        (7, false, 17, 'sevdim gayet kullanışlı', 5, 'ahmets'),
+        (8, false, 17, 'sevdim ama geç geldi', 4, 'özkan'),
+        (9, false, 1, 'babannem korkuyor bu yüzden 1 verdşm', 1, 'ahmets'),
+        (10, false, 1, 'çok ses çkkarıyor', 2, 'terlik'),
+        (11, false, 10, 'tatı değişmöiş', 2, 'kaşarpeynirkralı'),
+        (12, false, 10, 'huymak yapılamiyeee', 4, 'tacuolmayankral'),
+        (13, false, 2, 'baya iyi ', 5, 'ahmet sarıdiken'),
+        (14, false, 2, 'geyet iyi ', 4, 'özkan'),
+        (15, false, 2, 'fazla yapışıyor', 2, 'recep'),
+        (16, false, 21, 'oyunu 1 gecede bitirdim çok iyi ', 5, 'ayberk'),
+        (17, false, 21, 'gasfsd', 4, 'asdsad'),
+        (18, false, 21, 'asd', 1, 'sadxcxz');
 
