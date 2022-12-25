@@ -2,6 +2,7 @@ package model;
 
 public class Urun {
 
+    private Integer _id;
     private Double _fiyat;
     private String _adi;
     private String _aciklama;
@@ -13,7 +14,8 @@ public class Urun {
     private Integer _stok;
 
 
-    public Urun(Double fiyat, String adi, String aciklama, Integer kategoriId, Integer markaId, Integer renkId, Integer magazaId,Integer stok, String fotograf){
+    public Urun(Integer id,Double fiyat, String adi, String aciklama, Integer kategoriId, Integer markaId, Integer renkId, Integer magazaId,Integer stok, String fotograf){
+        _id=id;
         _fiyat = fiyat;
         _adi = adi;
         _aciklama=aciklama;
@@ -27,6 +29,14 @@ public class Urun {
 
     public Urun(){
 
+    }
+
+    public Integer get_id() {
+        return _id;
+    }
+
+    public void set_id(Integer _id) {
+        this._id = _id;
     }
 
     public Integer get_stok() {
