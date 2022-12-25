@@ -9,6 +9,7 @@ import urun.kategoriEkle.kategoriEkle;
 import urun.renkEkleme.renkEkle;
 import urun.urunDetayi.urunDetayFormDeneme;
 import urun.urunEkle.urunEkle;
+import urun.urunGuncelleSil.urunGuncelleSil;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -47,7 +48,7 @@ public class urunListelemeForm extends JFrame{
     private JMenuItem magazaEkleMenuItem;
 
     private JMenuItem kullaniciEkleMenuItem;
-
+    private JMenuItem urunGuncelleSilMenuItem;
     private JButton filtreleButon;
 
 
@@ -261,7 +262,7 @@ public class urunListelemeForm extends JFrame{
     private void getMenu() {
         menuBar = new JMenuBar();
         menu = new JMenu("İşlemler");
-        urunEkleMenuItem = new JMenuItem("Ürün İşlemleri");
+        urunEkleMenuItem = new JMenuItem("Ürün Ekleme İşlemleri");
         urunEkleMenuItem.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -275,6 +276,23 @@ public class urunListelemeForm extends JFrame{
                 }
             }
         });
+
+        urunGuncelleSilMenuItem = new JMenuItem("Ürün Güncelleme / Silme İşlemleri");
+        urunGuncelleSilMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                urunGuncelleSil urunGuncelleSil = null;
+                try {
+                    urunGuncelleSil = new urunGuncelleSil();
+                    urunGuncelleSil.setVisible(true);
+                    setVisible(false);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         kullaniciEkleMenuItem = new JMenuItem("Kullanici İŞlemleri");
         kullaniciEkleMenuItem.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -343,11 +361,13 @@ public class urunListelemeForm extends JFrame{
 
 
         menu.add(urunEkleMenuItem);
+        menu.add(urunGuncelleSilMenuItem);
         menu.add(kategoriEkleMenuItem);
         menu.add(markaEkleMenuItem);
         menu.add(renkEkleMenuItem);
         menu.add(magazaEkleMenuItem);
         menu.add(kullaniciEkleMenuItem);
+
 
         menuBar.add(menu);
         setJMenuBar(menuBar);

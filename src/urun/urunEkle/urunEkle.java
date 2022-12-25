@@ -181,6 +181,7 @@ public class urunEkle extends JFrame {
                 try {
                     db.urunEkle(
                             new Urun(
+                                    null,
                                     Double.parseDouble(fiyatText.getText()),
                                     urunAdiText.getText(),
                                     aciklamaText.getText(),
