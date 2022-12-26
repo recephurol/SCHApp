@@ -1,11 +1,9 @@
 package urun.kullanici;
 
 
-        import db.PostgreSQLDbConnection;
+        import dataAccess.PostgreSQLDbConnection;
         import enums.EnumKullaniciTipi;
-        import model.Item;
         import model.Kullanici;
-        import model.Urun;
         import urun.urunListeleme.urunListelemeForm;
 
         import javax.swing.*;
@@ -13,7 +11,6 @@ package urun.kullanici;
         import java.awt.*;
         import java.awt.event.ActionEvent;
         import java.awt.event.ActionListener;
-        import java.sql.ResultSet;
         import java.sql.SQLException;
 
 public class kullaniciEkle extends JFrame {

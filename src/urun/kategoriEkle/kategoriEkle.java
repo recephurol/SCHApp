@@ -1,6 +1,6 @@
 package urun.kategoriEkle;
 
-import db.PostgreSQLDbConnection;
+import dataAccess.PostgreSQLDbConnection;
 import model.Kategori;
 import urun.urunListeleme.urunListelemeForm;
 

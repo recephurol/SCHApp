@@ -1,4 +1,4 @@
-package db;
+package dataAccess;
 
 
 import dataAccess.DbConnection;
@@ -30,17 +30,6 @@ public class PostgreSQLDbConnection extends DbConnection {
         return conn;
     }
 
-    @Override
-    public void baglantiyiKapat() throws SQLException {
-        if(conn!=null){
-            try {
-                conn.close();
-            } catch (SQLException e){
-                System.out.println(e.getMessage());
-            }
-
-        }
-    }
 
     public ResultSet kullaniciListele() throws SQLException {
         if(conn!=null){
@@ -290,7 +279,7 @@ public class PostgreSQLDbConnection extends DbConnection {
         return null;
     }
 
-    public void urunEkle(Urun urun) throws SQLException {
+    public boolean  urunEkle(Urun urun) throws SQLException {
         if(conn!=null){
             try {
                 ResultSet urunId=null;
@@ -313,16 +302,16 @@ public class PostgreSQLDbConnection extends DbConnection {
                         while(urunId.next()){
                             urunFiyatEkle(urunId.getInt("id"),urun.get_magazaId(),urun.get_fiyat(),urun.get_stok());
                         }
-
+                    return true;
                     } else {
                         ResultSet urunFiyatVarMi = urunFiyatGetir(result.getInt("urunId"),urun.get_magazaId());
 
                         if(!urunFiyatVarMi.next()){
                             urunFiyatEkle(result.getInt("urunId"),urun.get_magazaId(),urun.get_fiyat(),urun.get_stok());
 
-                            JOptionPane.showMessageDialog(null,"Urun basarili bir sekilde eklendi");
+                            return true;
                         }else{
-                            JOptionPane.showMessageDialog(null,"Ürünün bu magazada kaydı vardır.");
+                            return false;
                         }
                     }
             } catch (SQLException e) {
@@ -330,6 +319,7 @@ public class PostgreSQLDbConnection extends DbConnection {
             }
 
         }
+        return false;
     }
 
     public void urunFiyatEkle(Integer urunId,Integer magazaId, Double fiyat, Integer stok ) throws SQLException {
@@ -495,14 +485,15 @@ public class PostgreSQLDbConnection extends DbConnection {
         }
     }
 
-    public void urunFiyatGuncelle(Integer urunFiyatId, Double fiyat){
+    public void urunFiyatGuncelle(Integer urunFiyatId, Double fiyat, Integer stok){
         if(conn!=null){
             try {
-                String insertUrunQuery ="UPDATE urun_fiyat SET fiyat= ? where id= ? ";
+                String insertUrunQuery ="UPDATE urun_fiyat SET fiyat= ?, stok = ? where id= ? ";
 
                 PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
                 insertQuery.setDouble(1,fiyat);
-                insertQuery.setInt(2,urunFiyatId);
+                insertQuery.setInt(2,stok);
+                insertQuery.setInt(3,urunFiyatId);
                 insertQuery.executeUpdate();
             } catch (SQLException e) {
             }
@@ -513,7 +504,7 @@ public class PostgreSQLDbConnection extends DbConnection {
     public boolean urunGuncelle(Urun urun){
         if(conn!=null){
             try {
-                String insertUrunQuery ="UPDATE urun SET adi= ?, marka_id= ?, kategori_id= ?, renk_id= ?, aciklama = ?, fotograf = ? where id= ? ";
+                String insertUrunQuery ="UPDATE urun SET adi= ?, marka_id= ?, kategori_id= ?, renk_id= ?, aciklama = ? where id= ? ";
 
                 PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
 
@@ -522,8 +513,7 @@ public class PostgreSQLDbConnection extends DbConnection {
                 insertQuery.setInt(3,urun.get_kategoriId());
                 insertQuery.setInt(4,urun.get_renkId());
                 insertQuery.setString(5,urun.get_aciklama());
-                insertQuery.setString(6,urun.get_fotograf());
-                insertQuery.setInt(7,urun.get_id());
+                insertQuery.setInt(6,urun.get_id());
                 insertQuery.executeUpdate();
                 return true;
             } catch (SQLException e) {

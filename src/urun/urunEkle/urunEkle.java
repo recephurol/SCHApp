@@ -1,7 +1,7 @@
 package urun.urunEkle;
 
 import araclar.FileExtension;
-import db.PostgreSQLDbConnection;
+import dataAccess.PostgreSQLDbConnection;
 import model.Item;
 import model.Urun;
 import urun.urunListeleme.urunListelemeForm;
@@ -14,12 +14,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.security.spec.ECGenParameterSpec;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.NumberFormat;
@@ -49,7 +46,7 @@ public class urunEkle extends JFrame {
     private String fotoFileName;
     private JFormattedTextField stokText;
     private JLabel stokLabel;
-
+    private JLabel imgLabel;
 
     private Font baslik = new Font(null,1,14);
 
@@ -101,14 +98,14 @@ public class urunEkle extends JFrame {
         NumberFormat format = NumberFormat.getInstance();
         NumberFormatter formatter = new NumberFormatter(format);
         formatter.setValueClass(Integer.class);
-        formatter.setMinimum(1);
+        formatter.setMinimum(0);
         formatter.setMaximum(Integer.MAX_VALUE);
         formatter.setAllowsInvalid(false);
         // If you want the value to be committed on each keystroke instead of focus lost
         formatter.setCommitsOnValidEdit(false);
 
         stokText = new JFormattedTextField(formatter);
-        stokText.setText("1");
+        stokText.setText("0");
         stokText.setBounds(110,160,200,20);
         stokText.setVisible(true);
 
@@ -205,7 +202,7 @@ public class urunEkle extends JFrame {
                 Item magaza= (Item)magazaCombobox.getSelectedItem();
                 try {
 
-                    db.urunEkle(
+                    var sonuc = db.urunEkle(
                             new Urun(
                                     null,
                                     Double.parseDouble(fiyatText.getText()),
@@ -219,11 +216,18 @@ public class urunEkle extends JFrame {
                                     fotoFileName==null ? "" : "src/images/"+fotoFileName
                                     )
                     );
+                    if(sonuc){
+                        JOptionPane.showMessageDialog(null,"Ürün ekleme başarılıdır.");
+                        urunListelemeForm urunListe = new urunListelemeForm();
+                        urunListe.setVisible(true);
+                        setVisible(false);
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Ürünün bu magazada kaydı vardır.");
+                    }
                     urunAdiText.setText("");
                     aciklamaText.setText("");
-                    fiyatText.setText("1");
-
-
+                    fiyatText.setText("0");
+                    stokText.setText("0");
                 } catch (Exception ex){
                     ex.printStackTrace();
                 }
@@ -261,14 +265,14 @@ public class urunEkle extends JFrame {
         NumberFormat format = NumberFormat.getInstance();
         NumberFormatter formatter = new NumberFormatter(format);
         formatter.setValueClass(Integer.class);
-        formatter.setMinimum(1);
+        formatter.setMinimum(0);
         formatter.setMaximum(Integer.MAX_VALUE);
         formatter.setAllowsInvalid(false);
         // If you want the value to be committed on each keystroke instead of focus lost
         formatter.setCommitsOnValidEdit(false);
 
         fiyatText = new JFormattedTextField(formatter);
-        fiyatText.setText("1");
+        fiyatText.setText("0");
         fiyatText.setBounds(110,35,200,20);
         fiyatText.setVisible(true);
         urunBilgileriPanel.add(fiyatLabel);

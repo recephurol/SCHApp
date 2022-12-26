@@ -1,7 +1,7 @@
 package urun.urunGuncelleSil;
 
 import araclar.FileExtension;
-import db.PostgreSQLDbConnection;
+import dataAccess.PostgreSQLDbConnection;
 import model.Item;
 import model.Urun;
 import urun.urunListeleme.urunListelemeForm;
@@ -93,7 +93,7 @@ public class urunGuncelleSil extends JFrame {
         getAciklama();
         getButtons();
         kapatButonu();
-        getFotografSecButon();
+//        getFotografSecButon();
         mainPanel.add(urunBilgisiPanel);
     }
 
@@ -190,7 +190,7 @@ public class urunGuncelleSil extends JFrame {
                         null
                 ));
                 if(sonuc){
-                    db.urunFiyatGuncelle(urunFiyatId,Double.parseDouble(fiyatText.getText()));
+                    db.urunFiyatGuncelle(urunFiyatId,Double.parseDouble(fiyatText.getText()),Integer.valueOf(stokText.getText()));
                 }
 
                 String mesaj = sonuc ? "Ürün Fiyat Başarıyla Güncellenmiştir" : "Ürün Güncellerken bir hata oluştu";

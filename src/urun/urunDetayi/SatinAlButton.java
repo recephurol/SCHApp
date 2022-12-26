@@ -1,6 +1,6 @@
 package urun.urunDetayi;
 
-import db.PostgreSQLDbConnection;
+import dataAccess.PostgreSQLDbConnection;
 
 import javax.swing.*;
 import java.sql.SQLException;

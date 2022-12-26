@@ -1,7 +1,7 @@
 package urun.marka;
 
 
-import db.PostgreSQLDbConnection;
+import dataAccess.PostgreSQLDbConnection;
 import model.Marka;
 import urun.urunListeleme.urunListelemeForm;
 

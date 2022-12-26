@@ -1,6 +1,6 @@
 package urun.urunListeleme;
 
-import db.PostgreSQLDbConnection;
+import dataAccess.PostgreSQLDbConnection;
 import model.Item;
 import urun.kullanici.kullaniciEkle;
 import urun.magaza.magazaEkle;

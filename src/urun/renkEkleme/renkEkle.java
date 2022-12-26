@@ -1,7 +1,7 @@
 package urun.renkEkleme;
 
 
-import db.PostgreSQLDbConnection;
+import dataAccess.PostgreSQLDbConnection;
 import model.Renk;
 import urun.urunListeleme.urunListelemeForm;
 

@@ -1,6 +1,6 @@
 package urun.urunDetayi;
 
-import db.PostgreSQLDbConnection;
+import dataAccess.PostgreSQLDbConnection;
 import urun.urunListeleme.urunListelemeForm;
 import urun.yorum.yorumEkle;
 

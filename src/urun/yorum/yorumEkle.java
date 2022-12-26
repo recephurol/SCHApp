@@ -1,6 +1,6 @@
 package urun.yorum;
 
-import db.PostgreSQLDbConnection;
+import dataAccess.PostgreSQLDbConnection;
 import model.Yorum;
 import urun.urunDetayi.urunDetayFormDeneme;
 
