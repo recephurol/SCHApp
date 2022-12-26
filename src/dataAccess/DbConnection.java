@@ -13,7 +13,7 @@ public abstract class DbConnection {
 
     public abstract Connection baglan() throws IOException;
 
-    public void baglantiyiKapat() throws SQLException {
+    public void baglantiyiKapat() {
         if(conn!=null){
             try {
                 conn.close();

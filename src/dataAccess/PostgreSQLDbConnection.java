@@ -2,23 +2,17 @@ package dataAccess;
 
 
 import araclar.DbProperties;
-import dataAccess.DbConnection;
 import model.*;
 import model.Kullanici;
 import model.Urun;
 import model.Yorum;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.sql.*;
-import java.util.Properties;
 
 
 public class PostgreSQLDbConnection extends DbConnection {
 
-
-
-    private Connection conn = null;
     public PostgreSQLDbConnection() throws IOException {
         super();
     }
@@ -37,15 +31,6 @@ public class PostgreSQLDbConnection extends DbConnection {
         return conn;
     }
 
-
-    public ResultSet kullaniciListele() throws SQLException {
-        if(conn!=null){
-            Statement myStat =conn.createStatement();
-            ResultSet kullanicilar= myStat.executeQuery("select * from kullanici where deleted=false ");
-            return kullanicilar;
-        }
-        return null;
-    }
 
     public ResultSet urunListele(String bulText,Integer kategoriId,Integer markaId,Integer renkId) throws SQLException {
         if(conn!=null){
@@ -224,22 +209,6 @@ public class PostgreSQLDbConnection extends DbConnection {
         return null;
     }
     public ResultSet kategoriGetir(){
-        if(conn!=null){
-            Statement myStat = null;
-            try {
-                myStat = conn.createStatement();
-                String query ="select id,adi from kategori where deleted=false ";
-                ResultSet kategoriler= myStat.executeQuery(query);
-                return kategoriler;
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-        return null;
-    }
-
-    public ResultSet kategoriGetir(Integer urunId){
         if(conn!=null){
             Statement myStat = null;
             try {
