@@ -11,21 +11,14 @@ import java.sql.SQLException;
 
 public class kategoriEkle extends JFrame {
 
-
-
     private JLabel kategoriLabel;
     private JTextField kategoritex;
     private JButton kategoriEkle;
-
-
-
 
     public kategoriEkle(){
 
         initializeKategoriEkleForm();
     }
-
-
 
     private void initializeKategoriEkleForm() {
         setTitle("kategori ekleme işlemleri");

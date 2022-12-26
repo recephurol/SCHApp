@@ -1,6 +1,7 @@
-package model;
+package urun.magaza;
 
 import db.PostgreSQLDbConnection;
+import model.Magaza;
 import urun.urunListeleme.urunListelemeForm;
 
 import javax.swing.*;

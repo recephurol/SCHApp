@@ -1,7 +1,8 @@
-package model;
+package urun.marka;
 
 
 import db.PostgreSQLDbConnection;
+import model.Marka;
 import urun.urunListeleme.urunListelemeForm;
 
 import javax.swing.*;

@@ -23,7 +23,7 @@ public class PostgreSQLDbConnection extends DbConnection {
     @Override
     public Connection baglan() {
         try {
-            conn = DriverManager.getConnection(url,"postgres","1234");
+            conn = DriverManager.getConnection(url,"postgres","postgres");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -228,6 +228,22 @@ public class PostgreSQLDbConnection extends DbConnection {
         return null;
     }
     public ResultSet kategoriGetir(){
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="select id,adi from kategori where deleted=false ";
+                ResultSet kategoriler= myStat.executeQuery(query);
+                return kategoriler;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return null;
+    }
+
+    public ResultSet kategoriGetir(Integer urunId){
         if(conn!=null){
             Statement myStat = null;
             try {

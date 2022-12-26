@@ -97,9 +97,10 @@ public class urunGuncelleSil extends JFrame {
         mainPanel.add(urunBilgisiPanel);
     }
 
+
     private void getFotografSecButon() {
         fotografSec = new JButton("Fotoğraf Seç");
-        fotografSec.setBounds(420,370,100,20);
+        fotografSec.setBounds(250,195,100,20);
         fotografSec.setVisible(true);
 
 
@@ -131,12 +132,11 @@ public class urunGuncelleSil extends JFrame {
                 }
                 try {
                     BufferedImage img = ImageIO.read(destinationFile);
-//                  urunFoto = img.getScaledInstance(fotoPanel.getWidth()-25,fotoPanel.getHeight()-25,BufferedImage.SCALE_DEFAULT);
                     ImageIcon icon = new ImageIcon(img);
 
                     JLabel imgLabel = new JLabel(icon);
 
-                    imgLabel.setBounds(0,0,120,250);
+                    imgLabel.setBounds(100,200,120,250);
                     imgLabel.setVisible(true);
                     urunBilgisiPanel.add(imgLabel);
                 } catch (Exception ex) {
@@ -146,7 +146,7 @@ public class urunGuncelleSil extends JFrame {
         });
 
 
-        add(fotografSec);
+        urunBilgisiPanel.add(fotografSec);
     }
 
     public void kapatButonu(){
@@ -242,11 +242,11 @@ public class urunGuncelleSil extends JFrame {
 
     private void getAciklama() {
         aciklamaLabel = new JLabel("Açıklama: ");
-        aciklamaLabel.setBounds(10,195,50,20);
+        aciklamaLabel.setBounds(10,225,50,20);
         aciklamaLabel.setVisible(true);
 
         aciklamaText = new JTextArea();
-        aciklamaText.setBounds(65,195,250,80);
+        aciklamaText.setBounds(65,225,250,80);
         aciklamaText.setFont(new Font(null,0,14));
         aciklamaText.setVisible(true);
 
