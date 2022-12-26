@@ -7,6 +7,7 @@ import urun.urunListeleme.urunListelemeForm;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 
 
@@ -50,8 +51,17 @@ import java.sql.SQLException;
             magazaEkle .addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    PostgreSQLDbConnection db = new PostgreSQLDbConnection();
-                    db.baglan();
+                    PostgreSQLDbConnection db = null;
+                    try {
+                        db = new PostgreSQLDbConnection();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                    try {
+                        db.baglan();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
 
                     Magaza magaza = new Magaza(magazaEkletex.getText());
                     try {
@@ -62,7 +72,7 @@ import java.sql.SQLException;
                         JOptionPane.showMessageDialog(null, "magaza başarıyla eklendi");
                         urunlistele.setVisible(true);
                         setVisible(false);
-                    } catch (SQLException throwables) {
+                    } catch (SQLException | IOException throwables) {
                         throwables.printStackTrace();
                     }
                 }
@@ -74,7 +84,7 @@ import java.sql.SQLException;
                     try {
                         urunListelemeForm listeForm = new urunListelemeForm();
                         listeForm.setVisible(true);
-                    } catch (SQLException e) {
+                    } catch (SQLException | IOException e) {
                         e.printStackTrace();
                     }
                 }

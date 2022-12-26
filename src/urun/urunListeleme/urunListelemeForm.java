@@ -62,11 +62,11 @@ public class urunListelemeForm extends JFrame{
     Object[] kolonlar = {"id","Adı","Marka","Kategori","Renk","Fiyat"};
     Object[] satirlar = new Object[6];
 
-    public urunListelemeForm() throws SQLException {
+    public urunListelemeForm() throws SQLException, IOException {
         setInitialFormValues();
     }
 
-    private void setInitialFormValues() throws SQLException {
+    private void setInitialFormValues() throws SQLException, IOException {
         setBounds(500,200,730,600);
         setTitle("Ürün Listesi");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,7 +76,7 @@ public class urunListelemeForm extends JFrame{
         getMenu();
     }
 
-    private void getMainPanel() throws SQLException {
+    private void getMainPanel() throws SQLException, IOException {
         mainPanel = new JPanel();
         mainPanel.setLayout(null);
         mainPanel.setBounds(0,0,700,500);
@@ -90,7 +90,7 @@ public class urunListelemeForm extends JFrame{
     }
 
 
-    private void getUrunListeleTable() throws SQLException {
+    private void getUrunListeleTable() throws SQLException, IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         table = new JTable();
         table.setBounds(5,5,690,295);
@@ -99,7 +99,7 @@ public class urunListelemeForm extends JFrame{
         Item kategori = (Item)kategoriCombobox.getSelectedItem();
         Item marka = (Item)markaCombobox.getSelectedItem();
         Item renk = (Item)renkCombobox.getSelectedItem();
-        var urunListesi = db.urunListele(bulText.getText(), kategori.getId(),marka.getId(),renk.getId());
+        ResultSet urunListesi = db.urunListele(bulText.getText(), kategori.getId(),marka.getId(),renk.getId());
         while(urunListesi.next()){
             satirlar[0] = urunListesi.getString("id");
             satirlar[1] = urunListesi.getString("urunadi");
@@ -120,10 +120,10 @@ public class urunListelemeForm extends JFrame{
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 JTable target = (JTable)e.getSource();
-                var urunId = target.getModel().getValueAt(target.getSelectedRow(),0);
+                String urunId = (String)target.getModel().getValueAt(target.getSelectedRow(),0);
                 urunDetayFormDeneme urunDetay = null;
                 try {
-                    urunDetay = new urunDetayFormDeneme(Integer.valueOf(urunId.toString()));
+                    urunDetay = new urunDetayFormDeneme(Integer.valueOf(urunId));
                 } catch (SQLException | IOException ex) {
                     ex.printStackTrace();
                 }
@@ -139,7 +139,7 @@ public class urunListelemeForm extends JFrame{
         scrollPane.setViewportView(table);
     }
 
-    private void getPanelFilter() throws SQLException {
+    private void getPanelFilter() throws SQLException, IOException {
         panelFiltre=new JPanel();
         panelFiltre.setLayout(null);
         panelFiltre.setBounds(5,5,700,100);
@@ -149,7 +149,7 @@ public class urunListelemeForm extends JFrame{
         mainPanel.add(panelFiltre);
     }
 
-    private void getFilterComponents() throws SQLException {
+    private void getFilterComponents() throws SQLException, IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
         ResultSet kategoriler = db.kategoriGetir();
@@ -165,17 +165,29 @@ public class urunListelemeForm extends JFrame{
         bulText.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                urunListeYenile();
+                try {
+                    urunListeYenile();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                urunListeYenile();
+                try {
+                    urunListeYenile();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                urunListeYenile();
+                try {
+                    urunListeYenile();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
         panelFiltre.add(bulText);
@@ -222,7 +234,11 @@ public class urunListelemeForm extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                urunListeYenile();
+                try {
+                    urunListeYenile();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
 
@@ -231,7 +247,7 @@ public class urunListelemeForm extends JFrame{
         db.baglantiyiKapat();
     }
 
-    private void urunListeYenile() {
+    private void urunListeYenile() throws IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         tableModel.setColumnIdentifiers(kolonlar);
         tableModel.setRowCount(0);
@@ -240,7 +256,7 @@ public class urunListelemeForm extends JFrame{
             Item kategori = (Item)kategoriCombobox.getSelectedItem();
             Item marka = (Item)markaCombobox.getSelectedItem();
             Item renk = (Item)renkCombobox.getSelectedItem();
-            var urunListesi = db.urunListele(bulText.getText(), kategori.getId(),marka.getId(),renk.getId());
+            ResultSet urunListesi = db.urunListele(bulText.getText(), kategori.getId(),marka.getId(),renk.getId());
 
             while(urunListesi.next()){
                 satirlar[0] = urunListesi.getString("id");
@@ -271,7 +287,7 @@ public class urunListelemeForm extends JFrame{
                     urunEkleForm = new urunEkle();
                     urunEkleForm.setVisible(true);
                     setVisible(false);
-                } catch (SQLException e) {
+                } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -286,7 +302,7 @@ public class urunListelemeForm extends JFrame{
                     urunGuncelleSil = new urunGuncelleSil();
                     urunGuncelleSil.setVisible(true);
                     setVisible(false);
-                } catch (SQLException e) {
+                } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -373,7 +389,7 @@ public class urunListelemeForm extends JFrame{
         setJMenuBar(menuBar);
     }
 
-    private void getPanelUrunList() throws SQLException {
+    private void getPanelUrunList() throws SQLException, IOException {
         getUrunListeleTable();
         getScrollPane();
         mainPanel.add(scrollPane);

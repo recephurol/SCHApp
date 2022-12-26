@@ -183,7 +183,7 @@ public class urunDetayFormDeneme extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     try {
                         satinAl.stokDus();
-                    } catch (SQLException ex) {
+                    } catch (SQLException | IOException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
@@ -277,7 +277,7 @@ public class urunDetayFormDeneme extends JFrame {
                 try {
                     urunListelemeForm listeForm = new urunListelemeForm();
                     listeForm.setVisible(true);
-                } catch (SQLException e) {
+                } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }
             }

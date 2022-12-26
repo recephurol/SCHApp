@@ -3,6 +3,7 @@ package urun.urunDetayi;
 import dataAccess.PostgreSQLDbConnection;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class SatinAlButton extends JButton {
@@ -18,7 +19,7 @@ public class SatinAlButton extends JButton {
         this.urunFiyatId = urunFiyatId;
     }
 
-    public void stokDus() throws SQLException {
+    public void stokDus() throws SQLException, IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
         db.stokDus(urunFiyatId);

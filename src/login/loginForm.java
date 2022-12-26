@@ -6,6 +6,7 @@ import urun.urunListeleme.urunListelemeForm;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class loginForm extends JFrame {
@@ -27,8 +28,17 @@ public class loginForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                PostgreSQLDbConnection baglanti = new PostgreSQLDbConnection();
-                baglanti.baglan();
+                PostgreSQLDbConnection baglanti = null;
+                try {
+                    baglanti = new PostgreSQLDbConnection();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                try {
+                    baglanti.baglan();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
                 boolean sonuc = true;
                 try {
                     sonuc = baglanti.kullaniciKontrol(kullaniciAdiText.getText(),parolaText.getText());
@@ -45,7 +55,7 @@ public class loginForm extends JFrame {
                     }else{
                         JOptionPane.showMessageDialog(null,"Kullanıcı adı veya parola yanlış");
                     }
-                } catch (SQLException ex) {
+                } catch (SQLException | IOException ex) {
                     ex.printStackTrace();
                 }
 

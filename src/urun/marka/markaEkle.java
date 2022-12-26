@@ -8,6 +8,7 @@ import urun.urunListeleme.urunListelemeForm;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class markaEkle extends JFrame {
@@ -47,8 +48,14 @@ public class markaEkle extends JFrame {
         markaEkle .addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PostgreSQLDbConnection db = new PostgreSQLDbConnection();
-                db.baglan();
+                PostgreSQLDbConnection db = null;
+                try {
+                    db = new PostgreSQLDbConnection();
+                    db.baglan();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
 
                 Marka marka = new Marka(markaEkletex.getText());
                 try {
@@ -59,7 +66,7 @@ public class markaEkle extends JFrame {
                     JOptionPane.showMessageDialog(null, "Marka başarıyla eklendi");
                     urunlistele.setVisible(true);
                     setVisible(false);
-                } catch (SQLException throwables) {
+                } catch (SQLException | IOException throwables) {
                     throwables.printStackTrace();
                 }
             }
@@ -71,7 +78,7 @@ public class markaEkle extends JFrame {
                 try {
                     urunListelemeForm listeForm = new urunListelemeForm();
                     listeForm.setVisible(true);
-                } catch (SQLException e) {
+                } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }
             }

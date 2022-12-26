@@ -66,7 +66,7 @@ public class urunGuncelleSil extends JFrame {
     Object[] kolonlar = {"id","Ürün Id","markaId","kategoriId","renkId","magazaId","Adı","Marka","Kategori","Renk","Mağaza","Stok","Fiyat","Açıklama"};
     Object[] satirlar = new Object[14];
 
-    public urunGuncelleSil() throws SQLException {
+    public urunGuncelleSil() throws SQLException, IOException {
         initializeUrunGuncelleSil();
 
         getMainPanel();
@@ -75,7 +75,7 @@ public class urunGuncelleSil extends JFrame {
 
     }
 
-    private void getUrunBilgisiPanel() throws SQLException {
+    private void getUrunBilgisiPanel() throws SQLException, IOException {
         urunBilgisiPanel = new JPanel();
         urunBilgisiPanel.setLayout(null);
         urunBilgisiPanel.setBounds(640,0,400,420);
@@ -157,7 +157,7 @@ public class urunGuncelleSil extends JFrame {
                     urunListelemeForm listeForm = new urunListelemeForm();
                     listeForm.setVisible(true);
                     setVisible(false);
-                } catch (SQLException e) {
+                } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -171,13 +171,19 @@ public class urunGuncelleSil extends JFrame {
         kaydetButon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PostgreSQLDbConnection db = new PostgreSQLDbConnection();
-                db.baglan();
+                PostgreSQLDbConnection db = null;
+                try {
+                    db = new PostgreSQLDbConnection();
+                    db.baglan();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
                 Item kategori= (Item)kategoriCombobox.getSelectedItem();
                 Item marka= (Item)markaCombobox.getSelectedItem();
                 Item renk= (Item)renkCombobox.getSelectedItem();
                 Item magaza= (Item)magazaCombobox.getSelectedItem();
-                var sonuc = db.urunGuncelle(new Urun(
+                Boolean sonuc = db.urunGuncelle(new Urun(
                         urunId,
                         Double.parseDouble(fiyatText.getText()),
                         urunAdiText.getText(),
@@ -195,7 +201,11 @@ public class urunGuncelleSil extends JFrame {
 
                 String mesaj = sonuc ? "Ürün Fiyat Başarıyla Güncellenmiştir" : "Ürün Güncellerken bir hata oluştu";
                 JOptionPane.showMessageDialog(null,mesaj);
-                urunListeYenile();
+                try {
+                    urunListeYenile();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
 
@@ -206,13 +216,23 @@ public class urunGuncelleSil extends JFrame {
         silButon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            PostgreSQLDbConnection db = new PostgreSQLDbConnection();
-            db.baglan();
-            var sonuc = db.urunFiyatSil(urunFiyatId);
+                PostgreSQLDbConnection db = null;
+                try {
+                    db = new PostgreSQLDbConnection();
+                    db.baglan();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
+            Boolean sonuc = db.urunFiyatSil(urunFiyatId);
 
             String mesaj = sonuc ? "Ürün Fiyat Başarıyla Silinmiştir" : "Ürün Silerken bir hata oluştu";
             JOptionPane.showMessageDialog(null,mesaj);
-            urunListeYenile();
+                try {
+                    urunListeYenile();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
 
@@ -227,7 +247,7 @@ public class urunGuncelleSil extends JFrame {
                     listeForm = new urunListelemeForm();
                     listeForm.setVisible(true);
                     setVisible(false);
-                } catch (SQLException ex) {
+                } catch (SQLException | IOException ex) {
                     ex.printStackTrace();
                 }
 
@@ -254,13 +274,13 @@ public class urunGuncelleSil extends JFrame {
         urunBilgisiPanel.add(aciklamaText);
     }
 
-    private void urunListeYenile() {
+    private void urunListeYenile() throws IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         tableModel.setColumnIdentifiers(kolonlar);
         tableModel.setRowCount(0);
         db.baglan();
         try {
-            var urunFiyatListesi = db.urunFiyatListele();
+            ResultSet urunFiyatListesi = db.urunFiyatListele();
 
             while(urunFiyatListesi.next()){
                 satirlar[0] = urunFiyatListesi.getInt("id");
@@ -322,7 +342,7 @@ public class urunGuncelleSil extends JFrame {
 
     }
 
-    private void getMagaza() throws SQLException {
+    private void getMagaza() throws SQLException, IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
         ResultSet magazalar  = db.magazaGetir();
@@ -342,7 +362,7 @@ public class urunGuncelleSil extends JFrame {
         urunBilgisiPanel.add(magazaCombobox);
     }
 
-    private void getUrunRenk() throws SQLException {
+    private void getUrunRenk() throws SQLException, IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
         ResultSet renkler  = db.renkGetir();
@@ -362,7 +382,7 @@ public class urunGuncelleSil extends JFrame {
         urunBilgisiPanel.add(renkCombobox);
     }
 
-    private void getUrunKategorisi() throws SQLException {
+    private void getUrunKategorisi() throws SQLException, IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
         ResultSet kategoriler  = db.kategoriGetir();
@@ -382,7 +402,7 @@ public class urunGuncelleSil extends JFrame {
         urunBilgisiPanel.add(kategoriCombobox);
     }
 
-    private void getUrunMarkasi() throws SQLException {
+    private void getUrunMarkasi() throws SQLException, IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
         ResultSet markalar  = db.markaGetir();
@@ -414,7 +434,7 @@ public class urunGuncelleSil extends JFrame {
         urunBilgisiPanel.add(urunAdiText);
     }
 
-    private void getUrunListesiPanel() throws SQLException {
+    private void getUrunListesiPanel() throws SQLException, IOException {
         urunListesiPanel = new JPanel();
         urunListesiPanel.setLayout(null);
         urunListesiPanel.setBounds(0,0,620,420);
@@ -434,14 +454,14 @@ public class urunGuncelleSil extends JFrame {
         mainPanel.add(urunListesiScrollPane);
     }
 
-    private void getUrunListeleTable() throws SQLException {
+    private void getUrunListeleTable() throws SQLException, IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         table = new JTable();
         table.setBounds(0,0,590,390);
         tableModel.setColumnIdentifiers(kolonlar);
         db.baglan();
 
-        var urunFiyatListesi = db.urunFiyatListele();
+        ResultSet urunFiyatListesi = db.urunFiyatListele();
         while(urunFiyatListesi.next()){
             satirlar[0] = urunFiyatListesi.getInt("id");
             satirlar[1] = urunFiyatListesi.getInt("urunId");

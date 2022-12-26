@@ -1,6 +1,7 @@
 package dataAccess;
 
 
+import araclar.DbProperties;
 import dataAccess.DbConnection;
 import model.*;
 import model.Kullanici;
@@ -8,22 +9,28 @@ import model.Urun;
 import model.Yorum;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
 
 
 public class PostgreSQLDbConnection extends DbConnection {
 
-    private final String url = "jdbc:postgresql://localhost:5432/schapp";
+
 
     private Connection conn = null;
-    public PostgreSQLDbConnection(){
+    public PostgreSQLDbConnection() throws IOException {
         super();
     }
 
     @Override
-    public Connection baglan() {
+    public Connection baglan() throws IOException {
+
+        String url = DbProperties.get("host");
+        String user = DbProperties.get("user");
+        String password = DbProperties.get("password");
         try {
-            conn = DriverManager.getConnection(url,"postgres","postgres");
+            conn = DriverManager.getConnection(url,user,password);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -87,14 +94,14 @@ public class PostgreSQLDbConnection extends DbConnection {
         return null;
     }
 
-    public boolean kullaniciKontrol(String kullaniciAdi, String sifre) throws SQLException {
+    public boolean kullaniciKontrol(String kullaniciAdi, String sifre) throws SQLException, IOException {
         if(conn==null){
             baglan();
         }
         Statement myStat =conn.createStatement();
         String query = "select * from kullanici where kullanici_adi = '"+kullaniciAdi+"' and sifre='"+sifre+"';";
         //String.format(query,kullaniciAdi,sifre);
-        var kullaniciSayisi= myStat.executeQuery(query);
+        ResultSet kullaniciSayisi= myStat.executeQuery(query);
         System.out.println(kullaniciSayisi);
         while(kullaniciSayisi.next()){
             if(kullaniciSayisi.getString("id")!=null){

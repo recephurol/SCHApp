@@ -48,8 +48,14 @@ public class yorumEkle extends JFrame {
         kaydetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PostgreSQLDbConnection db = new PostgreSQLDbConnection();
-                db.baglan();
+                PostgreSQLDbConnection db = null;
+                try {
+                    db = new PostgreSQLDbConnection();
+                    db.baglan();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
                 Double puanCB =Double.parseDouble(puan.getSelectedItem().toString());
                 final Integer urunIdfinal = getUrunId();
                 Yorum yorum = new Yorum(urunIdfinal,adSoyadText.getText(),puanCB,yorumText.getText());

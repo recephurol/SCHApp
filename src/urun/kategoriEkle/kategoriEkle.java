@@ -7,6 +7,7 @@ import urun.urunListeleme.urunListelemeForm;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class kategoriEkle extends JFrame {
@@ -40,8 +41,14 @@ public class kategoriEkle extends JFrame {
         kategoriEkle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PostgreSQLDbConnection db = new PostgreSQLDbConnection();
-                db.baglan();
+                PostgreSQLDbConnection db = null;
+                try {
+                    db = new PostgreSQLDbConnection();
+                    db.baglan();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
 
                 Kategori kategori = new Kategori(kategoritex.getText());
                 try {
@@ -53,7 +60,7 @@ public class kategoriEkle extends JFrame {
 
                     urunlistele.setVisible(true);
                     setVisible(false);
-                } catch (SQLException throwables) {
+                } catch (SQLException | IOException throwables) {
                     throwables.printStackTrace();
                 }
             }
@@ -65,7 +72,7 @@ public class kategoriEkle extends JFrame {
                 try {
                     urunListelemeForm listeForm = new urunListelemeForm();
                     listeForm.setVisible(true);
-                } catch (SQLException e) {
+                } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }
             }

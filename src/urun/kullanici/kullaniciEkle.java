@@ -11,6 +11,7 @@ package urun.kullanici;
         import java.awt.*;
         import java.awt.event.ActionEvent;
         import java.awt.event.ActionListener;
+        import java.io.IOException;
         import java.sql.SQLException;
 
 public class kullaniciEkle extends JFrame {
@@ -50,7 +51,7 @@ public class kullaniciEkle extends JFrame {
                 try {
                     urunListelemeForm listeForm = new urunListelemeForm();
                     listeForm.setVisible(true);
-                } catch (SQLException e) {
+                } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -124,8 +125,14 @@ public class kullaniciEkle extends JFrame {
         kaydetButon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PostgreSQLDbConnection db = new PostgreSQLDbConnection();
-                db.baglan();
+                PostgreSQLDbConnection db = null;
+                try {
+                    db = new PostgreSQLDbConnection();
+                    db.baglan();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
                 String kullaniciTipi = (String) kullaniciTuruCombobox.getSelectedItem();
                 try {
                     enums.EnumKullaniciTipi tip = null;

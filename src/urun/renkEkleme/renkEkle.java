@@ -8,6 +8,7 @@ import urun.urunListeleme.urunListelemeForm;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class renkEkle extends JFrame {
@@ -48,8 +49,14 @@ public class renkEkle extends JFrame {
         renkEkleme .addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PostgreSQLDbConnection db = new PostgreSQLDbConnection();
-                db.baglan();
+                PostgreSQLDbConnection db = null;
+                try {
+                    db = new PostgreSQLDbConnection();
+                    db.baglan();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
 
                 Renk renk = new Renk(renkEklemetex.getText());
                 try {
@@ -60,7 +67,7 @@ public class renkEkle extends JFrame {
                     JOptionPane.showMessageDialog(null, "Renk başarıyla eklendi");
                     urunlistele.setVisible(true);
                     setVisible(false);
-                } catch (SQLException throwables) {
+                } catch (SQLException | IOException throwables) {
                     throwables.printStackTrace();
                 }
             }
@@ -72,7 +79,7 @@ public class renkEkle extends JFrame {
                 try {
                     urunListelemeForm listeForm = new urunListelemeForm();
                     listeForm.setVisible(true);
-                } catch (SQLException e) {
+                } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }
             }

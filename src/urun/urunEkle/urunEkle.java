@@ -50,11 +50,11 @@ public class urunEkle extends JFrame {
 
     private Font baslik = new Font(null,1,14);
 
-    public urunEkle() throws SQLException {
+    public urunEkle() throws SQLException, IOException {
         initializeUrunEkle();
     }
 
-    private void initializeUrunEkle() throws SQLException {
+    private void initializeUrunEkle() throws SQLException, IOException {
         setTitle("Ürün Ekleme İşlemleri");
         setBounds(500,200,600,600);
         setLayout(null);
@@ -81,7 +81,7 @@ public class urunEkle extends JFrame {
                 try {
                     urunListelemeForm listeForm = new urunListelemeForm();
                     listeForm.setVisible(true);
-                } catch (SQLException e) {
+                } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -120,8 +120,17 @@ public class urunEkle extends JFrame {
         iptalButon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PostgreSQLDbConnection db = new PostgreSQLDbConnection();
-                db.baglan();
+                PostgreSQLDbConnection db = null;
+                try {
+                    db = new PostgreSQLDbConnection();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                try {
+                    db.baglan();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
                 try {
                     urunListelemeForm liste = new urunListelemeForm();
                     liste.setVisible(true);
@@ -194,15 +203,21 @@ public class urunEkle extends JFrame {
         kaydetButon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PostgreSQLDbConnection db = new PostgreSQLDbConnection();
-                db.baglan();
+                PostgreSQLDbConnection db = null;
+                try {
+                    db = new PostgreSQLDbConnection();
+                    db.baglan();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
                 Item kategori= (Item)kategoriCombobox.getSelectedItem();
                 Item marka= (Item)markaCombobox.getSelectedItem();
                 Item renk= (Item)renkCombobox.getSelectedItem();
                 Item magaza= (Item)magazaCombobox.getSelectedItem();
                 try {
 
-                    var sonuc = db.urunEkle(
+                    Boolean sonuc = db.urunEkle(
                             new Urun(
                                     null,
                                     Double.parseDouble(fiyatText.getText()),
@@ -294,7 +309,7 @@ public class urunEkle extends JFrame {
         urunBilgileriPanel.add(aciklamaText);
     }
 
-    private void getMagaza() throws SQLException {
+    private void getMagaza() throws SQLException, IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
         ResultSet magazalar  = db.magazaGetir();
@@ -314,7 +329,7 @@ public class urunEkle extends JFrame {
         db.baglantiyiKapat();
     }
 
-    private void getRenk() throws SQLException {
+    private void getRenk() throws SQLException, IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
         ResultSet renkler  = db.renkGetir();
@@ -334,7 +349,7 @@ public class urunEkle extends JFrame {
         db.baglantiyiKapat();
     }
 
-    private void getKategori() throws SQLException {
+    private void getKategori() throws SQLException, IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
         ResultSet kategoriler  = db.kategoriGetir();
@@ -354,7 +369,7 @@ public class urunEkle extends JFrame {
         db.baglantiyiKapat();
     }
 
-    private void getMarka() throws SQLException {
+    private void getMarka() throws SQLException, IOException {
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
         ResultSet markalar  = db.markaGetir();
