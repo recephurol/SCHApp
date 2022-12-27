@@ -30,11 +30,11 @@ public class kullaniciEkle extends JFrame {
 
     public kullaniciEkle() throws SQLException {
 
-        kullaniciEkle();
+        initialKullaniciEkle();
 
     }
 
-    private void kullaniciEkle() throws SQLException {
+    private void initialKullaniciEkle() throws SQLException {
         setTitle("Kullanici Ekleme İşlemleri");
         setBounds(400, 400, 310, 220);
         setLayout(null);
