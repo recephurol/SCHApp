@@ -16,10 +16,12 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 
 public class urunEkle extends JFrame {
 
@@ -158,8 +160,8 @@ public class urunEkle extends JFrame {
                 File f = dosyaSec.getSelectedFile();
                 String url="src/images/";
 
-
                 String fotoPath = f.getAbsolutePath();
+
                 File directory = new File(url);
                 if(!directory.exists()){
                     directory.mkdirs();
@@ -173,10 +175,15 @@ public class urunEkle extends JFrame {
                 destinationFile = new File(url+fotoFileName);
                 try {
                     Files.copy(sourceFile.toPath(),destinationFile.toPath());
-                } catch (IOException ex) {
+
+                } catch (FileAlreadyExistsException ex) {
+
+
+                }catch (IOException ex) {
                     ex.printStackTrace();
                 }
                 try {
+
                     BufferedImage img = ImageIO.read(destinationFile);
                     urunFoto = img.getScaledInstance(fotoPanel.getWidth()-25,fotoPanel.getHeight()-25,BufferedImage.SCALE_DEFAULT);
                     ImageIcon icon = new ImageIcon(urunFoto);

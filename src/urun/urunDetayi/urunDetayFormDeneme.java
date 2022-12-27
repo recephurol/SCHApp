@@ -183,6 +183,10 @@ public class urunDetayFormDeneme extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     try {
                         satinAl.stokDus();
+                        JOptionPane.showMessageDialog(null,"Satın alma Başarılı");
+                        urunListelemeForm urunListe = new urunListelemeForm();
+                        urunListe.setVisible(true);
+                        setVisible(false);
                     } catch (SQLException | IOException ex) {
                         throw new RuntimeException(ex);
                     }
