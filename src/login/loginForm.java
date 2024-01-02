@@ -1,6 +1,7 @@
 package login;
 
 import dataAccess.PostgreSQLDbConnection;
+import login.dto.KullaniciDto;
 import urun.urunListeleme.urunListelemeForm;
 
 import javax.swing.*;
@@ -39,14 +40,14 @@ public class loginForm extends JFrame {
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
-                boolean sonuc = true;
+                KullaniciDto sonuc = new KullaniciDto();
                 try {
                     sonuc = baglanti.kullaniciKontrol(kullaniciAdiText.getText(),parolaText.getText());
 
-                    if (sonuc){
+                    if (sonuc!=null){
                         urunListelemeForm urunListele = null;
                         try {
-                            urunListele = new urunListelemeForm();
+                            urunListele = new urunListelemeForm(sonuc.getKullaniciTipi().toString(),sonuc.getId());
                         } catch (SQLException ex) {
                             ex.printStackTrace();
                         }

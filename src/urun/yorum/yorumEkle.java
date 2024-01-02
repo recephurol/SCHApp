@@ -22,9 +22,13 @@ public class yorumEkle extends JFrame {
     private JButton kaydetButton;
     private JLabel adSoyadLabel;
     private JTextField adSoyadText;
+    private String kullaniciTuru;
+    private Integer kullaniciId;
 
-    public yorumEkle(Integer urunId){
+    public yorumEkle(Integer urunId,String kullaniciTuru, Integer kullaniciId){
         _urunId=urunId;
+        this.kullaniciTuru=kullaniciTuru;
+        this.kullaniciId=kullaniciId;
         initializeYorumEkleForm();
     }
 
@@ -61,7 +65,7 @@ public class yorumEkle extends JFrame {
                 Yorum yorum = new Yorum(urunIdfinal,adSoyadText.getText(),puanCB,yorumText.getText());
                 try {
                     db.yorumEkle(yorum);
-                    urunDetayFormDeneme detay = new urunDetayFormDeneme(urunIdfinal);
+                    urunDetayFormDeneme detay = new urunDetayFormDeneme(urunIdfinal,kullaniciTuru,kullaniciId);
                     JOptionPane.showMessageDialog(null, "Yorum Başarıyla Eklendi");
                     detay.setVisible(true);
                     setVisible(false);

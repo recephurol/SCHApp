@@ -2,6 +2,8 @@ package dataAccess;
 
 
 import araclar.DbProperties;
+import enums.EnumKullaniciTipi;
+import login.dto.KullaniciDto;
 import model.*;
 import model.Kullanici;
 import model.Urun;
@@ -79,21 +81,27 @@ public class PostgreSQLDbConnection extends DbConnection {
         return null;
     }
 
-    public boolean kullaniciKontrol(String kullaniciAdi, String sifre) throws SQLException, IOException {
+    public KullaniciDto kullaniciKontrol(String kullaniciAdi, String sifre) throws SQLException, IOException {
         if(conn==null){
             baglan();
         }
         Statement myStat =conn.createStatement();
         String query = "select * from kullanici where kullanici_adi = '"+kullaniciAdi+"' and sifre='"+sifre+"';";
         //String.format(query,kullaniciAdi,sifre);
-        ResultSet kullaniciSayisi= myStat.executeQuery(query);
-        System.out.println(kullaniciSayisi);
-        while(kullaniciSayisi.next()){
-            if(kullaniciSayisi.getString("id")!=null){
-                return true;
+        KullaniciDto kullaniciDto = new KullaniciDto();
+        ResultSet kullanici= myStat.executeQuery(query);
+        while(kullanici.next()){
+            if(kullanici.getString("id")!=null){
+                System.out.println(kullanici.getString("kullanici_adi"));
+                System.out.println(kullanici.getString("kullanici_tipi"));
+                System.out.println(kullanici.getString("sifre"));
+                kullaniciDto.setId(kullanici.getInt("id"));
+                kullaniciDto.setKullaniciAdi(kullanici.getString("kullanici_adi"));
+                kullaniciDto.setKullaniciTipi(EnumKullaniciTipi.valueOf(kullanici.getString("kullanici_tipi")));
+                return kullaniciDto;
             }
         }
-        return false;
+        return null;
     }
 
     public ResultSet urunDetayGetir(int id){
@@ -527,6 +535,25 @@ public class PostgreSQLDbConnection extends DbConnection {
 
                 PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
                 insertQuery.setInt(1,urunFiyatId);
+                insertQuery.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                return false;
+            }
+
+        }
+        return false;
+    }
+
+    public boolean favoriyeEkle(Integer urunId, Integer kullaniciId ){
+
+        if(conn!=null){
+            try {
+                String insertUrunQuery ="INSERT INTO favoriler (urun_id, kullanici_id) VALUES ( ?, ?); ";
+
+                PreparedStatement insertQuery = conn.prepareStatement(insertUrunQuery);
+                insertQuery.setInt(1,urunId);
+                insertQuery.setInt(2,kullaniciId);
                 insertQuery.executeUpdate();
                 return true;
             } catch (SQLException e) {
