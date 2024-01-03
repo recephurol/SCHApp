@@ -50,6 +50,8 @@ public class urunGuncelleSil extends JFrame {
     private JButton iptalButon;
     private JButton fotografSec;
     private Image urunFoto;
+    private String kullaniciTuru;
+    private Integer kullaniciId;
 
     private Integer urunId;
     private Integer urunFiyatId;
@@ -66,7 +68,9 @@ public class urunGuncelleSil extends JFrame {
     Object[] kolonlar = {"id","Ürün Id","markaId","kategoriId","renkId","magazaId","Adı","Marka","Kategori","Renk","Mağaza","Stok","Fiyat","Açıklama"};
     Object[] satirlar = new Object[14];
 
-    public urunGuncelleSil() throws SQLException, IOException {
+    public urunGuncelleSil(String kullaniciTuru,Integer kullaniciId) throws SQLException, IOException {
+        this.kullaniciTuru=kullaniciTuru;
+        this.kullaniciId=kullaniciId;
         initializeUrunGuncelleSil();
 
         getMainPanel();
@@ -154,7 +158,7 @@ public class urunGuncelleSil extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 try {
-                    urunListelemeForm listeForm = new urunListelemeForm();
+                    urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
                     listeForm.setVisible(true);
                     setVisible(false);
                 } catch (SQLException | IOException e) {
@@ -244,7 +248,7 @@ public class urunGuncelleSil extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 urunListelemeForm listeForm = null;
                 try {
-                    listeForm = new urunListelemeForm();
+                    listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
                     listeForm.setVisible(true);
                     setVisible(false);
                 } catch (SQLException | IOException ex) {

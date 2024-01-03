@@ -293,7 +293,7 @@ public class urunListelemeForm extends JFrame{
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     urunEkle urunEkleForm = null;
                     try {
-                        urunEkleForm = new urunEkle();
+                        urunEkleForm = new urunEkle(kullaniciTuru,kullaniciId);
                         urunEkleForm.setVisible(true);
                         setVisible(false);
                     } catch (SQLException | IOException e) {
@@ -310,7 +310,7 @@ public class urunListelemeForm extends JFrame{
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     urunGuncelleSil urunGuncelleSil = null;
                     try {
-                        urunGuncelleSil = new urunGuncelleSil();
+                        urunGuncelleSil = new urunGuncelleSil(kullaniciTuru,kullaniciId);
                         urunGuncelleSil.setVisible(true);
                         setVisible(false);
                     } catch (SQLException | IOException e) {
@@ -329,7 +329,7 @@ public class urunListelemeForm extends JFrame{
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     kullaniciEkle kullaniciEkleForm = null;
                     try {
-                        kullaniciEkleForm = new kullaniciEkle();
+                        kullaniciEkleForm = new kullaniciEkle(kullaniciTuru,kullaniciId);
                         kullaniciEkleForm.setVisible(true);
                         setVisible(false);
                     } catch (SQLException e) {
@@ -346,7 +346,7 @@ public class urunListelemeForm extends JFrame{
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                kategoriEkle kategoriEkle= new kategoriEkle();
+                kategoriEkle kategoriEkle= new kategoriEkle(kullaniciTuru,kullaniciId);
                 kategoriEkle.setVisible(true);
                 setVisible(false);
 
@@ -363,7 +363,7 @@ public class urunListelemeForm extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                markaEkle markaEkle= new markaEkle();
+                markaEkle markaEkle= new markaEkle(kullaniciTuru,kullaniciId);
                 markaEkle.setVisible(true);
                 setVisible(false);
 
@@ -377,7 +377,7 @@ public class urunListelemeForm extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                renkEkle renkEkle= new renkEkle();
+                renkEkle renkEkle= new renkEkle(kullaniciTuru,kullaniciId);
                 renkEkle.setVisible(true);
                 setVisible(false);
 
@@ -391,7 +391,7 @@ public class urunListelemeForm extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                magazaEkle magazaEkle= new magazaEkle();
+                magazaEkle magazaEkle= new magazaEkle(kullaniciTuru,kullaniciId);
                 magazaEkle.setVisible(true);
                 setVisible(false);
 
@@ -399,17 +399,6 @@ public class urunListelemeForm extends JFrame{
         });
             menu.add(magazaEkleMenuItem);
         }
-
-
-
-
-
-
-
-
-
-
-
         menuBar.add(menu);
         setJMenuBar(menuBar);
     }

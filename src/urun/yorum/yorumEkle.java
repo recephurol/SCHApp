@@ -3,6 +3,7 @@ package urun.yorum;
 import dataAccess.PostgreSQLDbConnection;
 import model.Yorum;
 import urun.urunDetayi.urunDetayFormDeneme;
+import urun.urunListeleme.urunListelemeForm;
 
 import javax.swing.*;
 import java.awt.*;
@@ -75,7 +76,17 @@ public class yorumEkle extends JFrame {
             }
         });
         add(kaydetButton);
-
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                try {
+                    urunDetayFormDeneme detay = new urunDetayFormDeneme(_urunId,kullaniciTuru,kullaniciId);
+                    detay.setVisible(true);
+                } catch (SQLException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void getAdSoyad() {

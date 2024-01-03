@@ -27,9 +27,12 @@ public class kullaniciEkle extends JFrame {
     private JComboBox kullaniciTuruCombobox;
 
     private JButton kaydetButon;
+    private String kullaniciTuru;
+    private Integer kullaniciId;
 
-    public kullaniciEkle() throws SQLException {
-
+    public kullaniciEkle(String kullaniciTuru,Integer kullaniciId) throws SQLException {
+        this.kullaniciTuru=kullaniciTuru;
+        this.kullaniciId=kullaniciId;
         initialKullaniciEkle();
 
     }
@@ -49,7 +52,7 @@ public class kullaniciEkle extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 try {
-                    urunListelemeForm listeForm = new urunListelemeForm();
+                    urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
                     listeForm.setVisible(true);
                 } catch (SQLException | IOException e) {
                     e.printStackTrace();

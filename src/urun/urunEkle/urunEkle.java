@@ -47,10 +47,15 @@ public class urunEkle extends JFrame {
     private JFormattedTextField stokText;
     private JLabel stokLabel;
     private JLabel imgLabel;
+    private String kullaniciTuru;
+    private Integer kullaniciId;
+
 
     private Font baslik = new Font(null,1,14);
 
-    public urunEkle() throws SQLException, IOException {
+    public urunEkle(String kullaniciTuru,Integer kullaniciId) throws SQLException, IOException {
+        this.kullaniciTuru=kullaniciTuru;
+        this.kullaniciId=kullaniciId;
         initializeUrunEkle();
     }
 
@@ -79,7 +84,7 @@ public class urunEkle extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 try {
-                    urunListelemeForm listeForm = new urunListelemeForm();
+                    urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
                     listeForm.setVisible(true);
                 } catch (SQLException | IOException e) {
                     e.printStackTrace();

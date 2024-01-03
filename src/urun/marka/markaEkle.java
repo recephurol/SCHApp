@@ -18,12 +18,14 @@ public class markaEkle extends JFrame {
     private JLabel markaEkleLabel;
     private JTextField markaEkletex;
     private JButton MarkaEkle;
+    private String kullaniciTuru;
+    private Integer kullaniciId;
 
 
 
-
-    public markaEkle(){
-
+    public markaEkle(String kullaniciTuru,Integer kullaniciId){
+        this.kullaniciTuru=kullaniciTuru;
+        this.kullaniciId=kullaniciId;
         initializemarkaEkleForm();
     }
 
@@ -60,7 +62,7 @@ public class markaEkle extends JFrame {
                 Marka marka = new Marka(markaEkletex.getText());
                 try {
                     db.markaEkle(marka);
-                    urunListelemeForm urunlistele= new urunListelemeForm();
+                    urunListelemeForm urunlistele= new urunListelemeForm(kullaniciTuru,kullaniciId);
 
 
                     JOptionPane.showMessageDialog(null, "Marka başarıyla eklendi");
@@ -76,7 +78,7 @@ public class markaEkle extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 try {
-                    urunListelemeForm listeForm = new urunListelemeForm();
+                    urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
                     listeForm.setVisible(true);
                 } catch (SQLException | IOException e) {
                     e.printStackTrace();

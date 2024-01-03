@@ -15,9 +15,12 @@ public class kategoriEkle extends JFrame {
     private JLabel kategoriLabel;
     private JTextField kategoritex;
     private JButton kategoriEkle;
+    private String kullaniciTuru;
+    private Integer kullaniciId;
 
-    public kategoriEkle(){
-
+    public kategoriEkle(String kullaniciTuru,Integer kullaniciId){
+        this.kullaniciTuru=kullaniciTuru;
+        this.kullaniciId=kullaniciId;
         initializeKategoriEkleForm();
     }
 
@@ -53,7 +56,7 @@ public class kategoriEkle extends JFrame {
                 Kategori kategori = new Kategori(kategoritex.getText());
                 try {
                     db.kategoriEkle(kategori);
-                    urunListelemeForm urunlistele= new urunListelemeForm();
+                    urunListelemeForm urunlistele= new urunListelemeForm(kullaniciTuru,kullaniciId);
 
 
                     JOptionPane.showMessageDialog(null, "kategori başarıyla eklendi");
@@ -70,7 +73,7 @@ public class kategoriEkle extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 try {
-                    urunListelemeForm listeForm = new urunListelemeForm();
+                    urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
                     listeForm.setVisible(true);
                 } catch (SQLException | IOException e) {
                     e.printStackTrace();
