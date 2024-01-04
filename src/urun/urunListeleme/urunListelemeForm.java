@@ -3,6 +3,7 @@ package urun.urunListeleme;
 import dataAccess.PostgreSQLDbConnection;
 import enums.EnumKullaniciTipi;
 import model.Item;
+import urun.bildirimler.Bildirimler;
 import urun.kullanici.kullaniciEkle;
 import urun.magaza.magazaEkle;
 import urun.marka.markaEkle;
@@ -50,6 +51,7 @@ public class urunListelemeForm extends JFrame{
 
     private JMenuItem kullaniciEkleMenuItem;
     private JMenuItem urunGuncelleSilMenuItem;
+    private JMenuItem bildirimlerMenuItem;
     private JButton filtreleButon;
     private String kullaniciTuru;
     private Integer kullaniciId;
@@ -319,6 +321,23 @@ public class urunListelemeForm extends JFrame{
                 }
             });
             menu.add(urunGuncelleSilMenuItem);
+        }
+        if(this.kullaniciTuru=="MUSTERI"){
+            bildirimlerMenuItem = new JMenuItem("Bildirimler");
+            bildirimlerMenuItem.addActionListener(new java.awt.event.ActionListener() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    Bildirimler bildirimler = null;
+                    try {
+                        bildirimler = new Bildirimler(kullaniciId);
+                        bildirimler.setVisible(true);
+                        setVisible(false);
+                    } catch (SQLException | IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            menu.add(bildirimlerMenuItem);
         }
 
 
