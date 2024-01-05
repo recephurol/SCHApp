@@ -589,4 +589,22 @@ public class PostgreSQLDbConnection extends DbConnection {
         }
         return null;
     }
+
+    public ResultSet favorilerimiListele(int kullaniciId) throws SQLException {
+        if (conn != null) {
+
+            String query = "select id,urun_id,aciklama from bildirimler where urun_id in ( " +
+                    "    select urun_id from favoriler where urun_id in ( " +
+                    "    select distinct uf.urun_id from urun_fiyat uf " +
+                    "inner join favoriler f on uf.urun_id = f.urun_id " +
+                    "    ) and kullanici_id="+kullaniciId +")";
+
+            Statement myStat = conn.createStatement();
+
+            return myStat.executeQuery(query);
+        }
+        return null;
+    }
+
+
 }
