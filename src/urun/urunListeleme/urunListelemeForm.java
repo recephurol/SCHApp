@@ -329,7 +329,7 @@ public class urunListelemeForm extends JFrame{
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     Bildirimler bildirimler = null;
                     try {
-                        bildirimler = new Bildirimler(kullaniciId);
+                        bildirimler = new Bildirimler(kullaniciTuru,kullaniciId);
                         bildirimler.setVisible(true);
                         setVisible(false);
                     } catch (SQLException | IOException e) {
