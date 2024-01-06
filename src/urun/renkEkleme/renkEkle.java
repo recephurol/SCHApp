@@ -18,12 +18,14 @@ public class renkEkle extends JFrame {
     private JLabel renkEklemeLabel;
     private JTextField renkEklemetex;
     private JButton renkEkleme;
+    private String kullaniciTuru;
+    private Integer kullaniciId;
 
 
 
-
-    public renkEkle(){
-
+    public renkEkle(String kullaniciTuru,Integer kullaniciId){
+        this.kullaniciTuru=kullaniciTuru;
+        this.kullaniciId=kullaniciId;
         initializeRenkEklemeForm();
     }
 
@@ -61,7 +63,7 @@ public class renkEkle extends JFrame {
                 Renk renk = new Renk(renkEklemetex.getText());
                 try {
                     db.renkEkleme(renk);
-                    urunListelemeForm urunlistele= new urunListelemeForm();
+                    urunListelemeForm urunlistele= new urunListelemeForm(kullaniciTuru,kullaniciId);
 
 
                     JOptionPane.showMessageDialog(null, "Renk başarıyla eklendi");
@@ -77,7 +79,7 @@ public class renkEkle extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 try {
-                    urunListelemeForm listeForm = new urunListelemeForm();
+                    urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
                     listeForm.setVisible(true);
                 } catch (SQLException | IOException e) {
                     e.printStackTrace();

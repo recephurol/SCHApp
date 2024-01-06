@@ -36,10 +36,19 @@ public class urunDetayFormDeneme extends JFrame {
 
     private Integer urunId;
 
+    private Integer kullaniciId;
+
+    private String kullaniciTuru;
+
     private JScrollPane yorumScroll;
 
-    public urunDetayFormDeneme(Integer urunId) throws SQLException, IOException {
-        urunId=urunId;
+    private FavoriyeEkleButton favoriyeAl;
+
+
+    public urunDetayFormDeneme(Integer urunId,String kullaniciTuru, Integer kullaniciId) throws SQLException, IOException {
+        this.urunId=urunId;
+        this.kullaniciTuru=kullaniciTuru;
+        this.kullaniciId=kullaniciId;
 
         PostgreSQLDbConnection db = new PostgreSQLDbConnection();
         db.baglan();
@@ -193,6 +202,9 @@ public class urunDetayFormDeneme extends JFrame {
                 }
             });
 
+
+
+
             fiyatPanel.add(magazaFiyat);
             fiyatPanel.add(satinAl);
 
@@ -213,6 +225,42 @@ public class urunDetayFormDeneme extends JFrame {
         yorumScroll.setPreferredSize(new Dimension(645, 200));
         mainPanel.add(yorumScroll);
 
+        if(kullaniciTuru=="MUSTERI") {
+
+
+            boolean favorideMi = db.favorideMi(urunId,kullaniciId);
+            if(favorideMi){
+                favoriyeAl = new FavoriyeEkleButton("Favoriden Çıkar",urunId,kullaniciId);
+
+                favoriyeAl.setBounds(300,460,120,20);
+                favoriyeAl.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            favoriyeAl.favoridenCikar();
+                        } catch (SQLException | IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                });
+            } else {
+                favoriyeAl = new FavoriyeEkleButton("Favoriye Ekle",urunId,kullaniciId);
+
+                favoriyeAl.setBounds(300,460,120,20);
+                favoriyeAl.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            favoriyeAl.favoriyeEkle();
+                        } catch (SQLException | IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                });
+            }
+            mainPanel.add(favoriyeAl);
+        }
+
         yorumYapButon= new JButton("Yorum Yap");
         yorumYapButon.setBounds(545,460,100,20);
         yorumYapButon.setVisible(true);
@@ -220,7 +268,7 @@ public class urunDetayFormDeneme extends JFrame {
         yorumYapButon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                yorumEkle yorumEkle = new yorumEkle(urunIdFinal);
+                yorumEkle yorumEkle = new yorumEkle(urunIdFinal,kullaniciTuru,kullaniciId);
                 yorumEkle.setVisible(true);
                 setVisible(false);
             }
@@ -279,7 +327,7 @@ public class urunDetayFormDeneme extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 try {
-                    urunListelemeForm listeForm = new urunListelemeForm();
+                    urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
                     listeForm.setVisible(true);
                 } catch (SQLException | IOException e) {
                     e.printStackTrace();
@@ -291,6 +339,7 @@ public class urunDetayFormDeneme extends JFrame {
         mainPanel.add(detayPanel);
         mainPanel.add(fiyatPanel);
         mainPanel.add(yorumYapButon);
+
 
         setContentPane(mainPanel);
     }

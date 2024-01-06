@@ -21,12 +21,14 @@ import java.sql.SQLException;
         private JLabel magazaEkleLabel;
         private JTextField magazaEkletex;
         private JButton magazaEkle;
+        private String kullaniciTuru;
+        private Integer kullaniciId;
 
 
 
-
-        public magazaEkle(){
-
+        public magazaEkle(String kullaniciTuru, Integer kullaniciId){
+            this.kullaniciTuru=kullaniciTuru;
+            this.kullaniciId=kullaniciId;
             initializemagazaEkleForm();
         }
 
@@ -66,7 +68,7 @@ import java.sql.SQLException;
                     Magaza magaza = new Magaza(magazaEkletex.getText());
                     try {
                         db.magazaEkle(magaza);
-                        urunListelemeForm urunlistele= new urunListelemeForm();
+                        urunListelemeForm urunlistele= new urunListelemeForm(kullaniciTuru,kullaniciId);
 
 
                         JOptionPane.showMessageDialog(null, "magaza başarıyla eklendi");
@@ -82,7 +84,7 @@ import java.sql.SQLException;
                 @Override
                 public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                     try {
-                        urunListelemeForm listeForm = new urunListelemeForm();
+                        urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
                         listeForm.setVisible(true);
                     } catch (SQLException | IOException e) {
                         e.printStackTrace();

@@ -1,7 +1,9 @@
 package urun.urunListeleme;
 
 import dataAccess.PostgreSQLDbConnection;
+import enums.EnumKullaniciTipi;
 import model.Item;
+import urun.bildirimler.Bildirimler;
 import urun.kullanici.kullaniciEkle;
 import urun.magaza.magazaEkle;
 import urun.marka.markaEkle;
@@ -49,7 +51,10 @@ public class urunListelemeForm extends JFrame{
 
     private JMenuItem kullaniciEkleMenuItem;
     private JMenuItem urunGuncelleSilMenuItem;
+    private JMenuItem bildirimlerMenuItem;
     private JButton filtreleButon;
+    private String kullaniciTuru;
+    private Integer kullaniciId;
 
 
     DefaultTableModel tableModel = new DefaultTableModel() {
@@ -63,6 +68,11 @@ public class urunListelemeForm extends JFrame{
     Object[] satirlar = new Object[6];
 
     public urunListelemeForm() throws SQLException, IOException {
+        setInitialFormValues();
+    }
+    public urunListelemeForm(String kullaniciTuru, Integer kullaniciId) throws SQLException, IOException {
+        this.kullaniciTuru=kullaniciTuru;
+        this.kullaniciId=kullaniciId;
         setInitialFormValues();
     }
 
@@ -123,7 +133,7 @@ public class urunListelemeForm extends JFrame{
                 String urunId = (String)target.getModel().getValueAt(target.getSelectedRow(),0);
                 urunDetayFormDeneme urunDetay = null;
                 try {
-                    urunDetay = new urunDetayFormDeneme(Integer.valueOf(urunId));
+                    urunDetay = new urunDetayFormDeneme(Integer.valueOf(urunId),kullaniciTuru,kullaniciId);
                 } catch (SQLException | IOException ex) {
                     ex.printStackTrace();
                 }
@@ -278,113 +288,136 @@ public class urunListelemeForm extends JFrame{
     private void getMenu() {
         menuBar = new JMenuBar();
         menu = new JMenu("İşlemler");
-        urunEkleMenuItem = new JMenuItem("Ürün Ekleme İşlemleri");
-        urunEkleMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                urunEkle urunEkleForm = null;
-                try {
-                    urunEkleForm = new urunEkle();
-                    urunEkleForm.setVisible(true);
-                    setVisible(false);
-                } catch (SQLException | IOException e) {
-                    e.printStackTrace();
+        if(this.kullaniciTuru=="ADMIN" || this.kullaniciTuru=="MAGAZA") {
+            urunEkleMenuItem = new JMenuItem("Ürün Ekleme İşlemleri");
+            urunEkleMenuItem.addActionListener(new java.awt.event.ActionListener() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    urunEkle urunEkleForm = null;
+                    try {
+                        urunEkleForm = new urunEkle(kullaniciTuru,kullaniciId);
+                        urunEkleForm.setVisible(true);
+                        setVisible(false);
+                    } catch (SQLException | IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
-
-        urunGuncelleSilMenuItem = new JMenuItem("Ürün Güncelleme / Silme İşlemleri");
-        urunGuncelleSilMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                urunGuncelleSil urunGuncelleSil = null;
-                try {
-                    urunGuncelleSil = new urunGuncelleSil();
-                    urunGuncelleSil.setVisible(true);
-                    setVisible(false);
-                } catch (SQLException | IOException e) {
-                    e.printStackTrace();
+            });
+            menu.add(urunEkleMenuItem);
+        }
+        if(this.kullaniciTuru=="ADMIN" || this.kullaniciTuru=="MAGAZA"){
+            urunGuncelleSilMenuItem = new JMenuItem("Ürün Güncelleme / Silme İşlemleri");
+            urunGuncelleSilMenuItem.addActionListener(new java.awt.event.ActionListener() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    urunGuncelleSil urunGuncelleSil = null;
+                    try {
+                        urunGuncelleSil = new urunGuncelleSil(kullaniciTuru,kullaniciId);
+                        urunGuncelleSil.setVisible(true);
+                        setVisible(false);
+                    } catch (SQLException | IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
-
-
-        kullaniciEkleMenuItem = new JMenuItem("Kullanici İŞlemleri");
-        kullaniciEkleMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                kullaniciEkle kullaniciEkleForm = null;
-                try {
-                    kullaniciEkleForm = new kullaniciEkle();
-                    kullaniciEkleForm.setVisible(true);
-                    setVisible(false);
-                } catch (SQLException e) {
-                    e.printStackTrace();
+            });
+            menu.add(urunGuncelleSilMenuItem);
+        }
+        if(this.kullaniciTuru=="MUSTERI"){
+            bildirimlerMenuItem = new JMenuItem("Bildirimler");
+            bildirimlerMenuItem.addActionListener(new java.awt.event.ActionListener() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    Bildirimler bildirimler = null;
+                    try {
+                        bildirimler = new Bildirimler(kullaniciTuru,kullaniciId);
+                        bildirimler.setVisible(true);
+                        setVisible(false);
+                    } catch (SQLException | IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+            menu.add(bildirimlerMenuItem);
+        }
 
-        kategoriEkleMenuItem = new JMenuItem("Kategori İşlemleri");
-        kategoriEkleMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-                kategoriEkle kategoriEkle= new kategoriEkle();
+        if(this.kullaniciTuru=="ADMIN") {
+            kullaniciEkleMenuItem = new JMenuItem("Kullanici İŞlemleri");
+            kullaniciEkleMenuItem.addActionListener(new java.awt.event.ActionListener() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    kullaniciEkle kullaniciEkleForm = null;
+                    try {
+                        kullaniciEkleForm = new kullaniciEkle(kullaniciTuru,kullaniciId);
+                        kullaniciEkleForm.setVisible(true);
+                        setVisible(false);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            menu.add(kullaniciEkleMenuItem);
+        }
+
+        if(this.kullaniciTuru=="ADMIN" || this.kullaniciTuru=="MAGAZA"){
+            kategoriEkleMenuItem = new JMenuItem("Kategori İşlemleri");
+            kategoriEkleMenuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                kategoriEkle kategoriEkle= new kategoriEkle(kullaniciTuru,kullaniciId);
                 kategoriEkle.setVisible(true);
                 setVisible(false);
 
             }
         });
+            menu.add(kategoriEkleMenuItem);
+        }
 
 
 
-
-
+        if(this.kullaniciTuru=="ADMIN" || this.kullaniciTuru=="MAGAZA"){
         markaEkleMenuItem = new JMenuItem("Marka İşlemleri");
         markaEkleMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                markaEkle markaEkle= new markaEkle();
+                markaEkle markaEkle= new markaEkle(kullaniciTuru,kullaniciId);
                 markaEkle.setVisible(true);
                 setVisible(false);
 
             }
         });
+            menu.add(markaEkleMenuItem);
+        }
+        if(this.kullaniciTuru=="ADMIN" || this.kullaniciTuru=="MAGAZA"){
         renkEkleMenuItem = new JMenuItem("Renk İşlemleri");
         renkEkleMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                renkEkle renkEkle= new renkEkle();
+                renkEkle renkEkle= new renkEkle(kullaniciTuru,kullaniciId);
                 renkEkle.setVisible(true);
                 setVisible(false);
 
             }
         });
+            menu.add(renkEkleMenuItem);
+        }
+        if(this.kullaniciTuru=="ADMIN"){
         magazaEkleMenuItem = new JMenuItem("Mağaza İŞlemleri");
         magazaEkleMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                magazaEkle magazaEkle= new magazaEkle();
+                magazaEkle magazaEkle= new magazaEkle(kullaniciTuru,kullaniciId);
                 magazaEkle.setVisible(true);
                 setVisible(false);
 
             }
         });
-
-
-
-        menu.add(urunEkleMenuItem);
-        menu.add(urunGuncelleSilMenuItem);
-        menu.add(kategoriEkleMenuItem);
-        menu.add(markaEkleMenuItem);
-        menu.add(renkEkleMenuItem);
-        menu.add(magazaEkleMenuItem);
-        menu.add(kullaniciEkleMenuItem);
-
-
+            menu.add(magazaEkleMenuItem);
+        }
         menuBar.add(menu);
         setJMenuBar(menuBar);
     }

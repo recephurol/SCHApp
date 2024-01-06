@@ -27,9 +27,12 @@ public class kullaniciEkle extends JFrame {
     private JComboBox kullaniciTuruCombobox;
 
     private JButton kaydetButon;
+    private String kullaniciTuru;
+    private Integer kullaniciId;
 
-    public kullaniciEkle() throws SQLException {
-
+    public kullaniciEkle(String kullaniciTuru,Integer kullaniciId) throws SQLException {
+        this.kullaniciTuru=kullaniciTuru;
+        this.kullaniciId=kullaniciId;
         initialKullaniciEkle();
 
     }
@@ -49,7 +52,7 @@ public class kullaniciEkle extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 try {
-                    urunListelemeForm listeForm = new urunListelemeForm();
+                    urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
                     listeForm.setVisible(true);
                 } catch (SQLException | IOException e) {
                     e.printStackTrace();
@@ -110,7 +113,7 @@ public class kullaniciEkle extends JFrame {
         kullaniciTuruCombobox.setFont(new Font(null, 1, 14));
         kullaniciTuruCombobox.setVisible(true);
         kullaniciTuruCombobox.addItem("Bireysel");
-        kullaniciTuruCombobox.addItem("Kurumsal");
+        kullaniciTuruCombobox.addItem("Mağaza");
         kullaniciTuruCombobox.addItem("Admin");
 
         kullaniciBilgileriPanel.add(kullaniciTuruLabel);
@@ -138,8 +141,8 @@ public class kullaniciEkle extends JFrame {
                     enums.EnumKullaniciTipi tip = null;
                     if (kullaniciTipi.equals("Bireysel") ) {
                         tip=enums.EnumKullaniciTipi.MUSTERI;
-                    } else if (kullaniciTipi.equals("Kurumsal")) {
-                        tip= EnumKullaniciTipi.MAZAGA;
+                    } else if (kullaniciTipi.equals("Mağaza")) {
+                        tip= EnumKullaniciTipi.MAGAZA;
                     } else if (kullaniciTipi.equals("Admin")) {
                         tip= EnumKullaniciTipi.ADMIN;
                     }
