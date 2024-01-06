@@ -123,10 +123,14 @@ public class kullaniciEkle extends JFrame {
         kullaniciTuruCombobox.setFont(new Font(null, 1, 14));
         kullaniciTuruCombobox.setVisible(true);
 
-
         kullaniciTuruCombobox.addItem("Bireysel");
-        kullaniciTuruCombobox.addItem("Mağaza");
-        kullaniciTuruCombobox.addItem("Admin");
+        if(kullaniciId==null){
+
+        }else{
+            kullaniciTuruCombobox.addItem("Mağaza");
+            kullaniciTuruCombobox.addItem("Admin");
+        };
+
 
         kullaniciBilgileriPanel.add(kullaniciTuruLabel);
         kullaniciBilgileriPanel.add(kullaniciTuruCombobox);
