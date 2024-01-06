@@ -5,6 +5,7 @@ package urun.kullanici;
         import enums.EnumKullaniciTipi;
         import model.Kullanici;
         import urun.urunListeleme.urunListelemeForm;
+        import login.loginForm;
 
         import javax.swing.*;
         import javax.swing.border.Border;
@@ -37,6 +38,7 @@ public class kullaniciEkle extends JFrame {
 
     }
 
+
     private void initialKullaniciEkle() throws SQLException {
         setTitle("Kullanici Ekleme İşlemleri");
         setBounds(400, 400, 310, 220);
@@ -52,8 +54,16 @@ public class kullaniciEkle extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 try {
-                    urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
-                    listeForm.setVisible(true);
+                    if (kullaniciId==null){
+                        loginForm loginFomm = new loginForm();
+                        loginFomm.setVisible(true);
+                    }else{
+                        urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
+                        listeForm.setVisible(true);
+                    };
+
+
+
                 } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }
@@ -112,6 +122,8 @@ public class kullaniciEkle extends JFrame {
         kullaniciTuruCombobox.setBounds(100, 90, 150, 20);
         kullaniciTuruCombobox.setFont(new Font(null, 1, 14));
         kullaniciTuruCombobox.setVisible(true);
+
+
         kullaniciTuruCombobox.addItem("Bireysel");
         kullaniciTuruCombobox.addItem("Mağaza");
         kullaniciTuruCombobox.addItem("Admin");

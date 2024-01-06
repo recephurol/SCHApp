@@ -5,9 +5,6 @@ import araclar.DbProperties;
 import enums.EnumKullaniciTipi;
 import login.dto.KullaniciDto;
 import model.*;
-import model.Kullanici;
-import model.Urun;
-import model.Yorum;
 
 import java.io.IOException;
 import java.sql.*;
@@ -585,7 +582,9 @@ public class PostgreSQLDbConnection extends DbConnection {
 
             Statement myStat = conn.createStatement();
 
-            return myStat.executeQuery(query);
+            //return myStat.executeQuery(query);
+            ResultSet bildirimler = myStat.executeQuery(query);
+            return bildirimler;
         }
         return null;
     }
