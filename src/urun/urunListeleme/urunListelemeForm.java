@@ -5,6 +5,7 @@ import model.Item;
 import urun.bildirimler.Bildirimler;
 import urun.favorilerim.Favorilerim;
 import urun.kategoriEkle.kategoriEkle;
+import urun.favorilerim.Favorilerim;
 import urun.kullanici.kullaniciEkle;
 import urun.magaza.magazaEkle;
 import urun.marka.markaEkle;
@@ -52,10 +53,7 @@ public class urunListelemeForm extends JFrame{
     private JMenuItem kullaniciEkleMenuItem;
     private JMenuItem urunGuncelleSilMenuItem;
     private JMenuItem bildirimlerMenuItem;
-
-    private JMenuItem fovorilerlerMenuItem;
-
-
+    private JMenuItem favorilerMenuItem;
     private JButton filtreleButon;
     private String kullaniciTuru;
     private Integer kullaniciId;
@@ -344,27 +342,23 @@ public class urunListelemeForm extends JFrame{
             menu.add(bildirimlerMenuItem);
         }
 
-        /////////
-
         if(this.kullaniciTuru=="MUSTERI"){
-            fovorilerlerMenuItem = new JMenuItem("Favorilerim");
-            fovorilerlerMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            favorilerMenuItem = new JMenuItem("Favorilerim");
+            favorilerMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    Favorilerim Favorilerim = null;
+                    Favorilerim favoriler = null;
                     try {
-                        Favorilerim = new Favorilerim(kullaniciTuru,kullaniciId);
-                        Favorilerim.setVisible(true);
+                        favoriler = new Favorilerim(kullaniciTuru,kullaniciId);
+                        favoriler.setVisible(true);
                         setVisible(false);
                     } catch (SQLException | IOException e) {
                         e.printStackTrace();
                     }
                 }
             });
-            menu.add(fovorilerlerMenuItem);
+            menu.add(favorilerMenuItem);
         }
-
-        ////////
 
 
         if(this.kullaniciTuru=="ADMIN") {

@@ -3,6 +3,7 @@ package urun.bildirimler;
 import dataAccess.PostgreSQLDbConnection;
 import model.Item;
 import urun.urunDetayi.urunDetayFormDeneme;
+import urun.urunListeleme.urunListelemeForm;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -44,6 +45,17 @@ public class Bildirimler extends JFrame {
 
         getMainPanel();
         getBildirimListesiPanel();
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                try {
+                    urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
+                    listeForm.setVisible(true);
+                } catch (SQLException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void initializeBildirimler() {
