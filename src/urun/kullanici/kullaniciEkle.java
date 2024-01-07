@@ -124,9 +124,7 @@ public class kullaniciEkle extends JFrame {
         kullaniciTuruCombobox.setVisible(true);
 
         kullaniciTuruCombobox.addItem("Bireysel");
-        if(kullaniciId==null){
-
-        }else{
+        if(kullaniciId!=null){
             kullaniciTuruCombobox.addItem("Mağaza");
             kullaniciTuruCombobox.addItem("Admin");
         };
@@ -162,19 +160,29 @@ public class kullaniciEkle extends JFrame {
                     } else if (kullaniciTipi.equals("Admin")) {
                         tip= EnumKullaniciTipi.ADMIN;
                     }
-
-                    db.kullaniciEkle(
-                            new Kullanici(
-                                    kullaniciAdiText.getText(),
-                                    sifreText.getText(),
-                                    tip
-                            )
-                    );
-                    JOptionPane.showMessageDialog(null,"Kullanici basarili bir sekilde eklendi");
-                    kullaniciAdiText.setText(" ");
-                    sifreText.setText(" ");
-
-
+                    if((kullaniciAdiText.getText()!=null && !kullaniciAdiText.getText().equals("")) && (sifreText.getText()!=null && !sifreText.getText().equals(""))){
+                        db.kullaniciEkle(
+                                new Kullanici(
+                                        kullaniciAdiText.getText(),
+                                        sifreText.getText(),
+                                        tip
+                                )
+                        );
+                        JOptionPane.showMessageDialog(null,"Kullanici basarili bir sekilde eklendi");
+                        kullaniciAdiText.setText(" ");
+                        sifreText.setText(" ");
+                    } else  {
+                        JOptionPane.showMessageDialog(null,"Kullanıcı adı ve şifre giriniz");
+                    }
+                    if(kullaniciId==null){
+                        loginForm login= new loginForm();
+                        login.setVisible(true);
+                        setVisible(false);
+                    } else {
+                        urunListelemeForm urunlistele= new urunListelemeForm(kullaniciTuru,kullaniciId);
+                        urunlistele.setVisible(true);
+                        setVisible(false);
+                    }
                 } catch (Exception ex) {
 
                 }
