@@ -37,7 +37,19 @@ public class PostgreSQLDbConnection extends DbConnection {
     public ResultSet urunListele(String bulText, Integer kategoriId, Integer markaId, Integer renkId) throws SQLException {
         if (conn != null) {
             bulText = bulText == null ? "'%%'" : "'%" + bulText + "%'";
-            String query = "select urun2.id, urunAdi,m.adi marka,k.adi kategori,r.adi renk,urun2.fiyat from (" + "    select u.id,u.adi urunAdi,u.kategori_id,u.marka_id,u.renk_id,min(fiyat) fiyat from urun_fiyat " + "        inner join urun u on urun_fiyat.urun_id=u.id " + "        where urun_fiyat.deleted=false and u.deleted=false" + "    group by u.id,u.adi,u.kategori_id,u.marka_id,u.renk_id                         ) as  urun2 " + "    inner join marka m on m.id=urun2.marka_id" + "    inner join renk r on r.id=urun2.renk_id" + "    inner join kategori k on k.id=urun2.kategori_id " + " where m.deleted=false and r.deleted=false and k.deleted=false and" + " ((UPPER(urunAdi) like %s) or  (UPPER(m.adi) like %s) or " + "       (UPPER(k.adi) like %s) or  (UPPER(r.adi) like %s)) and " + "                            (urun2.kategori_id= %d  or %d is NULL) and " + "                            (urun2.marka_id= %d  or %d is NULL) and " + "                            (urun2.renk_Id= %d or %d is NULL) ";
+            String query = "select urun2.id, urunAdi,m.adi marka,k.adi kategori,r.adi renk,urun2.fiyat from (" +
+                    "    select u.id,u.adi urunAdi,u.kategori_id,u.marka_id,u.renk_id,min(fiyat) fiyat from urun_fiyat " +
+                    "        inner join urun u on urun_fiyat.urun_id=u.id " +
+                    "        where urun_fiyat.deleted=false and u.deleted=false" +
+                    "    group by u.id,u.adi,u.kategori_id,u.marka_id,u.renk_id                         ) as  urun2 " +
+                    "    inner join marka m on m.id=urun2.marka_id" + "    inner join renk r on r.id=urun2.renk_id" +
+                    "    inner join kategori k on k.id=urun2.kategori_id " +
+                    " where m.deleted=false and r.deleted=false and k.deleted=false and" +
+                    " ((UPPER(urunAdi) like %s) or  (UPPER(m.adi) like %s) or " +
+                    "       (UPPER(k.adi) like %s) or  (UPPER(r.adi) like %s)) and " +
+                    "                            (urun2.kategori_id= %d  or %d is NULL) and " +
+                    "                            (urun2.marka_id= %d  or %d is NULL) and " +
+                    "                            (urun2.renk_Id= %d or %d is NULL) ";
 
             String filteredQuery = String.format(query, bulText.toUpperCase(), bulText.toUpperCase(), bulText.toUpperCase(), bulText.toUpperCase(), kategoriId, kategoriId, markaId, markaId, renkId, renkId);
             Statement myStat = conn.createStatement();
@@ -51,7 +63,15 @@ public class PostgreSQLDbConnection extends DbConnection {
     public ResultSet urunFiyatListele() throws SQLException {
         if (conn != null) {
 
-            String query = "select uf.id id,uf.urun_id urunId,m.id markaId,k.id kategoriId,r.id renkId, m2.id magazaId, " + " u.adi urunAdi, k.adi kategori,m.adi marka, r.adi renk,m2.adi magaza, uf.fiyat,uf.stok,u.aciklama  from urun_fiyat uf " + " left join urun u on uf.urun_id = u.id " + " inner join kategori k on u.kategori_id = k.id " + " inner join marka m on u.marka_id = m.id " + " inner join renk r on u.renk_id = r.id " + " inner join magaza m2 on uf.magaza_id = m2.id " + " where uf.deleted=false and u.deleted=false and " + " k.deleted=false and m.deleted=false and r.deleted=false and m2.deleted=false";
+            String query = "select uf.id id,uf.urun_id urunId,m.id markaId,k.id kategoriId,r.id renkId, m2.id magazaId, " +
+                    " u.adi urunAdi, k.adi kategori,m.adi marka, r.adi renk,m2.adi magaza, uf.fiyat,uf.stok,u.aciklama  from urun_fiyat uf " +
+                    " left join urun u on uf.urun_id = u.id " +
+                    " inner join kategori k on u.kategori_id = k.id " +
+                    " inner join marka m on u.marka_id = m.id " +
+                    " inner join renk r on u.renk_id = r.id " +
+                    " inner join magaza m2 on uf.magaza_id = m2.id " +
+                    " where uf.deleted=false and u.deleted=false and " +
+                    " k.deleted=false and m.deleted=false and r.deleted=false and m2.deleted=false";
 
             Statement myStat = conn.createStatement();
 
@@ -89,7 +109,11 @@ public class PostgreSQLDbConnection extends DbConnection {
             Statement myStat = null;
             try {
                 myStat = conn.createStatement();
-                String query = "select u.adi urunAdi, m.adi marka, k.adi kategori,r.adi renk,u.aciklama,u.fotograf  from urun u " + "inner join kategori k on u.kategori_id = k.id " + "inner join renk r on r.id=u.renk_id " + "inner join marka m on m.id=u.marka_id " + "where u.deleted=false and m.deleted=false and r.deleted=false and k.deleted=false and u.id=" + id;
+                String query = "select u.adi urunAdi, m.adi marka, k.adi kategori,r.adi renk,u.aciklama,u.fotograf  from urun u " +
+                        "inner join kategori k on u.kategori_id = k.id " +
+                        "inner join renk r on r.id=u.renk_id " +
+                        "inner join marka m on m.id=u.marka_id " +
+                        "where u.deleted=false and m.deleted=false and r.deleted=false and k.deleted=false and u.id=" + id;
                 ResultSet kullanicilar = myStat.executeQuery(query);
                 return kullanicilar;
             } catch (SQLException e) {
@@ -106,7 +130,8 @@ public class PostgreSQLDbConnection extends DbConnection {
             Statement myStat = null;
             try {
                 myStat = conn.createStatement();
-                String query = "select y.yorum,y.ad_soyad adSoyad,y.puan from yorum y " + "where y.deleted=false and urun_id=" + urunId;
+                String query = "select y.yorum,y.ad_soyad adSoyad,y.puan from yorum y " +
+                        "where y.deleted=false and urun_id=" + urunId;
 
                 ResultSet urunYorumListesi = myStat.executeQuery(query);
                 return urunYorumListesi;
@@ -577,11 +602,7 @@ public class PostgreSQLDbConnection extends DbConnection {
     public ResultSet bildirimListele(int kullaniciId) throws SQLException {
         if (conn != null) {
 
-            String query = "select id,urun_id,aciklama from bildirimler where urun_id in ( " +
-                    "    select urun_id from favoriler where urun_id in ( " +
-                    "    select distinct uf.urun_id from urun_fiyat uf " +
-                    "inner join favoriler f on uf.urun_id = f.urun_id " +
-                    "    ) and kullanici_id="+kullaniciId +")";
+            String query = "select * from bildirim_getir("+kullaniciId+")";
 
             Statement myStat = conn.createStatement();
 
@@ -593,11 +614,13 @@ public class PostgreSQLDbConnection extends DbConnection {
     public ResultSet favorilerimiListele(int kullaniciId) throws SQLException {
         if (conn != null) {
 
-            String query = "select id,urun_id,aciklama from bildirimler where urun_id in ( " +
-                    "    select urun_id from favoriler where urun_id in ( " +
-                    "    select distinct uf.urun_id from urun_fiyat uf " +
-                    "inner join favoriler f on uf.urun_id = f.urun_id " +
-                    "    ) and kullanici_id="+kullaniciId +")";
+            String query = "select f.id, f.urun_id,u.adi urun_adi, ucuzu.fiyat from favoriler f " +
+                    "inner join kullanici k on f.kullanici_id = k.id " +
+                    "inner join urun u on u.id = f.urun_id " +
+                    "inner join ( " +
+                    "    select urun_id,min(fiyat) fiyat from urun_fiyat group by urun_id " +
+                    ") ucuzu on ucuzu.urun_id=f.urun_id " +
+                    "where f.kullanici_id="+kullaniciId;
 
             Statement myStat = conn.createStatement();
 
@@ -605,6 +628,7 @@ public class PostgreSQLDbConnection extends DbConnection {
         }
         return null;
     }
+
 
 
 }

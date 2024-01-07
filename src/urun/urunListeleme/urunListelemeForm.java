@@ -4,6 +4,7 @@ import dataAccess.PostgreSQLDbConnection;
 import enums.EnumKullaniciTipi;
 import model.Item;
 import urun.bildirimler.Bildirimler;
+import urun.favorilerim.Favorilerim;
 import urun.kullanici.kullaniciEkle;
 import urun.magaza.magazaEkle;
 import urun.marka.markaEkle;
@@ -52,6 +53,7 @@ public class urunListelemeForm extends JFrame{
     private JMenuItem kullaniciEkleMenuItem;
     private JMenuItem urunGuncelleSilMenuItem;
     private JMenuItem bildirimlerMenuItem;
+    private JMenuItem favorilerMenuItem;
     private JButton filtreleButon;
     private String kullaniciTuru;
     private Integer kullaniciId;
@@ -338,6 +340,24 @@ public class urunListelemeForm extends JFrame{
                 }
             });
             menu.add(bildirimlerMenuItem);
+        }
+
+        if(this.kullaniciTuru=="MUSTERI"){
+            favorilerMenuItem = new JMenuItem("Favorilerim");
+            favorilerMenuItem.addActionListener(new java.awt.event.ActionListener() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    Favorilerim favoriler = null;
+                    try {
+                        favoriler = new Favorilerim(kullaniciTuru,kullaniciId);
+                        favoriler.setVisible(true);
+                        setVisible(false);
+                    } catch (SQLException | IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            menu.add(favorilerMenuItem);
         }
 
 

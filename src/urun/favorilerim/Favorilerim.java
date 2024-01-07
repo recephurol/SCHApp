@@ -2,6 +2,7 @@ package urun.favorilerim;
 
 import dataAccess.PostgreSQLDbConnection;
 import urun.urunDetayi.urunDetayFormDeneme;
+import urun.urunListeleme.urunListelemeForm;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -42,6 +43,17 @@ public class Favorilerim extends JFrame {
 
         getMainPanel();
         getFavoriListesiPanel();
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                try {
+                    urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
+                    listeForm.setVisible(true);
+                } catch (SQLException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void initializeBildirimler() {
@@ -64,7 +76,7 @@ public class Favorilerim extends JFrame {
         favoriListesiPanel.setLayout(null);
         favoriListesiPanel.setBounds(0,0,760,420);
         favoriListesiPanel.setVisible(true);
-        Border borderYorum = BorderFactory.createTitledBorder("Bildirim Listesi");
+        Border borderYorum = BorderFactory.createTitledBorder("Favori Ürün Listesi");
         favoriListesiPanel.setBorder(borderYorum);
 
         getFavoriListeleTable();
@@ -86,11 +98,12 @@ public class Favorilerim extends JFrame {
         tableModel.setColumnIdentifiers(kolonlar);
         db.baglan();
 
-        ResultSet bildirimListesi = db.favorilerimiListele(kullaniciId);
-        while(bildirimListesi.next()){
-            satirlar[0] = bildirimListesi.getString("id");
-            satirlar[1] = bildirimListesi.getString("urun_id");
-            satirlar[2] = bildirimListesi.getString("aciklama");
+        ResultSet favoriListesi = db.favorilerimiListele(kullaniciId);
+        while(favoriListesi.next()){
+            satirlar[0] = favoriListesi.getString("id");
+            satirlar[1] = favoriListesi.getString("urun_id");
+            satirlar[2] = favoriListesi.getString("urun_adi");
+            satirlar[3] = favoriListesi.getString("fiyat");
             tableModel.addRow(satirlar);
         }
         favorilerTable.setAutoCreateRowSorter(true);

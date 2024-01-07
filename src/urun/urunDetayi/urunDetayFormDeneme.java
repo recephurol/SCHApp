@@ -234,6 +234,9 @@ public class urunDetayFormDeneme extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         try {
                             favoriyeAl.favoridenCikar();
+                            setVisible(false);
+                            urunListelemeForm urunListele = new urunListelemeForm(kullaniciTuru,kullaniciId);
+                            urunListele.setVisible(true);
                         } catch (SQLException | IOException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -248,6 +251,9 @@ public class urunDetayFormDeneme extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         try {
                             favoriyeAl.favoriyeEkle();
+                            setVisible(false);
+                            urunListelemeForm urunListele = new urunListelemeForm(kullaniciTuru,kullaniciId);
+                            urunListele.setVisible(true);
                         } catch (SQLException | IOException ex) {
                             throw new RuntimeException(ex);
                         }
