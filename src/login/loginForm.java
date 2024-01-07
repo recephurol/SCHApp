@@ -2,6 +2,7 @@ package login;
 
 import dataAccess.PostgreSQLDbConnection;
 import login.dto.KullaniciDto;
+import urun.kullanici.kullaniciEkle;
 import urun.urunListeleme.urunListelemeForm;
 
 import javax.swing.*;
@@ -15,6 +16,7 @@ public class loginForm extends JFrame {
     private JButton girisButton;
     private JPanel loginPanel;
     private JPasswordField parolaText;
+    private JButton kayitOlButton;
 
     public loginForm(){
         add(loginPanel);
@@ -23,6 +25,29 @@ public class loginForm extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(750,400);
         setResizable(false);
+
+        kayitOlButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ee) {
+
+                PostgreSQLDbConnection baglanti = null;
+
+                kullaniciEkle kullaniciEkleForm = null;
+                try {
+                    String kullaniciTuru = null;
+                    Integer kullaniciId = null;
+                    kullaniciEkleForm = new kullaniciEkle(kullaniciTuru,kullaniciId);
+                    kullaniciEkleForm.setVisible(true);
+                    setVisible(false);
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+        });
 
 
         girisButton.addActionListener(new ActionListener() {

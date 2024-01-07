@@ -1,18 +1,19 @@
 package urun.kullanici;
 
 
-        import dataAccess.PostgreSQLDbConnection;
-        import enums.EnumKullaniciTipi;
-        import model.Kullanici;
-        import urun.urunListeleme.urunListelemeForm;
+import dataAccess.PostgreSQLDbConnection;
+import enums.EnumKullaniciTipi;
+import model.Kullanici;
+import urun.urunListeleme.urunListelemeForm;
+import login.loginForm;
 
-        import javax.swing.*;
-        import javax.swing.border.Border;
-        import java.awt.*;
-        import java.awt.event.ActionEvent;
-        import java.awt.event.ActionListener;
-        import java.io.IOException;
-        import java.sql.SQLException;
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class kullaniciEkle extends JFrame {
     private JLabel kullaniciAdiLabel;
@@ -37,6 +38,7 @@ public class kullaniciEkle extends JFrame {
 
     }
 
+
     private void initialKullaniciEkle() throws SQLException {
         setTitle("Kullanici Ekleme İşlemleri");
         setBounds(400, 400, 310, 220);
@@ -52,8 +54,16 @@ public class kullaniciEkle extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 try {
-                    urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
-                    listeForm.setVisible(true);
+                    if (kullaniciId==null){
+                        loginForm loginFomm = new loginForm();
+                        loginFomm.setVisible(true);
+                    }else{
+                        urunListelemeForm listeForm = new urunListelemeForm(kullaniciTuru,kullaniciId);
+                        listeForm.setVisible(true);
+                    };
+
+
+
                 } catch (SQLException | IOException e) {
                     e.printStackTrace();
                 }
@@ -112,9 +122,13 @@ public class kullaniciEkle extends JFrame {
         kullaniciTuruCombobox.setBounds(100, 90, 150, 20);
         kullaniciTuruCombobox.setFont(new Font(null, 1, 14));
         kullaniciTuruCombobox.setVisible(true);
+
         kullaniciTuruCombobox.addItem("Bireysel");
-        kullaniciTuruCombobox.addItem("Mağaza");
-        kullaniciTuruCombobox.addItem("Admin");
+        if(kullaniciId!=null){
+            kullaniciTuruCombobox.addItem("Mağaza");
+            kullaniciTuruCombobox.addItem("Admin");
+        };
+
 
         kullaniciBilgileriPanel.add(kullaniciTuruLabel);
         kullaniciBilgileriPanel.add(kullaniciTuruCombobox);
@@ -146,19 +160,29 @@ public class kullaniciEkle extends JFrame {
                     } else if (kullaniciTipi.equals("Admin")) {
                         tip= EnumKullaniciTipi.ADMIN;
                     }
-
-                    db.kullaniciEkle(
-                            new Kullanici(
-                                    kullaniciAdiText.getText(),
-                                    sifreText.getText(),
-                                    tip
-                            )
-                    );
-                    JOptionPane.showMessageDialog(null,"Kullanici basarili bir sekilde eklendi");
-                    kullaniciAdiText.setText(" ");
-                    sifreText.setText(" ");
-
-
+                    if((kullaniciAdiText.getText()!=null && !kullaniciAdiText.getText().equals("")) && (sifreText.getText()!=null && !sifreText.getText().equals(""))){
+                        db.kullaniciEkle(
+                                new Kullanici(
+                                        kullaniciAdiText.getText(),
+                                        sifreText.getText(),
+                                        tip
+                                )
+                        );
+                        JOptionPane.showMessageDialog(null,"Kullanici basarili bir sekilde eklendi");
+                        kullaniciAdiText.setText(" ");
+                        sifreText.setText(" ");
+                    } else  {
+                        JOptionPane.showMessageDialog(null,"Kullanıcı adı ve şifre giriniz");
+                    }
+                    if(kullaniciId==null){
+                        loginForm login= new loginForm();
+                        login.setVisible(true);
+                        setVisible(false);
+                    } else {
+                        urunListelemeForm urunlistele= new urunListelemeForm(kullaniciTuru,kullaniciId);
+                        urunlistele.setVisible(true);
+                        setVisible(false);
+                    }
                 } catch (Exception ex) {
 
                 }
