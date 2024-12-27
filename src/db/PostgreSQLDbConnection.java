@@ -68,4 +68,13 @@ public class PostgreSQLDbConnection extends DbConnection {
         }
         return true;
     }
+
+    public ResultSet urunDetayGetir() throws SQLException {
+        if(conn!=null){
+            Statement myStat =conn.createStatement();
+            ResultSet kullanicilar= myStat.executeQuery("select adi");
+            return kullanicilar;
+        }
+        return null;
+    }
 }

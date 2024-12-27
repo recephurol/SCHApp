@@ -12,13 +12,12 @@ public class urunListelemeForm extends JFrame{
 
     DefaultTableModel tableModel = new DefaultTableModel();
     Object[] kolonlar = {"Adı","Marka","Kategori","Puan","Fiyat","Mağaza"};
-    Object[] satirlar = {"Çikolatalı Gofret","Eti","Gıda","4","4","Hepsiburada"};
+    Object[] satirlar = new Object[6];
     public urunListelemeForm(){
 
         setBounds(100,100,778,472);
         setTitle("Ürün Listesi");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocation(400,200);
         panel=new JPanel();
         panel.setBorder(new EmptyBorder(5,5,5,5));
         setContentPane(panel);
@@ -31,10 +30,25 @@ public class urunListelemeForm extends JFrame{
 
         table = new JTable();
         tableModel.setColumnIdentifiers(kolonlar);
-        tableModel.setRowCount(0);
-        tableModel.setColumnCount(0);
+        satirlar[0] = "Çikolatalı Gofret";
+        satirlar[1] = "Eti";
+        satirlar[2] = "Gıda";
+        satirlar[3] = "4";
+        satirlar[4] = "4";
+        satirlar[5] = "Hepsiburada";
+        tableModel.addRow(satirlar);
+
+
+        satirlar = new Object[6];
+        satirlar[0] = "Çikolatalı Gofret";
+        satirlar[1] = "Ülker";
+        satirlar[2] = "Gıda";
+        satirlar[3] = "3";
+        satirlar[4] = "2";
+        satirlar[5] = "Trendyol";
         tableModel.addRow(satirlar);
         table.setModel(tableModel);
+        table.setAutoCreateRowSorter(true);
         table.setVisible(true);
         scrollPane.setViewportView(table);
     }
