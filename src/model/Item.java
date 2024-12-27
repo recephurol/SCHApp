@@ -2,15 +2,15 @@ package model;
 
 public class Item {
 
-    private int id;
+    private Integer id;
     private String aciklama;
 
-    public Item(int id, String aciklama) {
+    public Item(Integer id, String aciklama) {
         this.id = id;
         this.aciklama = aciklama;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

@@ -1,17 +1,16 @@
-package model;
+package login.dto;
 
 import enums.EnumKullaniciTipi;
 
-public class Kullanici {
+public class KullaniciDto {
     private int id;
     private String kullaniciAdi;
     private String sifre;
     private EnumKullaniciTipi kullaniciTipi;
-
-    public Kullanici(){
+    public KullaniciDto(){
 
     }
-    public Kullanici(String kullaniciAdi,String sifre,EnumKullaniciTipi kullaniciTipi){
+    public KullaniciDto(String kullaniciAdi,String sifre,EnumKullaniciTipi kullaniciTipi){
         this.kullaniciAdi=kullaniciAdi;
         this.sifre=sifre;
         this.kullaniciTipi=kullaniciTipi;
@@ -21,28 +20,27 @@ public class Kullanici {
         this.id = id;
     }
     public int getId(){
-        return id;
+        return this.id;
     }
 
     public String getKullaniciAdi(){
-        return kullaniciAdi;
+        return this.kullaniciAdi;
     }
     public void setKullaniciAdi(String kullaniciAdi){
-        kullaniciAdi = kullaniciAdi;
+        this.kullaniciAdi = kullaniciAdi;
     }
 
     public String getSifre(){
         return sifre;
     }
     public void setSifre(String sifre){
-        sifre = sifre;
+        this.sifre = sifre;
     }
 
     public EnumKullaniciTipi getKullaniciTipi(){
-        return kullaniciTipi;
+        return this.kullaniciTipi;
     }
     public void setKullaniciTipi(EnumKullaniciTipi kullaniciTipi){
-        kullaniciTipi = kullaniciTipi;
+        this.kullaniciTipi = kullaniciTipi;
     }
-
 }
