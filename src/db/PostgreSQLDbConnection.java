@@ -48,7 +48,14 @@ public class PostgreSQLDbConnection extends DbConnection {
     public ResultSet urunListele() throws SQLException {
         if(conn!=null){
             Statement myStat =conn.createStatement();
-            ResultSet kullanicilar= myStat.executeQuery("select * from kullanici");
+            ResultSet kullanicilar= myStat.executeQuery("select urun2.id, urunAdi,m.adi marka,k.adi kategori,r.adi renk,urun2.fiyat from ( " +
+                    "    select u.id,u.adi urunAdi,u.kategori_id,u.marka_id,u.renk_id,min(fiyat) fiyat from urun_fiyat " +
+                    "    inner join urun u on urun_fiyat.urun_id = u.id " +
+                    "    group by u.id,u.adi,u.kategori_id,u.marka_id,u.renk_id " +
+                    "    ) as  urun2 " +
+                    "inner join marka m on m.id=urun2.marka_id " +
+                    "inner join renk r on r.id=urun2.renk_id " +
+                    "inner join kategori k on k.id=urun2.kategori_id ");
             return kullanicilar;
         }
         return null;
@@ -59,14 +66,96 @@ public class PostgreSQLDbConnection extends DbConnection {
             baglan();
         }
         Statement myStat =conn.createStatement();
-        String query = "select * from kullanici where kullanici_adi = {0} and sifre= {1};";
-        String.format(query,kullaniciAdi,sifre);
+        String query = "select * from kullanici where kullanici_adi = '"+kullaniciAdi+"' and sifre='"+sifre+"';";
+        //String.format(query,kullaniciAdi,sifre);
         var kullaniciSayisi= myStat.executeQuery(query);
         System.out.println(kullaniciSayisi);
-        if(kullaniciSayisi.getString("id")==null){
-            return false;
+        while(kullaniciSayisi.next()){
+            if(kullaniciSayisi.getString("id")!=null){
+                return true;
+            }
         }
-        return true;
+        return false;
+    }
+
+    public ResultSet urunDetayGetir(int id){
+
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="select u.adi urunAdi, m.adi marka, k.adi kategori,r.adi renk,u.aciklama,u.fotograf  from urun u " +
+                        "inner join kategori k on u.kategori_id = k.id " +
+                        "inner join renk r on r.id=u.renk_id " +
+                        "inner join marka m on m.id=u.marka_id " +
+                        "where u.id="+id;
+                ResultSet kullanicilar= myStat.executeQuery(query);
+                return kullanicilar;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return null;
+    }
+
+    public ResultSet urunYorumListesiGetir(int urunId){
+
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="select y.yorum,y.ad_soyad adSoyad,y.puan from schapp.public.yorum y " +
+                        "where urun_id="+urunId;
+
+                ResultSet urunYorumListesi= myStat.executeQuery(query);
+                return urunYorumListesi;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return null;
+    }
+
+    public ResultSet urunFiyatListesiGetir(int urunId){
+
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="select uf.id,m.adi magaza,fiyat from urun_fiyat uf " +
+                        "inner join magaza m on uf.magaza_id = m.id " +
+                        "where urun_id= " +urunId+
+                        "order by fiyat asc";
+
+                ResultSet urunFiyatListesi= myStat.executeQuery(query);
+                return urunFiyatListesi;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return null;
+    }
+
+    public ResultSet urunPuaniGetir(int urunId){
+
+        if(conn!=null){
+            Statement myStat = null;
+            try {
+                myStat = conn.createStatement();
+                String query ="select avg(puan) puan from yorum " +
+                        "where urun_id=" +urunId;
+
+                ResultSet puan= myStat.executeQuery(query);
+                return puan;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return null;
     }
 
     public ResultSet urunDetayGetir() throws SQLException {

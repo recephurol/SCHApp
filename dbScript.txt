@@ -61,6 +61,9 @@ create table urun
     renk_id       bigint not null
         constraint fk_urun_renk_id
             references renk,
+    marka_id       bigint not null
+        constraint fk_urun_marka_id
+                references marka,
     aciklama varchar(255)
 );
 
@@ -89,11 +92,9 @@ create table yorum
     urun_id bigint not null
         constraint fk_yorum_urun_id
             references urun,
-    kullanici_id bigint not null
-        constraint fk_yorum_kullanici_id
-            references kullanici,
     yorum            varchar(255) not null,
-    puan double precision
+    puan double precision,
+    ad_soyad varchar(50)
 );
 
 INSERT INTO kullanici (id,deleted,kullanici_adi,sifre,kullanici_tipi) values(1,false,'admin','1234','ADMIN');
@@ -136,11 +137,21 @@ INSERT INTO magaza (id,deleted,adi) values(3,false,'N11');
 INSERT INTO magaza (id,deleted,adi) values(4,false,'AMAZON');
 
 INSERT INTO public.urun (id, deleted, adi, kategori_id, renk_id, aciklama, marka_id) VALUES (1, false, 'Çikolatalı Gofret', 3, 3, 'Eti Çikolatalı Gofret 30Gr', 7);
+INSERT INTO public.urun (id, deleted, adi, kategori_id, renk_id, aciklama, marka_id) VALUES (2, false, 'Samsung Galaxy S21 FE', 1, 1, 'Samsung Galaxy S21 FE 128 GB 5G', 1);
+
 
 INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (1, false, 1, 1, 3);
 INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (2, false, 1, 2, 3.2);
 INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (3, false, 1, 3, 2.9);
 
-INSERT INTO public.yorum (id, deleted, urun_id, kullanici_id, yorum, puan) VALUES (1, false, 1, 1, 'Çok lezzetli tavsiye ederim', 4);
-INSERT INTO public.yorum (id, deleted, urun_id, kullanici_id, yorum, puan) VALUES (2, false, 1, 2, 'Bana uymadı beğenmedim', 2);
+
+INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (4, false, 2, 1, 12000);
+INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (5, false, 2, 2, 12100);
+INSERT INTO public.urun_fiyat (id, deleted, urun_id, magaza_id, fiyat) VALUES (6, false, 2, 3, 11999);
+
+INSERT INTO public.yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (1, false, 1,  'Çok lezzetli tavsiye ederim', 4,'Recep Hürol');
+INSERT INTO public.yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (2, false, 1,  'Bana uymadı beğenmedim', 2, 'Özkan Cırıtcı');
+
+INSERT INTO public.yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (3, false, 2,  'Güzel telefon', 5,'Ahmet Sarıdiken');
+INSERT INTO public.yorum (id, deleted, urun_id, yorum, puan,ad_soyad) VALUES (4, false, 2, '128 gb az ama idare eder', 3, 'Özkan Cırıtcı');
 

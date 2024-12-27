@@ -1,6 +1,7 @@
 package login;
 
 import db.PostgreSQLDbConnection;
+import urun.urunDetayi.urunDetayiForm;
 import urun.urunListeleme.urunListelemeForm;
 
 import javax.swing.*;
@@ -12,7 +13,6 @@ public class loginForm extends JFrame {
     private JTextField kullaniciAdiText;
     private JButton girisButton;
     private JPanel loginPanel;
-    private JComboBox kullanici_tipi_cb;
     private JPasswordField parolaText;
 
     public loginForm(){
@@ -22,41 +22,35 @@ public class loginForm extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(750,400);
         setResizable(false);
-//        kullanici_tipi_cb = new JComboBox();
-//        kullanici_tipi_cb.addItem(new Item(1,"Müşteri"));
-//        kullanici_tipi_cb.addItem(new Item(2,"Mağaza"));
-//        kullanici_tipi_cb.setVisible(true);
-//        kullanici_tipi_cb.setLocation(parolaText.getBounds().getLocation());
-//        add(kullanici_tipi_cb);
 
 
         girisButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                /*PostgreSQLDbConnection baglanti = new PostgreSQLDbConnection();
+                PostgreSQLDbConnection baglanti = new PostgreSQLDbConnection();
                 baglanti.baglan();
+                boolean sonuc = true;
                 try {
-                    var kullanicilar=baglanti.kullaniciListele();
-                    while (kullanicilar.next()){
-                        System.out.println(kullanicilar.getString("id")+kullanicilar.getString("kullanici_adi") +kullanicilar.getString("sifre"));
-                    }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-                String kullaniciAdi="admin", parola="1234";
-                boolean sonuc = true;
-                /*try {
                     sonuc = baglanti.kullaniciKontrol(kullaniciAdiText.getText(),parolaText.getText());
+
+                    if (sonuc){
+                        urunListelemeForm urunListele = null;
+                        try {
+                            urunListele = new urunListelemeForm();
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                        urunListele.setVisible(true);
+                        setVisible(false);
+                    }
+                {
+
+                }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-                }*/
-                boolean sonuc = true;
-                if (sonuc){
-                    urunListelemeForm urunListele = new urunListelemeForm();
-                    urunListele.setVisible(true);
-                    setVisible(false);
                 }
+
 
             }
         });
